@@ -3,9 +3,9 @@ from django.urls import path
 from orders.views import (
     OrderListView, OrderDetailView,
     OrderCreateView, OrderUpdateView,
-    OrderDeleteView, InvoiceListView,
+    OrderDeleteView, InvoiceUpdateView,
     InvoiceDetailView, InvoiceCreateView,
-    InvoiceDeleteView, InvoiceUpdateView
+    InvoiceDeleteView,
 )
 
 app_name = "orders"
@@ -16,19 +16,24 @@ urlpatterns = [
     path("orders/create/", OrderCreateView.as_view(), name="order-create"),
     path("orders/<int:pk>/update/", OrderUpdateView.as_view(), name="order-update"),
     path("orders/<int:pk>/delete/", OrderDeleteView.as_view(), name="order-delete"),
-    path("invoices/", InvoiceListView.as_view(), name="invoice-list"),
     path(
-        "invoices/<int:pk>/", InvoiceDetailView.as_view(), name="invoice-detail"
-    ),
-    path("invoices/create/", InvoiceCreateView.as_view(), name="invoice-create"),
-    path(
-        "invoices/<int:pk>/delete/",
-        InvoiceDeleteView.as_view(),
-        name="invoice-delete"
+        "orders/<int:pk>/invoice/",
+        InvoiceDetailView.as_view(),
+        name="invoice-detail"
     ),
     path(
-        "invoices/<int:pk>/update/",
+        "orders/<int:pk>/invoice/create/",
+        InvoiceCreateView.as_view(),
+        name="invoice-create"
+    ),
+    path(
+        "orders/<int:pk>/invoice/update/",
         InvoiceUpdateView.as_view(),
         name="invoice-update"
+    ),
+    path(
+        "orders/<int:pk>/invoice/delete/",
+        InvoiceDeleteView.as_view(),
+        name="invoice-delete"
     ),
 ]

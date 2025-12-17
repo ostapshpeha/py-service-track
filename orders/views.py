@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -10,9 +9,7 @@ from orders.models import Order, Invoice
 class OrderListView(LoginRequiredMixin, generic.ListView):
     model = Order
     paginate_by = 30
-
-    def get_queryset(self):
-        return super().get_queryset().select_related("client")
+    context_object_name = "orders"
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
@@ -36,13 +33,11 @@ class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("orders:order-list")
 
 
-class InvoiceListView(LoginRequiredMixin, generic.ListView):
-    model = Invoice
-    paginate_by = 30
-
-
 class InvoiceDetailView(LoginRequiredMixin, generic.DetailView):
     model = Invoice
+
+    def get_object(self):
+        return Invoice.objects.get(order_id=self.kwargs["pk"])
 
 
 class InvoiceCreateView(LoginRequiredMixin, generic.CreateView):
