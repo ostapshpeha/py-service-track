@@ -21,11 +21,9 @@ class NoteCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = NoteForm
     success_url = reverse_lazy("notes:note-list")
 
-
-class NoteUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = Note
-    form_class = NoteForm
-    success_url = reverse_lazy("notes:note-list")
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class NoteDeleteView(LoginRequiredMixin, generic.DeleteView):
