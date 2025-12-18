@@ -7,12 +7,6 @@ from crm.forms import ClientForm, VehicleForm
 from crm.models import Vehicle, Client
 
 
-@login_required
-def index(request):
-    """View function for the home page of the site."""
-    pass
-
-
 class VehicleListView(LoginRequiredMixin, generic.ListView):
     model = Vehicle
     paginate_by = 30

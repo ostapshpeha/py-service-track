@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "crm",
     "orders",
     "notes",
+    "django_select2",
 ]
 
 MIDDLEWARE = [
