@@ -29,7 +29,7 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return f"Order #{self.pk} — {self.vehicle} - {self.vehicle.number_registration}"
+        return f"Order #{self.pk} — {self.vehicle}"
 
 
 class Invoice(models.Model):
