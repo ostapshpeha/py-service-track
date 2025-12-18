@@ -17,7 +17,6 @@ from .views import (
 app_name = "crm"
 
 urlpatterns = [
-    path("", index, name="index"),
     path("vehicles/", VehicleListView.as_view(), name="vehicle-list"),
     path("vehicles/<int:pk>/", VehicleDetailView.as_view(), name="vehicle-detail"),
     path("vehicles/create/", VehicleCreateView.as_view(), name="vehicle-create"),

@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django_select2.forms import ModelSelect2MultipleWidget
 
 from crm.models import Vehicle, Client
 
@@ -17,21 +18,22 @@ class VehicleForm(forms.ModelForm):
 
 
 class ClientForm(forms.ModelForm):
-    cars = forms.ModelMultipleChoiceField(
-        label="Cars",
-        queryset=Vehicle.objects.none(),
-        widget=forms.SelectMultiple,
+    vehicles = forms.ModelMultipleChoiceField(
+        queryset=Vehicle.objects.all(),
+        widget=ModelSelect2MultipleWidget(
+            model=Vehicle,
+            search_fields=[
+                "number_registration__icontains",
+                "vin_code__icontains",
+                "name__icontains",
+            ],
+        ),
         required=False,
     )
+
     class Meta:
         model = Client
         fields = "__all__"
-
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def save(self, commit=True):
-        pass
 
 
 _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
