@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from notes.models import Note
+
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ("vehicle", "author", "date")
+    search_fields = ("vehicle__number_registration",)
+    ordering = ("-date",)
