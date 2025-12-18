@@ -25,4 +25,6 @@ urlpatterns = [
         path("accounts/", include("django.contrib.auth.urls")),
         path("", include("crm.urls")),
         path("__debug__/", include("debug_toolbar.urls")),
+        path("", include("orders.urls")),
+        path("", include("notes.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

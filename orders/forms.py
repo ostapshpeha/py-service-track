@@ -10,13 +10,11 @@ class OrderForm(forms.ModelForm):
 
 
 class InvoiceForm(forms.ModelForm):
-    order = forms.ModelChoiceField(
-        label="Cars",
-        queryset=Order.objects.none(),
-        widget=forms.Select,
-        required=True,
-    )
-
     class Meta:
         model = Invoice
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["order"].label = "Cars"
+        self.fields["order"].queryset = Order.objects.filter(invoice__isnull=True)
