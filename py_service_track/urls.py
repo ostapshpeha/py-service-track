@@ -23,10 +23,15 @@ from django.urls import path, include
 urlpatterns = [
         path('admin/', admin.site.urls),
         path("accounts/", include("django.contrib.auth.urls")),
-        path("", include("crm.urls")),
+        path("", include("accounts.urls")),  # home page
+
+        # apps
+        path("crm/", include("crm.urls")),
+        path("orders/", include("orders.urls")),
+        path("notes/", include("notes.urls")),
+
+        # utils
         path("__debug__/", include("debug_toolbar.urls")),
-        path("", include("orders.urls")),
-        path("", include("notes.urls")),
         path("select2/", include("django_select2.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

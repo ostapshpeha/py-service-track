@@ -11,7 +11,6 @@ from .views import (
     ClientCreateView,
     ClientDeleteView,
     ClientUpdateView,
-    index
 )
 
 app_name = "crm"
