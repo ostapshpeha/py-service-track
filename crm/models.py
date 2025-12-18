@@ -29,6 +29,11 @@ class Vehicle(models.Model):
     last_service = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name="vehicles", null=True)
 
+    class Meta:
+        verbose_name = "vehicle"
+        verbose_name_plural = "vehicles"
+        ordering = ["last_service"]
+
     def __str__(self):
         return f"{self.name} ({self.number_registration})"
 

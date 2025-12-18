@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from orders.models import Order
+from orders.models import Order, Invoice
 
 
 @admin.register(Order)
@@ -21,3 +21,9 @@ class OrderAdmin(admin.ModelAdmin):
     )
     ordering = ("-created_at", "status")
 
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ("id", "order", "total")
+    search_fields = ("order__client__first_name", "order__client__last_name")
+    ordering = ("-id",)
