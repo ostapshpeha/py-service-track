@@ -1,10 +1,12 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Client(models.Model):
     first_name = models.CharField(max_length=55)
     last_name = models.CharField(max_length=55)
     mobile_number = models.CharField(max_length=10, unique=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -28,6 +30,7 @@ class Vehicle(models.Model):
     engine_type = models.CharField(max_length=2, choices=Engine.choices)
     last_service = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name="vehicles", null=True)
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = "vehicle"

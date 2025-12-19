@@ -1,4 +1,5 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
 from .models import Client, Vehicle
 
@@ -11,7 +12,7 @@ class VehicleInline(admin.TabularInline):
 
 
 @admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
+class ClientAdmin(SimpleHistoryAdmin):
     list_display = ("id", "last_name", "first_name", "mobile_number", "vehicles_count")
     search_fields = ("first_name", "last_name", "mobile_number")
     ordering = ("last_name", "first_name")
@@ -23,7 +24,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 @admin.register(Vehicle)
-class VehicleAdmin(admin.ModelAdmin):
+class VehicleAdmin(SimpleHistoryAdmin):
     list_display = (
         "id",
         "name",
