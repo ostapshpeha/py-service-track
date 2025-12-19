@@ -1,0 +1,43 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{% url 'accounts:index' %}" class="brand-link">
+        <span class="brand-text font-weight-light">Service Track</span>
+    </a>
+
+    <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column">
+
+                <li class="nav-item">
+                    <a href="{% url 'accounts:index' %}" class="nav-link">
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'orders:order-list' %}" class="nav-link">
+                        <p>Orders</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'crm:client-list' %}" class="nav-link">
+                        <p>Clients</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'crm:vehicle-list' %}" class="nav-link">
+                        <p>Vehicles</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'notes:note-list' %}" class="nav-link">
+                        <p>Notes</p>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</aside>

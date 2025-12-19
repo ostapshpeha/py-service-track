@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ count_open_orders }}</h3>
+                <p>Open orders</p>
+                <a href="{% url 'orders:order-list' %}" class="btn btn-light link-to-page">
+                  Check
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>{{ orders_without_invoices.count }}</h3>
+                <p>Orders without invoices</p>
+                <a href="{% url 'orders:order-list' %}" class="btn btn-danger link-to-page">
+                  Check
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <h3>{{ clients_without_vehicles }}</h3>
+                <p>Clients without vehicles</p>
+                <a href="{% url 'crm:client-list' %}" class="btn btn-danger link-to-page">
+                  Update clients
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

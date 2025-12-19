@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title mb-0">Orders</h3>
+
+      <a href="{% url 'orders:order-create' %}" class="btn btn-primary btn-sm">
+        + Create order
+      </a>
+    </div>
+
+
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover text-nowrap">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Client</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Invoice</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for order in object_list %}
+          <tr>
+
+
+            <td>
+                #{{ order.id }}
+            </td>
+
+            <td>
+                {{ order.client }}
+            </td>
+
+            <td>
+              <span class="badge
+                  {% if order.status == order.Status.COMPLETED %}badge-success
+                  {% elif order.status == order.Status.PENDING %}badge-warning
+                  {% else %}badge-secondary{% endif %}
+              ">
+                  {{ order.get_status_display }}
+              </span>
+            </td>
+
+            <td>{{ order.created_at|date:"d.m.Y" }}</td>
+
+
+            <td>
+              {% if order.invoice %}
+                <a href="{% url 'orders:invoice-detail' order.invoice.id %}">
+                  View
+                </a>
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+
+            <td>
+              <a href="{% url 'orders:order-detail' order.id %}" class="btn btn-sm btn-info">
+                View
+              </a>
+              <a href="{% url 'orders:order-update' order.id %}" class="btn btn-sm btn-warning">
+                Edit
+              </a>
+            </td>
+
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              No orders yet
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+{% endblock %}
+
