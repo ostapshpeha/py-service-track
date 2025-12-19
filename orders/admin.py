@@ -1,10 +1,11 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
 from orders.models import Order, Invoice
 
 
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
+class OrderAdmin(SimpleHistoryAdmin):
     list_display = (
         "client",
         "vehicle",
@@ -23,7 +24,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 @admin.register(Invoice)
-class InvoiceAdmin(admin.ModelAdmin):
+class InvoiceAdmin(SimpleHistoryAdmin):
     list_display = ("id", "order", "total")
     search_fields = ("order__client__first_name", "order__client__last_name")
     ordering = ("-id",)

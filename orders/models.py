@@ -1,6 +1,8 @@
 from decimal import Decimal, ROUND_HALF_UP
 
 from django.db import models
+from simple_history.models import HistoricalRecords
+
 from crm.models import Client, Vehicle
 
 
@@ -27,6 +29,7 @@ class Order(models.Model):
         choices=Status.choices,
         default=Status.IN_PROGRESS,
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"Order #{self.pk} — {self.vehicle}"
@@ -44,6 +47,7 @@ class Invoice(models.Model):
         related_name="invoice",
     )
     parts_total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal("0.00"))
+    history = HistoricalRecords()
 
     def work_total(self) -> Decimal:
         return (self.parts_total * Decimal("0.75")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
