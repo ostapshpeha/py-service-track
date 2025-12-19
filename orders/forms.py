@@ -38,3 +38,9 @@ class InvoiceUpdateForm(forms.ModelForm):
     class Meta:
         model = Invoice
         fields = ("parts_total",)
+
+
+class OrderUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ("requirements", "status")

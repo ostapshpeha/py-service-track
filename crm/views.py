@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.aggregates import Max
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -42,6 +43,11 @@ class VehicleDeleteView(LoginRequiredMixin, generic.DeleteView):
 class ClientListView(LoginRequiredMixin, generic.ListView):
     model = Client
     paginate_by = 30
+
+    def get_queryset(self):
+        return Client.objects.annotate(
+            last_order_date=Max("orders__created_at")
+        ).order_by("-last_order_date")
 
 
 class ClientDetailView(LoginRequiredMixin, generic.DetailView):

@@ -12,7 +12,7 @@ class Client(models.Model):
     class Meta:
         verbose_name = "client"
         verbose_name_plural = "clients"
-        ordering = ["last_name", "first_name"]
+
 
 
 class Vehicle(models.Model):

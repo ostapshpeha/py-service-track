@@ -19,7 +19,7 @@ class VehicleForm(forms.ModelForm):
 
 class ClientForm(forms.ModelForm):
     vehicles = forms.ModelMultipleChoiceField(
-        queryset=Vehicle.objects.all(),
+        queryset=Vehicle.objects.filter(client__isnull=True),
         widget=ModelSelect2MultipleWidget(
             model=Vehicle,
             search_fields=[
