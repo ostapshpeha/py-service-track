@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Client #{{ object.last_name }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+    <div class="card-header">
+      <h3 class="card-title">
+        Client {{ object.first_name }} {{ object.last_name }}
+      </h3>
+
+      <div class="card-tools">
+        <a href="{% url 'crm:client-update' object.id %}" class="btn btn-sm btn-primary">
+          Edit
+        </a>
+        <a href="{% url 'crm:client-delete' object.id %}" class="btn btn-sm btn-danger">
+          Delete
+        </a>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-bordered">
+
+        <tr>
+          <th>Mobile number</th>
+          <td>{{ object.mobile_number }}</td>
+        </tr>
+
+        <tr>
+          <th>Vehicles</th>
+          <td>
+            {% if object.vehicles.exists %}
+              <ul class="list-unstyled mb-2">
+                {% for vehicle in object.vehicles.all %}
+                  <li class="mb-1">
+                    {{ vehicle }}
+                    <a href="{% url 'crm:vehicle-detail' vehicle.pk %}"
+                       class="btn btn-xs btn-info ml-2">
+                      View
+                    </a>
+                    <a href="{% url 'crm:vehicle-update' vehicle.pk %}"
+                       class="btn btn-xs btn-warning">
+                      Edit
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="text-muted">No vehicles</span>
+            {% endif %}
+
+            <a href="{% url 'crm:vehicle-create' %}?client={{ object.pk }}"
+               class="btn btn-sm btn-success mt-2">
+              Add vehicle
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Orders</th>
+          <td>
+            {% if object.orders.exists %}
+              <ul class="list-unstyled mb-0">
+                {% for order in object.orders.all %}
+                  <li>
+                    Order #{{ order.id }} — {{ order.get_status_display }}
+                    <a href="{% url 'orders:order-detail' order.pk %}"
+                       class="btn btn-xs btn-info ml-2">
+                      View
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="text-muted">No orders</span>
+            {% endif %}
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+  </div>
+{% endblock %}

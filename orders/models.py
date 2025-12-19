@@ -31,6 +31,11 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.pk} — {self.vehicle}"
 
+    class Meta:
+        verbose_name = "order"
+        verbose_name_plural = "orders"
+        ordering = ["invoice"]
+
 
 class Invoice(models.Model):
     order = models.OneToOneField(

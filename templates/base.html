@@ -6,6 +6,7 @@
   <title>{% block title %}Service Track{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+  {% block extra_css %}{% endblock %}
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -19,6 +20,7 @@
       <div class="container-fluid">
         {% block content %}{% endblock %}
 
+
         {% block pagination %}
           {% include "includes/pagination.html" %}
         {% endblock %}
@@ -30,6 +32,7 @@
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{% block extra_js %}{% endblock %}
 <script src="{% static 'js/adminlte.min.js' %}"></script>
 </body>
 </html>
