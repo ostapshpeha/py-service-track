@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Mechanic's notes{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title mb-0">Mechanic's notes</h3>
+
+      <a href="{% url 'notes:note-create' %}" class="btn btn-primary btn-sm">
+        + New note
+      </a>
+    </div>
+
+
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover text-nowrap">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Author</th>
+          <th>Vehicle</th>
+          <th>Date</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for note in object_list %}
+          <tr>
+            <td>
+              <a href="{% url 'notes:note-detail' note.id %}">
+              #{{ note.id }}
+              </a>
+            </td>
+
+            <td>
+                {{ note.author }}
+            </td>
+
+            <td>
+              {{ note.vehicle }}
+            </td>
+
+            <td>
+              {{ note.date }}
+            </td>
+
+
+            <td>
+              <a style="color: red"
+                href="{% url 'notes:note-delete' pk=note.id %}">
+                Delete
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              Create new notes
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+{% endblock %}
