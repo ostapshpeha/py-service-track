@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card">
+  <div class="card">
 
     <div class="card-header">
-        <h3 class="card-title">{{ object.name }}</h3>
-        <div class="card-tools">
+      <h3 class="card-title">{{ object.name }}</h3>
+      <div class="card-tools">
         <a href="{% url 'crm:vehicle-update' object.id %}" class="btn btn-sm btn-primary">
           Edit
         </a>
@@ -16,33 +16,73 @@
     </div>
 
     <div class="card-body">
-        <table class="table table-striped">
-            <tr>
-                <th>Registration</th>
-                <td>{{ object.number_registration }}</td>
-            </tr>
-            <tr>
-                <th>VIN</th>
-                <td>{{ object.vin_code }}</td>
-            </tr>
-            <tr>
-                <th>Engine</th>
-                <td>{{ object.get_engine_type_display }}</td>
-            </tr>
-            <tr>
-                <th>Owner</th>
-                <td>
-                  <a href="{% url 'crm:client-detail' object.client.pk %}">
-                    {{ object.client }}
-                  </a>
-                </td>
-            </tr>
-            <tr>
-                <th>Last service</th>
-                <td>{{ object.last_service }}</td>
-            </tr>
-        </table>
+      <table class="table table-striped">
+        <tr>
+          <th>Registration</th>
+          <td>{{ object.number_registration }}</td>
+        </tr>
+        <tr>
+          <th>VIN</th>
+          <td>{{ object.vin_code }}</td>
+        </tr>
+        <tr>
+          <th>Engine</th>
+          <td>{{ object.get_engine_type_display }}</td>
+        </tr>
+        <tr>
+          <th>Owner</th>
+          <td>
+            <a href="{% url 'crm:client-detail' object.client.pk %}">
+              {{ object.client }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>Last service</th>
+          <td>{{ object.last_service }}</td>
+        </tr>
+        <tr>
+          <th>Notes</th>
+            <td>
+              {% if object.notes.exists %}
+                <ul class="list-unstyled mb-0">
+                  {% for note in object.notes.all %}
+                    <li>
+                      Note #{{ note.id }} — {{ note.description }} - {{ note.date }}
+                      <a href="{% url 'notes:note-detail' note.pk %}"
+                         class="btn btn-xs btn-info ml-2">
+                        View
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <span class="text-muted">-</span>
+              {% endif %}
+            </td>
+        </tr>
+        <tr>
+          <th>Orders</th>
+          <td>
+            {% if object.orders.exists %}
+              <ul class="list-unstyled mb-0">
+                {% for order in object.orders.all %}
+                  <li>
+                    Order #{{ order.id }} — {{ order.get_status_display }}
+                    <a href="{% url 'orders:order-detail' order.pk %}"
+                       class="btn btn-xs btn-info ml-2">
+                      View
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="text-muted">No orders</span>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
     </div>
 
-</div>
+  </div>
 {% endblock %}
