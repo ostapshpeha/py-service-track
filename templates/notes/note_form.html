@@ -4,13 +4,13 @@
 {% block content %}
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">{% if object %} Update {% else %} Create {% endif %}order</h3>
+        <h3 class="card-title">{% if object %} Update {% else %} Create {% endif %}note</h3>
     </div>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="card-body">
-            {{ form|crispy}}
+            {{ form|crispy }}
         </div>
 
         <div class="card-footer">

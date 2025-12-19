@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Mechanic's notes{% endblock %}
 
 {% block content %}
   <div class="card">
 
 
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0">Vehicles</h3>
+      <h3 class="card-title mb-0">Mechanic's notes</h3>
 
-      <a href="{% url 'crm:vehicle-create' %}" class="btn btn-primary btn-sm">
-        + New vehicle
+      <a href="{% url 'notes:note-create' %}" class="btn btn-primary btn-sm">
+        + New note
       </a>
     </div>
 
@@ -20,47 +20,38 @@
         <thead>
         <tr>
           <th>#</th>
-          <th>Name</th>
-          <th>Number of registration</th>
-          <th>Owner</th>
-          <th>Engine type</th>
-          <th>Last service</th>
+          <th>Author</th>
+          <th>Vehicle</th>
+          <th>Date</th>
           <th>Delete</th>
         </tr>
         </thead>
 
         <tbody>
-        {% for vehicle in object_list %}
+        {% for note in object_list %}
           <tr>
             <td>
-              #{{ vehicle.id }}
-            </td>
-
-            <td>
-              <a href="{% url 'crm:vehicle-detail' vehicle.id %}">
-                {{ vehicle.name }}
+              <a href="{% url 'notes:note-detail' note.id %}">
+              #{{ note.id }}
               </a>
             </td>
 
             <td>
-              {{ vehicle.number_registration }}
+                {{ note.author }}
             </td>
 
             <td>
-              {{ vehicle.client.first_name }} {{ vehicle.client.last_name }}
+              {{ note.vehicle }}
             </td>
 
             <td>
-              {{ vehicle.get_engine_type_display }}
+              {{ note.date }}
             </td>
 
-            <td>
-              {{ vehicle.last_service }}
-            </td>
 
             <td>
               <a style="color: red"
-                href="{% url 'crm:vehicle-delete' pk=vehicle.id %}">
+                href="{% url 'notes:note-delete' pk=note.id %}">
                 Delete
               </a>
             </td>
@@ -68,7 +59,7 @@
         {% empty %}
           <tr>
             <td colspan="6" class="text-center text-muted">
-              No vehicles yet
+              Create new notes
             </td>
           </tr>
         {% endfor %}

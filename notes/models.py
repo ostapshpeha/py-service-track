@@ -11,5 +11,8 @@ class Note(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to="notes/pics/", null=True, blank=True)
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return f"Note #{self.id} by {self.author} for {self.vehicle}"

@@ -1,7 +1,7 @@
 from django import forms
 from django_select2.forms import ModelSelect2Widget
 
-from crm.models import Client
+from crm.models import Client, Vehicle
 from orders.models import Invoice, Order
 
 
@@ -13,6 +13,17 @@ class OrderForm(forms.ModelForm):
             search_fields=[
                 "last_name__icontains",
                 "first_name__icontains",
+            ],
+            attrs={"class": "form-control"}
+        ),
+        required=True,
+    )
+    vehicle = forms.ModelChoiceField(
+        queryset=Vehicle.objects.all(),
+        widget=ModelSelect2Widget(
+            model=Vehicle,
+            search_fields=[
+                "number_registration__icontains",
             ],
             attrs={"class": "form-control"}
         ),
