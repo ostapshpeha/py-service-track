@@ -6,19 +6,22 @@ from orders.models import Invoice, Order
 
 
 class OrderForm(forms.ModelForm):
+    client = forms.ModelChoiceField(
+        queryset=Client.objects.all(),
+        widget=ModelSelect2Widget(
+            model=Client,
+            search_fields=[
+                "last_name__icontains",
+                "first_name__icontains",
+            ],
+            attrs={"class": "form-control"}
+        ),
+        required=True,
+    )
+
     class Meta:
         model = Order
         fields = "__all__"
-        widgets = {
-            "client": ModelSelect2Widget(
-                model=Client,
-                search_fields=[
-                    "last_name__icontains",
-                    "first_name__icontains",
-                    "mobile_number__icontains",
-                ],
-            )
-        }
 
 
 class InvoiceForm(forms.ModelForm):
@@ -28,5 +31,10 @@ class InvoiceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["order"].label = "Cars"
+        self.fields["order"].label = "Select order without invoice"
         self.fields["order"].queryset = Order.objects.filter(invoice__isnull=True)
+
+class InvoiceUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = ("parts_total",)

@@ -44,6 +44,25 @@
             </tr>
 
             <tr>
+              <th>Invoice</th>
+              <td>
+                {% if object.invoice %}
+                  <a href="{% url 'orders:invoice-update' pk=object.invoice.pk %}"
+                     class="btn btn-sm btn-warning">
+                    Update
+                  </a>
+
+                  <span class="ml-2">{{ object.invoice }}</span>
+                {% else %}
+                  <a href="{% url 'orders:invoice-create' pk=object.pk %}"
+                     class="btn btn-sm btn-success">
+                    Create
+                  </a>
+                {% endif %}
+              </td>
+            </tr>
+
+            <tr>
                 <th>Created</th>
                 <td>{{ object.created_at }}</td>
             </tr>

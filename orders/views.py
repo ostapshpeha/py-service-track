@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
-from orders.forms import OrderForm, InvoiceForm
+from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm
 from orders.models import Order, Invoice
 
 
@@ -33,25 +33,32 @@ class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("orders:order-list")
 
 
-class InvoiceDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Invoice
-
-    def get_object(self):
-        return Invoice.objects.get(order_id=self.kwargs["pk"])
+# class InvoiceDetailView(LoginRequiredMixin, generic.DetailView):
+#     model = Invoice
+#
+#     def get_object(self):
+#         return Invoice.objects.get(order_id=self.kwargs["pk"])
 
 
 class InvoiceCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Invoice
     form_class = InvoiceForm
-    model = Invoice
-    success_url = reverse_lazy("orders:invoice-list")
+    success_url = reverse_lazy("orders:order-list")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        order_id = self.request.GET.get("order")
+        if order_id:
+            initial["order"] = Order.objects.get(pk=order_id)
+        return initial
 
 
-class InvoiceDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Invoice
-    success_url = reverse_lazy("orders:invoice-list")
+# class InvoiceDeleteView(LoginRequiredMixin, generic.DeleteView):
+#     model = Invoice
+#     success_url = reverse_lazy("orders:invoice-list")
 
 
 class InvoiceUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Invoice
-    form_class = InvoiceForm
+    form_class = InvoiceUpdateForm
     success_url = reverse_lazy("orders:invoice-list")

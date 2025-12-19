@@ -36,18 +36,3 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.number_registration})"
-
-
-# class CarPart(models.Model):
-#     class Type(models.TextChoices):
-#         ENGINE = "eng", "Engine"
-#         TRANSMISSION = "trs", "Transmission"
-#         BRAKES = "brk", "Brakes"
-#         BODY = "bod", "Body"
-#         ELECTRONICS = "elc", "Electronics"
-#         UNDERCARRIAGE = "und", "Undercarriage"
-#         OTHER = "other", "Other"
-#
-#     name = models.CharField(max_length=155)
-#     price = models.DecimalField(decimal_places=2, max_digits=10)
-#     type_of_part = models.CharField(max_length=10, choices=Type.choices)

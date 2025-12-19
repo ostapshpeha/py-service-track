@@ -43,9 +43,9 @@
 
             <td>
               <span class="badge
-                  {% if order.status == order.Status.COMPLETED %}badge-success
-                  {% elif order.status == order.Status.PENDING %}badge-warning
-                  {% else %}badge-secondary{% endif %}
+                  {% if order.status == order.Status.DONE %}badge-success
+                  {% elif order.status == order.Status.IN_PROGRESS %}badge-warning
+                  {% else %}badge-danger{% endif %}
               ">
                   {{ order.get_status_display }}
               </span>
@@ -56,9 +56,7 @@
 
             <td>
               {% if order.invoice %}
-                <a href="{% url 'orders:invoice-detail' order.invoice.id %}">
-                  View
-                </a>
+                ✔️
               {% else %}
                 <span class="text-muted">—</span>
               {% endif %}
