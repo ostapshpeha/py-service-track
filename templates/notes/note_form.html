@@ -7,7 +7,7 @@
         <h3 class="card-title">{% if object %} Update {% else %} Create {% endif %}note</h3>
     </div>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="card-body">
             {{ form|crispy }}
