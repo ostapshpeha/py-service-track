@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from crm.models import Client
 from orders.models import Order
 
 
@@ -11,11 +12,11 @@ def index(request):
         Order.Status.NEEDS_CLARIFICATION,
     ]
     count_open_orders = Order.objects.filter(status__in=open_statuses).count()
-    list_open_orders = Order.objects.filter(status__in=open_statuses)
+    clients_without_vehicles = Client.objects.filter(vehicles__isnull=True).count()
     orders_without_invoices = Order.objects.filter(invoice__isnull=True)
     context = {
         "count_open_orders": count_open_orders,
-        "list_open_orders": list_open_orders,
+        "clients_without_vehicles": clients_without_vehicles,
         "orders_without_invoices": orders_without_invoices,
     }
     return render(request, "accounts/index.html", context)

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Order #{{ object.id }}{% endblock %}
+
+{% block content %}
+<div class="card">
+
+    <div class="card-header">
+        <h3 class="card-title">
+            Order #{{ object.id }}
+        </h3>
+
+        <div class="card-tools">
+            <a href="{% url 'orders:order-update' object.id %}" class="btn btn-sm btn-primary">
+                Edit
+            </a>
+            <a href="{% url 'orders:order-delete' object.id %}" class="btn btn-sm btn-danger">
+                Delete
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Client</th>
+                <td>{{ object.client }}</td>
+            </tr>
+
+            <tr>
+                <th>Vehicle</th>
+                <td>{{ object.vehicle }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>{{ object.get_status_display }}</td>
+            </tr>
+
+            <tr>
+                <th>Requirements</th>
+                <td>{{ object.requirements }}</td>
+            </tr>
+
+            <tr>
+                <th>Created</th>
+                <td>{{ object.created_at }}</td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+{% endblock %}

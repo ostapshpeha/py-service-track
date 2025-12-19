@@ -1,10 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+  <title>{% block title %}Service Track{% endblock %}</title>
 
+  <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  {% include "includes/navbar.html" %}
+  {% include "includes/sidebar.html" %}
+
+  <div class="content-wrapper">
+    <section class="content pt-3">
+      <div class="container-fluid">
+        {% block content %}{% endblock %}
+
+        {% block pagination %}
+          {% include "includes/pagination.html" %}
+        {% endblock %}
+      </div>
+    </section>
+  </div>
+
+</div>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/adminlte.min.js' %}"></script>
 </body>
 </html>
