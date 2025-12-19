@@ -4,7 +4,7 @@ from django.db.models.aggregates import Max
 from django.urls import reverse_lazy
 from django.views import generic
 
-from crm.forms import ClientForm, VehicleForm
+from crm.forms import ClientForm, VehicleForm, VehicleUpdateForm
 from crm.models import Vehicle, Client
 
 
@@ -13,7 +13,7 @@ class VehicleListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        return super().get_queryset().select_related("client")
+        return Vehicle.objects.all().order_by("-last_service")
 
 
 class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
@@ -31,7 +31,7 @@ class VehicleCreateView(LoginRequiredMixin, generic.CreateView):
 
 class VehicleUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Vehicle
-    form_class = VehicleForm
+    form_class = VehicleUpdateForm
     success_url = reverse_lazy("crm:vehicle-list")
 
 

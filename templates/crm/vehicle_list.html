@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Clients{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title mb-0">Vehicles</h3>
+
+      <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
+        + New vehicle
+      </a>
+    </div>
+
+
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover text-nowrap">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Number of registration</th>
+          <th>Owner</th>
+          <th>Engine type</th>
+          <th>Last service</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for vehicle in object_list %}
+          <tr>
+            <td>
+              #{{ vehicle.id }}
+            </td>
+
+            <td>
+              <a href="{% url 'crm:vehicle-detail' vehicle.id %}">
+                {{ vehicle.name }}
+              </a>
+            </td>
+
+            <td>
+              {{ vehicle.number_registration }}
+            </td>
+
+            <td>
+              {{ vehicle.client.first_name }} {{ vehicle.client.last_name }}
+            </td>
+
+            <td>
+              {{ vehicle.get_engine_type_display }}
+            </td>
+
+            <td>
+              {{ vehicle.last_service }}
+            </td>
+
+            <td>
+              <a style="color: red"
+                href="{% url 'crm:vehicle-delete' pk=vehicle.id %}">
+                Delete
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              No vehicles yet
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+{% endblock %}

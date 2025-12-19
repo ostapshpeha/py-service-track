@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-default-light">
+  <h2><strong>Are you sure? Owner still will be saved in database</strong></h2>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger">Delete</button>
+        <input type="button" value="Cancel" onclick=history.back() class="btn btn-primary">
+    </form>
+</div>
+{% endblock %}
