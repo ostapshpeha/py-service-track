@@ -37,7 +37,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = "order"
         verbose_name_plural = "orders"
-        ordering = ["invoice"]
+        ordering = ["invoice", "-created_at"]
 
 
 class Invoice(models.Model):

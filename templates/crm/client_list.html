@@ -9,14 +9,16 @@
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title mb-0">Clients</h3>
 
-      <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
-        + New client
-      </a>
+      <div class="card-tools">
+        <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
+          + New client
+        </a>
+      </div>
     </div>
 
 
     <div class="card-body table-responsive p-0">
-      <table class="table table-hover text-nowrap">
+      <table class="table table-hover text-nowrap table-striped">
         <thead>
         <tr>
           <th>#</th>
