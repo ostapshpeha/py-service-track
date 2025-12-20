@@ -8,10 +8,25 @@
 
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title mb-0">Vehicles</h3>
+      <div class="card-tools">
+        <div class="input-group input-group-sm" style="width: 600px;">
+          <input type="text"
+                 name="q"
+                 class="form-control float-right"
+                 placeholder="Search">
 
-      <a href="{% url 'crm:vehicle-create' %}" class="btn btn-primary btn-sm">
-        + New vehicle
-      </a>
+          <div class="input-group-append">
+            <button class="btn btn-default">
+              <i class="fas fa-search">🔍</i>
+            </button>
+          </div>
+          <div class="input-group-append">
+            <a href="{% url 'crm:vehicle-create' %}" class="btn btn-primary btn-sm">
+          + New vehicle
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
 

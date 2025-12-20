@@ -8,11 +8,24 @@
 
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title mb-0">Clients</h3>
-
       <div class="card-tools">
-        <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
+        <div class="input-group input-group-sm" style="width: 600px;">
+          <input type="text"
+                 name="q"
+                 class="form-control float-right"
+                 placeholder="Search">
+
+          <div class="input-group-append">
+            <button class="btn btn-default">
+              <i class="fas fa-search">🔍</i>
+            </button>
+          </div>
+          <div class="input-group-append">
+            <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
           + New client
-        </a>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 

@@ -8,6 +8,18 @@ from crm.models import Vehicle, Client
 
 
 class VehicleForm(forms.ModelForm):
+    client = forms.ModelChoiceField(
+        queryset=Client.objects.all(),
+        widget=ModelSelect2Widget(
+            model=Client,
+            search_fields=[
+                "last_name__icontains",
+                "first_name__icontains",
+            ],
+            attrs={"class": "form-control"}
+        ),
+        required=True,
+    )
     class Meta:
         model = Vehicle
         fields = "__all__"
