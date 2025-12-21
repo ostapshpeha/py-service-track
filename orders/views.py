@@ -1,15 +1,19 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
+from django_filters.views import FilterView
 
+from orders.filters import OrderFilter
 from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm
 from orders.models import Order, Invoice
 
 
-class OrderListView(LoginRequiredMixin, generic.ListView):
+class OrderListView(LoginRequiredMixin, FilterView):
     model = Order
+    filterset_class = OrderFilter
     paginate_by = 30
-    context_object_name = "orders"
+    template_name = "orders/order_list.html"
+
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
