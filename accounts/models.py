@@ -4,6 +4,10 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
+    """
+    Custom User model to inherit from AbstractUser
+    This is our staff's accounts
+    """
     class Role(models.TextChoices):
         MECHANIC = "mechanic", "Mechanic"
         MANAGER = "manager", "Manager"
