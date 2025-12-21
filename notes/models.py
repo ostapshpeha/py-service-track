@@ -1,13 +1,13 @@
 from django.db import models
 
-from accounts.models import CustomUser
+from accounts.models import Worker
 from crm.models import Vehicle
 
 
 class Note(models.Model):
     description = models.TextField()
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="notes")
-    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name="notes")
+    author = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, related_name="notes")
     date = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to="notes/pics/", null=True, blank=True)
 
