@@ -51,7 +51,7 @@
               <span class="text-muted">No vehicles</span>
             {% endif %}
 
-            <a href="{% url 'crm:vehicle-create' %}?client={{ object.pk }}"
+            <a href="{% url 'crm:vehicle-create' %}"
                class="btn btn-sm btn-success mt-2">
               Add vehicle
             </a>
@@ -76,6 +76,10 @@
             {% else %}
               <span class="text-muted">No orders</span>
             {% endif %}
+            <a href="{% url 'orders:order-create' %}"
+               class="btn btn-sm btn-success mt-2">
+              New order
+            </a>
           </td>
         </tr>
 

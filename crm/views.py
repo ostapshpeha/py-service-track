@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.aggregates import Max
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from crm.forms import ClientForm, VehicleForm, VehicleUpdateForm
@@ -26,13 +26,21 @@ class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
 class VehicleCreateView(LoginRequiredMixin, generic.CreateView):
     model = Vehicle
     form_class = VehicleForm
-    success_url = reverse_lazy("crm:vehicle-list")
+    def get_success_url(self):
+        return reverse(
+            "crm:vehicle-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class VehicleUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Vehicle
     form_class = VehicleUpdateForm
-    success_url = reverse_lazy("crm:vehicle-list")
+    def get_success_url(self):
+        return reverse(
+            "crm:vehicle-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class VehicleDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -60,7 +68,11 @@ class ClientDetailView(LoginRequiredMixin, generic.DetailView):
 class ClientCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = ClientForm
     model = Client
-    success_url = reverse_lazy("crm:client-list")
+    def get_success_url(self):
+        return reverse(
+            "crm:client-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class ClientDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -71,4 +83,8 @@ class ClientDeleteView(LoginRequiredMixin, generic.DeleteView):
 class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Client
     form_class = ClientForm
-    success_url = reverse_lazy("crm:client-list")
+    def get_success_url(self):
+        return reverse(
+            "crm:client-detail",
+            kwargs={"pk": self.object.pk}
+        )

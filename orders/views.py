@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django_filters.views import FilterView
 
@@ -23,13 +23,21 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
     form_class = OrderForm
-    success_url = reverse_lazy("orders:order-list")
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     form_class = OrderUpdateForm
-    success_url = reverse_lazy("orders:order-list")
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -40,7 +48,12 @@ class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
 class InvoiceCreateView(LoginRequiredMixin, generic.CreateView):
     model = Invoice
     form_class = InvoiceForm
-    success_url = reverse_lazy("orders:order-list")
+
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
     def get_initial(self):
         initial = super().get_initial()

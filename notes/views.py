@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from notes.forms import NoteForm
@@ -20,6 +20,12 @@ class NoteCreateView(LoginRequiredMixin, generic.CreateView):
     model = Note
     form_class = NoteForm
     success_url = reverse_lazy("notes:note-list")
+
+    def get_success_url(self):
+        return reverse(
+            "notes:note-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
     def form_valid(self, form):
         form.instance.author = self.request.user
