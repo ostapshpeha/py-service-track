@@ -5,6 +5,9 @@ from .models import Client, Vehicle
 
 
 class VehicleInline(admin.TabularInline):
+    """
+    Vehicle tabular in line
+    """
     model = Vehicle
     extra = 0
     fields = ("name", "number_registration", "vin_code", "engine_type", "last_service")
@@ -13,6 +16,9 @@ class VehicleInline(admin.TabularInline):
 
 @admin.register(Client)
 class ClientAdmin(SimpleHistoryAdmin):
+    """
+    Operating our clients with admin panel
+    """
     list_display = ("id", "last_name", "first_name", "mobile_number", "vehicles_count")
     search_fields = ("first_name", "last_name", "mobile_number")
     ordering = ("last_name", "first_name")
@@ -25,6 +31,9 @@ class ClientAdmin(SimpleHistoryAdmin):
 
 @admin.register(Vehicle)
 class VehicleAdmin(SimpleHistoryAdmin):
+    """
+    Operating vehicles with admin panel
+    """
     list_display = (
         "id",
         "name",

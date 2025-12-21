@@ -6,6 +6,10 @@ from notes.models import Note
 
 
 class NoteForm(forms.ModelForm):
+    """
+    Note form with searching car through Select2 widget
+    Searching only by number of registration
+    """
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(),
         widget=ModelSelect2Widget(
@@ -22,6 +26,9 @@ class NoteForm(forms.ModelForm):
         fields = ("vehicle", "description", "picture")
 
 class NoteAuthorSearchForm(forms.Form):
+    """
+    Searching notes only by author's first abd last name
+    """
     q = forms.CharField(
         required=False,
         label="",

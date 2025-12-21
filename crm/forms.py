@@ -8,6 +8,11 @@ from crm.models import Vehicle, Client
 
 
 class VehicleForm(forms.ModelForm):
+    """
+    Vehicle creating form with vin code validation
+    and easier searching+select system Select2 to
+    choose the owner of the vehicle
+    """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
         widget=ModelSelect2Widget(
@@ -29,6 +34,10 @@ class VehicleForm(forms.ModelForm):
         return validate_vin_code(vin_code)
 
 class VehicleUpdateForm(forms.ModelForm):
+    """
+    Vehicle update form with Select2 widget
+    Fields to update: client(owner), number, last service
+    """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
         widget=ModelSelect2Widget(
@@ -47,6 +56,10 @@ class VehicleUpdateForm(forms.ModelForm):
 
 
 class ClientForm(forms.ModelForm):
+    """
+    Client creating form with widget Select2 to search
+    vehicle by number, vin code and name
+    """
     vehicles = forms.ModelMultipleChoiceField(
         queryset=Vehicle.objects.filter(client__isnull=True),
         widget=ModelSelect2MultipleWidget(
@@ -66,6 +79,9 @@ class ClientForm(forms.ModelForm):
 
 
 class VehicleNumberSearchForm(forms.Form):
+    """
+    Searching vehicle only by plate number
+    """
     q = forms.CharField(
         required=False,
         label="",
@@ -77,6 +93,9 @@ class VehicleNumberSearchForm(forms.Form):
 
 
 class ClientLastNameSearchForm(forms.Form):
+    """
+    Searching client only by last name
+    """
     q = forms.CharField(
         required=False,
         label="",
@@ -89,7 +108,10 @@ class ClientLastNameSearchForm(forms.Form):
 
 _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
 
-def validate_vin_code(value: str):
+def validate_vin_code(value: str) :
+    """
+    Custom validator for vin code
+    """
     vin = (value or "").strip()
 
     if len(vin) != 17:

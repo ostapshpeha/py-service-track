@@ -11,6 +11,11 @@ from orders.models import Order
 
 @login_required
 def index(request):
+    """
+    Calculations for dashboard view
+    :param request: Django request
+    :return: context
+    """
     open_statuses = [
         Order.Status.IN_PROGRESS,
         Order.Status.NEEDS_CLARIFICATION,
@@ -29,5 +34,8 @@ def index(request):
 
 
 class CustomUserListView(LoginRequiredMixin, generic.ListView):
+    """
+    Custom user list view
+    """
     model = CustomUser
     success_url = reverse_lazy("accounts:staff-list")

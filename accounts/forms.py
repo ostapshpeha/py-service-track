@@ -3,11 +3,18 @@ from accounts.models import CustomUser
 
 
 class CustomUserCreationForm(AdminUserCreationForm):
+    """
+    Custom admin panel for operating accounts
+    """
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ("username", "first_name", "last_name", "email", "role", "mechanic_position")
 
     def clean(self):
+        """
+        Custom validation during creating User
+        :return:
+        """
         cleaned = super().clean()
         role = cleaned.get("role")
         pos = cleaned.get("mechanic_position")
