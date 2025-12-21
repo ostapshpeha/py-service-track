@@ -3,7 +3,6 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.db import models
 from simple_history.models import HistoricalRecords
 
-from accounts.models import CustomUser
 from crm.models import Client, Vehicle
 
 

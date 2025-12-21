@@ -1,10 +1,10 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AdminUserCreationForm
-from .models import CustomUser
+from accounts.models import Worker
 
 
-class CustomUserCreationForm(AdminUserCreationForm):
+class WorkerCreationForm(AdminUserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = CustomUser
+        model = Worker
         fields = ("username", "first_name", "last_name", "email", "role", "mechanic_position")
 
     def clean(self):
@@ -12,17 +12,17 @@ class CustomUserCreationForm(AdminUserCreationForm):
         role = cleaned.get("role")
         pos = cleaned.get("mechanic_position")
 
-        if role == CustomUser.Role.MANAGER:
+        if role == Worker.Role.MANAGER:
             cleaned["mechanic_position"] = ""
             return cleaned
 
-        if role == CustomUser.Role.MECHANIC and not pos:
+        if role == Worker.Role.MECHANIC and not pos:
             self.add_error("mechanic_position", "You must specify mechanic position")
 
         return cleaned
 
 
-class CustomUserChangeForm(UserChangeForm):
+class WorkerChangeForm(UserChangeForm):
     class Meta:
-        model = CustomUser
+        model = Worker
         fields = "__all__"
