@@ -1,15 +1,39 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django_filters.views import FilterView
 
-from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm
+from orders.filters import OrderFilter
+from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm, OrderClientLastNameSearchForm
 from orders.models import Order, Invoice
 
 
-class OrderListView(LoginRequiredMixin, generic.ListView):
+class OrderListView(LoginRequiredMixin, FilterView):
     model = Order
+    filterset_class = OrderFilter
     paginate_by = 30
-    context_object_name = "orders"
+    template_name = "orders/order_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = OrderClientLastNameSearchForm(
+            self.request.GET or None
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = OrderClientLastNameSearchForm(self.request.GET)
+
+        if form.is_valid():
+            q = form.cleaned_data["q"]
+            if q:
+                queryset = queryset.filter(
+                    client__last_name__icontains=q
+                )
+
+        return queryset
+
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
@@ -19,13 +43,21 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
     form_class = OrderForm
-    success_url = reverse_lazy("orders:order-list")
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     form_class = OrderUpdateForm
-    success_url = reverse_lazy("orders:order-list")
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -36,7 +68,12 @@ class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
 class InvoiceCreateView(LoginRequiredMixin, generic.CreateView):
     model = Invoice
     form_class = InvoiceForm
-    success_url = reverse_lazy("orders:order-list")
+
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
     def get_initial(self):
         initial = super().get_initial()

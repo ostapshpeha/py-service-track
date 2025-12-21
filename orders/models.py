@@ -3,6 +3,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.db import models
 from simple_history.models import HistoricalRecords
 
+from accounts.models import CustomUser
 from crm.models import Client, Vehicle
 
 
@@ -37,7 +38,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = "order"
         verbose_name_plural = "orders"
-        ordering = ["invoice", "-created_at"]
+        ordering = ["-created_at"]
 
 
 class Invoice(models.Model):
@@ -57,4 +58,4 @@ class Invoice(models.Model):
         return (self.parts_total + self.work_total()).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
     def __str__(self):
-        return f"Invoice for Order #{self.order_id} — Total: {self.total}"
+        return f"Invoice for Order #{self.order_id} — Total for parts and work: {self.total}"

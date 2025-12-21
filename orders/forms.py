@@ -55,3 +55,14 @@ class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ("requirements", "status")
+
+
+class OrderClientLastNameSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by client last name",
+        })
+    )

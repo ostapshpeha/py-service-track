@@ -8,10 +8,22 @@
 
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title mb-0">Vehicles</h3>
+      <div class="card-tools">
+        <form method="get" class="input-group input-group-sm" style="width: 600px;">
+          {{ search_form.q }}
 
-      <a href="{% url 'crm:vehicle-create' %}" class="btn btn-primary btn-sm">
-        + New vehicle
-      </a>
+          <div class="input-group-append">
+            <button class="btn btn-default">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="input-group-append">
+            <a href="{% url 'crm:vehicle-create' %}" class="btn btn-primary btn-sm">
+          + New vehicle
+            </a>
+          </div>
+        </form>
+      </div>
     </div>
 
 
@@ -19,7 +31,7 @@
       <table class="table table-hover text-nowrap table-striped">
         <thead>
         <tr>
-          <th>#</th>
+          <th>ID</th>
           <th>Name</th>
           <th>Number of registration</th>
           <th>Owner</th>

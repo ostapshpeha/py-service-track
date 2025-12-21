@@ -6,6 +6,8 @@
   <title>{% block title %}Service Track{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   {% block extra_css %}{% endblock %}
 </head>
 
@@ -32,7 +34,10 @@
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-{% block extra_js %}{% endblock %}
+<script src="{% static 'plugins/Chart.js/Chart.min.js' %}"></script>
 <script src="{% static 'js/adminlte.min.js' %}"></script>
+<script src="{% static 'js/sparkline.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
 </body>
 </html>

@@ -30,7 +30,13 @@
 
             <tr>
                 <th>Vehicle</th>
-                <td>{{ object.vehicle }}</td>
+                <td>
+                  {{ object.vehicle }}
+                  <a href="{% url 'crm:vehicle-detail' object.vehicle.pk %}"
+                       class="btn btn-xs btn-danger">
+                      Change last service
+                  </a>
+                </td>
             </tr>
 
             <tr>

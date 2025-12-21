@@ -8,6 +8,18 @@ from crm.models import Vehicle, Client
 
 
 class VehicleForm(forms.ModelForm):
+    client = forms.ModelChoiceField(
+        queryset=Client.objects.all(),
+        widget=ModelSelect2Widget(
+            model=Client,
+            search_fields=[
+                "last_name__icontains",
+                "first_name__icontains",
+            ],
+            attrs={"class": "form-control"}
+        ),
+        required=True,
+    )
     class Meta:
         model = Vehicle
         fields = "__all__"
@@ -51,6 +63,28 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
+
+
+class VehicleNumberSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by number",
+        })
+    )
+
+
+class ClientLastNameSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by client last name",
+        })
+    )
 
 
 _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
