@@ -4,7 +4,7 @@ from django.views import generic
 from django_filters.views import FilterView
 
 from orders.filters import OrderFilter
-from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm
+from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm, OrderClientLastNameSearchForm
 from orders.models import Order, Invoice
 
 
@@ -13,6 +13,26 @@ class OrderListView(LoginRequiredMixin, FilterView):
     filterset_class = OrderFilter
     paginate_by = 30
     template_name = "orders/order_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = OrderClientLastNameSearchForm(
+            self.request.GET or None
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = OrderClientLastNameSearchForm(self.request.GET)
+
+        if form.is_valid():
+            q = form.cleaned_data["q"]
+            if q:
+                queryset = queryset.filter(
+                    client__last_name__icontains=q
+                )
+
+        return queryset
 
 
 

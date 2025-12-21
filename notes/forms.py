@@ -20,3 +20,13 @@ class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = ("vehicle", "description", "picture")
+
+class NoteAuthorSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by author",
+        })
+    )

@@ -65,6 +65,28 @@ class ClientForm(forms.ModelForm):
         fields = "__all__"
 
 
+class VehicleNumberSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by number",
+        })
+    )
+
+
+class ClientLastNameSearchForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control float-right",
+            "placeholder": "Search by client last name",
+        })
+    )
+
+
 _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
 
 def validate_vin_code(value: str):

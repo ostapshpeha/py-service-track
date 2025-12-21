@@ -4,7 +4,7 @@ from django.db.models.aggregates import Max
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from crm.forms import ClientForm, VehicleForm, VehicleUpdateForm
+from crm.forms import ClientForm, VehicleForm, VehicleUpdateForm, ClientLastNameSearchForm, VehicleNumberSearchForm
 from crm.models import Vehicle, Client
 
 
@@ -12,8 +12,25 @@ class VehicleListView(LoginRequiredMixin, generic.ListView):
     model = Vehicle
     paginate_by = 30
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = VehicleNumberSearchForm(
+            self.request.GET or None
+        )
+        return context
+
     def get_queryset(self):
-        return Vehicle.objects.all().order_by("-last_service")
+        queryset = Vehicle.objects.all().order_by("-last_service")
+        form = VehicleNumberSearchForm(self.request.GET)
+
+        if form.is_valid():
+            q = form.cleaned_data["q"]
+            if q:
+                queryset = queryset.filter(
+                    number_registration__icontains=q
+                )
+
+        return queryset
 
 
 class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
@@ -52,10 +69,27 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
     model = Client
     paginate_by = 30
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = ClientLastNameSearchForm(
+            self.request.GET or None
+        )
+        return context
+
     def get_queryset(self):
-        return Client.objects.annotate(
-            last_order_date=Max("orders__created_at")
-        ).order_by("-last_order_date")
+        queryset = Client.objects.annotate(
+             last_order_date=Max("orders__created_at")
+         ).order_by("-last_order_date")
+        form = ClientLastNameSearchForm(self.request.GET)
+
+        if form.is_valid():
+            q = form.cleaned_data["q"]
+            if q:
+                queryset = queryset.filter(
+                    last_name__icontains=q
+                )
+
+        return queryset
 
 
 class ClientDetailView(LoginRequiredMixin, generic.DetailView):

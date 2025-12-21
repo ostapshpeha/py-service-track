@@ -9,11 +9,8 @@
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title mb-0">Mechanic's notes</h3>
       <div class="card-tools">
-        <div class="input-group input-group-sm" style="width: 600px;">
-          <input type="text"
-                 name="q"
-                 class="form-control float-right"
-                 placeholder="Search">
+        <form method="get" class="input-group input-group-sm" style="width: 600px;">
+          {{ search_form.q }}
 
           <div class="input-group-append">
             <button class="btn btn-default">
@@ -25,7 +22,7 @@
           + Create note
             </a>
           </div>
-        </div>
+        </form>
       </div>
     </div>
 
@@ -34,7 +31,7 @@
       <table class="table table-hover text-nowrap table-striped">
         <thead>
         <tr>
-          <th>#</th>
+          <th>ID</th>
           <th>Author</th>
           <th>Vehicle</th>
           <th>Date</th>
