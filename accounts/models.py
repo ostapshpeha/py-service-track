@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class Worker(AbstractUser):
+class CustomUser(AbstractUser):
     """
     Custom User model to inherit from AbstractUser
     This is our staff's accounts

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from accounts.models import Worker
+from accounts.models import CustomUser
 from crm.models import Client
 from orders.models import Order
 
@@ -28,6 +28,6 @@ def index(request):
     return render(request, "accounts/index.html", context)
 
 
-class WorkerListView(LoginRequiredMixin, generic.ListView):
-    model = Worker
+class CustomUserListView(LoginRequiredMixin, generic.ListView):
+    model = CustomUser
     success_url = reverse_lazy("accounts:staff-list")

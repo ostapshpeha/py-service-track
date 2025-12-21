@@ -86,4 +86,9 @@ class InvoiceCreateView(LoginRequiredMixin, generic.CreateView):
 class InvoiceUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Invoice
     form_class = InvoiceUpdateForm
-    success_url = reverse_lazy("orders:invoice-list")
+
+    def get_success_url(self):
+        return reverse(
+            "orders:order-detail",
+            kwargs={"pk": self.object.pk}
+        )
