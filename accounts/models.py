@@ -3,22 +3,12 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class Worker(AbstractUser):
-    """
-    Custom User model to inherit from AbstractUser
-    This is our staff's accounts
-    """
+class CustomUser(AbstractUser):
     class Role(models.TextChoices):
-        """
-        Roles for workers
-        """
         MECHANIC = "mechanic", "Mechanic"
         MANAGER = "manager", "Manager"
 
     class MechanicPosition(models.TextChoices):
-        """
-        Mechanic positions only for mechanics
-        """
         AUTO_ELECTRICIAN = "AE", "Auto Electrician"
         ENGINE = "ENG", "Engine specialist"
         JUNIOR = "JUN", "Junior mechanic"
@@ -36,9 +26,6 @@ class Worker(AbstractUser):
     )
 
     def clean(self):
-        """
-        Clean + validation method for user model
-        """
         super().clean()
         if self.role != self.Role.MECHANIC and self.mechanic_position:
             raise ValidationError({"mechanic_position": "This position is only for mechanics"})
