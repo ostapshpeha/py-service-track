@@ -21,7 +21,6 @@ class CustomUserCreationForm(AdminUserCreationForm):
     def clean(self):
         """
         Custom validation during creating User
-        :return:
         """
         cleaned = super().clean()
         role = cleaned.get("role")
