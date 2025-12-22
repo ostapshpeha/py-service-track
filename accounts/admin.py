@@ -6,9 +6,6 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    """
-    Custom admin panel to interact with our staff's accounts
-    """
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser

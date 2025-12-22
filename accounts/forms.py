@@ -6,6 +6,7 @@ from django.contrib.auth.forms import (
 from accounts.models import CustomUser
 
 
+
 class CustomUserCreationForm(AdminUserCreationForm):
     """
     Custom admin panel for operating accounts
