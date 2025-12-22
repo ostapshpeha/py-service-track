@@ -5,6 +5,9 @@ from orders.models import Order
 
 
 class OrderFilter(django_filters.FilterSet):
+    """
+    Order filter set to filter by status, client, date from and date to
+    """
     status = django_filters.ChoiceFilter(
         choices=Order.Status.choices,
         label="",

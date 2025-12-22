@@ -1,4 +1,4 @@
-from django.urls import  path
+from django.urls import path
 
 from .views import (
     VehicleListView,
@@ -17,10 +17,26 @@ app_name = "crm"
 
 urlpatterns = [
     path("vehicles/", VehicleListView.as_view(), name="vehicle-list"),
-    path("vehicles/<int:pk>/", VehicleDetailView.as_view(), name="vehicle-detail"),
-    path("vehicles/create/", VehicleCreateView.as_view(), name="vehicle-create"),
-    path("vehicles/<int:pk>/update/", VehicleUpdateView.as_view(), name="vehicle-update"),
-    path("vehicles/<int:pk>/delete/", VehicleDeleteView.as_view(), name="vehicle-delete"),
+    path(
+        "vehicles/<int:pk>/",
+        VehicleDetailView.as_view(),
+        name="vehicle-detail"
+    ),
+    path(
+        "vehicles/create/",
+        VehicleCreateView.as_view(),
+        name="vehicle-create"
+    ),
+    path(
+        "vehicles/<int:pk>/update/",
+        VehicleUpdateView.as_view(),
+        name="vehicle-update"
+    ),
+    path(
+        "vehicles/<int:pk>/delete/",
+        VehicleDeleteView.as_view(),
+        name="vehicle-delete"
+    ),
     path("clients/", ClientListView.as_view(), name="client-list"),
     path(
         "clients/<int:pk>/", ClientDetailView.as_view(), name="client-detail"

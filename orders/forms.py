@@ -6,6 +6,10 @@ from orders.models import Invoice, Order
 
 
 class OrderForm(forms.ModelForm):
+    """
+    Order form class with Select2 widget to search by client name,
+    or vehicle license plate number
+    """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
         widget=ModelSelect2Widget(
@@ -36,6 +40,9 @@ class OrderForm(forms.ModelForm):
 
 
 class InvoiceForm(forms.ModelForm):
+    """
+    Invoice creating form class to choose orders only without invoices
+    """
     class Meta:
         model = Invoice
         fields = "__all__"
@@ -43,21 +50,33 @@ class InvoiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["order"].label = "Select order without invoice"
-        self.fields["order"].queryset = Order.objects.filter(invoice__isnull=True)
+        self.fields["order"].queryset = Order.objects.filter(
+            invoice__isnull=True
+        )
+
 
 class InvoiceUpdateForm(forms.ModelForm):
+    """
+    Invoice update form class to update only price of the parts
+    """
     class Meta:
         model = Invoice
         fields = ("parts_total",)
 
 
 class OrderUpdateForm(forms.ModelForm):
+    """
+    Order update form class to update only requirements and status
+    """
     class Meta:
         model = Order
         fields = ("requirements", "status")
 
 
 class OrderClientLastNameSearchForm(forms.Form):
+    """
+    Searching orders by client last name
+    """
     q = forms.CharField(
         required=False,
         label="",

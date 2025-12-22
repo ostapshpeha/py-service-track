@@ -12,12 +12,21 @@ from orders.models import Order
 
 @login_required
 def index(request):
+    """
+    Calculations for dashboard view
+    Counting open orders to service
+    Clients with 0 related vehicles
+    Orders without invoices
+    Last orders
+    """
     open_statuses = [
         Order.Status.IN_PROGRESS,
         Order.Status.NEEDS_CLARIFICATION,
     ]
     count_open_orders = Order.objects.filter(status__in=open_statuses).count()
-    clients_without_vehicles = Client.objects.filter(vehicles__isnull=True).count()
+    clients_without_vehicles = Client.objects.filter(
+        vehicles__isnull=True
+    ).count()
     orders_without_invoices = Order.objects.filter(invoice__isnull=True)
     last_orders = Order.objects.order_by("-created_at")[:3]
     context = {
@@ -30,5 +39,8 @@ def index(request):
 
 
 class CustomUserListView(LoginRequiredMixin, generic.ListView):
+    """
+    Custom user list view
+    """
     model = CustomUser
     success_url = reverse_lazy("accounts:staff-list")
