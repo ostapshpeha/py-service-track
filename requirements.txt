@@ -1,0 +1,10 @@
+Django==6.0
+
+django-crispy-forms==2.5
+crispy-bootstrap4==2025.6
+
+django-filter==25.2
+django-select2==8.4.7
+django-simple-history==3.11.0
+
+pillow==12.0.0
