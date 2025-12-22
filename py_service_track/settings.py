@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,17 +38,27 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+
+    # cloudinary + media
+    "cloudinary_storage",
     'django.contrib.staticfiles',
+    "cloudinary",
+
+    # debug
     "debug_toolbar",
-    "crispy_bootstrap4",
+
+    # tools
     "crispy_forms",
+    "crispy_bootstrap4",
     'django_filters',
     'simple_history',
+    "django_select2",
+
+    # apps
     "accounts",
     "crm",
     "orders",
     "notes",
-    "django_select2",
 ]
 
 MIDDLEWARE = [
@@ -141,9 +153,29 @@ INTERNAL_IPS = [
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
-MEDIA_URL = "/media/"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-MEDIA_ROOT = BASE_DIR / "media"
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": env("CLOUDINARY_API_KEY"),
+    "API_SECRET": env("CLOUDINARY_API_SECRET"),
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    },
+    "select2": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "django_select2",
+    }
+}
+
+SELECT2_CACHE_BACKEND = "select2"
 
 LOGIN_REDIRECT_URL = "/"
 
