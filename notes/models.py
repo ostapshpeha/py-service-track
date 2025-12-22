@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 
 from accounts.models import CustomUser
@@ -18,7 +19,7 @@ class Note(models.Model):
         null=True, related_name="notes"
     )
     date = models.DateTimeField(auto_now_add=True)
-    picture = models.ImageField(upload_to="notes/pics/", null=True, blank=True)
+    picture = CloudinaryField("image", blank=True, null=True)
 
     class Meta:
         ordering = ['-date']
