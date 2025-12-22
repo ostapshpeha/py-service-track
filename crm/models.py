@@ -21,7 +21,6 @@ class Client(models.Model):
         verbose_name_plural = "clients"
 
 
-
 class Vehicle(models.Model):
     """
     The vehicle model is related to only one client
@@ -39,7 +38,10 @@ class Vehicle(models.Model):
     number_registration = models.CharField(max_length=10, unique=True)
     engine_type = models.CharField(max_length=2, choices=Engine.choices)
     last_service = models.DateField(null=True, blank=True)
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name="vehicles", null=True)
+    client = models.ForeignKey(
+        Client, on_delete=models.SET_NULL,
+        related_name="vehicles", null=True
+    )
     history = HistoricalRecords()
 
     class Meta:

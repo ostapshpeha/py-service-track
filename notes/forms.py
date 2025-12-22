@@ -21,9 +21,11 @@ class NoteForm(forms.ModelForm):
         ),
         required=True,
     )
+
     class Meta:
         model = Note
         fields = ("vehicle", "description", "picture")
+
 
 class NoteAuthorSearchForm(forms.Form):
     """

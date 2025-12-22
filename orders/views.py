@@ -4,7 +4,10 @@ from django.views import generic
 from django_filters.views import FilterView
 
 from orders.filters import OrderFilter
-from orders.forms import OrderForm, InvoiceForm, InvoiceUpdateForm, OrderUpdateForm, OrderClientLastNameSearchForm
+from orders.forms import (
+    OrderForm, InvoiceForm, InvoiceUpdateForm,
+    OrderUpdateForm, OrderClientLastNameSearchForm
+)
 from orders.models import Order, Invoice
 
 
@@ -39,7 +42,6 @@ class OrderListView(LoginRequiredMixin, FilterView):
         return queryset
 
 
-
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     """
     Order detail view
@@ -53,6 +55,7 @@ class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     """
     model = Order
     form_class = OrderForm
+
     def get_success_url(self):
         return reverse(
             "orders:order-detail",
@@ -66,6 +69,7 @@ class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     """
     model = Order
     form_class = OrderUpdateForm
+
     def get_success_url(self):
         return reverse(
             "orders:order-detail",

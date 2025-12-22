@@ -50,7 +50,10 @@ class InvoiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["order"].label = "Select order without invoice"
-        self.fields["order"].queryset = Order.objects.filter(invoice__isnull=True)
+        self.fields["order"].queryset = Order.objects.filter(
+            invoice__isnull=True
+        )
+
 
 class InvoiceUpdateForm(forms.ModelForm):
     """

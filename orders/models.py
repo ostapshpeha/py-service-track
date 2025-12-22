@@ -57,7 +57,10 @@ class Invoice(models.Model):
         on_delete=models.CASCADE,
         related_name="invoice",
     )
-    parts_total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal("0.00"))
+    parts_total = models.DecimalField(
+        max_digits=10, decimal_places=2,
+        default=Decimal("0.00")
+    )
     history = HistoricalRecords()
 
     def work_total(self) -> Decimal:
@@ -73,7 +76,10 @@ class Invoice(models.Model):
         Adding price for parts and work, it's the total price of invoice
         :return: Decimal value of total price
         """
-        return (self.parts_total + self.work_total()).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        return ((
+                self.parts_total + self.work_total())
+                .quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
     def __str__(self):
-        return f"Invoice for Order #{self.order_id} — Total for parts and work: {self.total}"
+        return (f"Invoice for Order #{self.order_id} "
+                f"— Total for parts and work: {self.total}")

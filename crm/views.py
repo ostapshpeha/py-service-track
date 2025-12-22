@@ -1,10 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.aggregates import Max
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from crm.forms import ClientForm, VehicleForm, VehicleUpdateForm, ClientLastNameSearchForm, VehicleNumberSearchForm
+from crm.forms import (
+    ClientForm, VehicleForm, VehicleUpdateForm,
+    ClientLastNameSearchForm, VehicleNumberSearchForm
+)
 from crm.models import Vehicle, Client
 
 
@@ -53,6 +55,7 @@ class VehicleCreateView(LoginRequiredMixin, generic.CreateView):
     """
     model = Vehicle
     form_class = VehicleForm
+
     def get_success_url(self):
         return reverse(
             "crm:vehicle-detail",
@@ -66,6 +69,7 @@ class VehicleUpdateView(LoginRequiredMixin, generic.UpdateView):
     """
     model = Vehicle
     form_class = VehicleUpdateForm
+
     def get_success_url(self):
         return reverse(
             "crm:vehicle-detail",
@@ -128,6 +132,7 @@ class ClientCreateView(LoginRequiredMixin, generic.CreateView):
     """
     form_class = ClientForm
     model = Client
+
     def get_success_url(self):
         return reverse(
             "crm:client-detail",
@@ -149,6 +154,7 @@ class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
     """
     model = Client
     form_class = ClientForm
+
     def get_success_url(self):
         return reverse(
             "crm:client-detail",

@@ -13,8 +13,10 @@ from orders.models import Order
 def index(request):
     """
     Calculations for dashboard view
-    :param request: Django request
-    :return: context
+    Counting open orders to service
+    Clients with 0 related vehicles
+    Orders without invoices
+    Last orders
     """
     open_statuses = [
         Order.Status.IN_PROGRESS,

@@ -30,7 +30,8 @@ class NoteListView(LoginRequiredMixin, generic.ListView):
             q = form.cleaned_data["q"]
             if q:
                 queryset = queryset.filter(
-                  Q(author__last_name__icontains=q) | Q(author__first_name__icontains=q)
+                  Q(author__last_name__icontains=q) |
+                  Q(author__first_name__icontains=q)
                 )
 
         return queryset

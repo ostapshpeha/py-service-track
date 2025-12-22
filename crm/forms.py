@@ -25,6 +25,7 @@ class VehicleForm(forms.ModelForm):
         ),
         required=True,
     )
+
     class Meta:
         model = Vehicle
         fields = "__all__"
@@ -32,6 +33,7 @@ class VehicleForm(forms.ModelForm):
     def clean_vin_code(self):
         vin_code = self.cleaned_data.get("vin_code")
         return validate_vin_code(vin_code)
+
 
 class VehicleUpdateForm(forms.ModelForm):
     """
@@ -50,6 +52,7 @@ class VehicleUpdateForm(forms.ModelForm):
         ),
         required=True,
     )
+
     class Meta:
         model = Vehicle
         fields = ("number_registration", "last_service", "client")
@@ -108,7 +111,8 @@ class ClientLastNameSearchForm(forms.Form):
 
 _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
 
-def validate_vin_code(value: str) :
+
+def validate_vin_code(value: str):
     """
     Custom validator for vin code
     """
@@ -118,6 +122,8 @@ def validate_vin_code(value: str) :
         raise ValidationError("VIN must be exactly 17 characters long")
 
     if not _VIN_RE.fullmatch(vin):
-        raise ValidationError("VIN should have big letters A-Z and numbers (0-9), without spaces")
+        raise ValidationError(
+            "VIN should have big letters A-Z and numbers (0-9), without spaces"
+        )
 
     return vin
