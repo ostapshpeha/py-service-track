@@ -21,7 +21,9 @@ def index(request):
         Order.Status.NEEDS_CLARIFICATION,
     ]
     count_open_orders = Order.objects.filter(status__in=open_statuses).count()
-    clients_without_vehicles = Client.objects.filter(vehicles__isnull=True).count()
+    clients_without_vehicles = Client.objects.filter(
+        vehicles__isnull=True
+    ).count()
     orders_without_invoices = Order.objects.filter(invoice__isnull=True)
     last_orders = Order.objects.order_by("-created_at")[:3]
     context = {

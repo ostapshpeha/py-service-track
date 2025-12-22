@@ -6,6 +6,9 @@ from orders.models import Order, Invoice
 
 @admin.register(Order)
 class OrderAdmin(SimpleHistoryAdmin):
+    """
+    Operating orders via django-admin
+    """
     list_display = (
         "client",
         "vehicle",
@@ -25,6 +28,9 @@ class OrderAdmin(SimpleHistoryAdmin):
 
 @admin.register(Invoice)
 class InvoiceAdmin(SimpleHistoryAdmin):
+    """
+    Operating invoices via django-admin
+    """
     list_display = ("id", "order", "total")
     search_fields = ("order__client__first_name", "order__client__last_name")
     ordering = ("-id",)

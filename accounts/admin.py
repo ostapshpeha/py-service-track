@@ -13,8 +13,15 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ("username", "first_name", "last_name", "role", "mechanic_position", "is_staff", "is_superuser")
-    list_filter = ("role", "mechanic_position", "is_staff", "is_superuser", "is_active")
+    list_display = (
+        "username", "first_name", "last_name",
+        "role", "mechanic_position", "is_staff",
+        "is_superuser"
+    )
+    list_filter = (
+        "role", "mechanic_position", "is_staff",
+        "is_superuser", "is_active"
+    )
     ordering = ("username",)
 
     fieldsets = UserAdmin.fieldsets + (
@@ -23,4 +30,3 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + (
         ("Track Service", {"fields": ("role", "mechanic_position")}),
     )
-

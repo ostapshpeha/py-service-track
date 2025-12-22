@@ -26,7 +26,11 @@ class CustomUser(AbstractUser):
         TRANSMISSION = "TRS", "Transmission specialist"
         SENIOR = "SNR", "Senior mechanic"
 
-    role = models.CharField(max_length=20, choices=Role.choices, default=Role.MECHANIC)
+    role = models.CharField(
+        max_length=20,
+        choices=Role.choices,
+        default=Role.MECHANIC
+    )
 
     mechanic_position = models.CharField(
         max_length=32,
@@ -37,8 +41,10 @@ class CustomUser(AbstractUser):
 
     def clean(self):
         """
-        Clean + validation method for user model
+        Validation method for user model
         """
         super().clean()
         if self.role != self.Role.MECHANIC and self.mechanic_position:
-            raise ValidationError({"mechanic_position": "This position is only for mechanics"})
+            raise ValidationError(
+                {"mechanic_position": "This position is only for mechanics"}
+            )

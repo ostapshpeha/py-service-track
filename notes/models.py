@@ -5,6 +5,9 @@ from crm.models import Vehicle
 
 
 class Note(models.Model):
+    """
+    Note model it's mechanic's records about the car, with media add feature
+    """
     description = models.TextField()
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="notes")
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name="notes")

@@ -8,6 +8,9 @@ from notes.models import Note
 
 
 class NoteListView(LoginRequiredMixin, generic.ListView):
+    """
+    Note list view with searching through author's first and last name
+    """
     model = Note
     paginate_by = 30
     context_object_name = "notes"
@@ -34,10 +37,17 @@ class NoteListView(LoginRequiredMixin, generic.ListView):
 
 
 class NoteDetailView(LoginRequiredMixin, generic.DetailView):
+    """
+    Note detail view
+    """
     model = Note
 
 
 class NoteCreateView(LoginRequiredMixin, generic.CreateView):
+    """
+    Note create view with form validation
+    Redirect to note detail view
+    """
     model = Note
     form_class = NoteForm
     success_url = reverse_lazy("notes:note-list")
@@ -49,10 +59,16 @@ class NoteCreateView(LoginRequiredMixin, generic.CreateView):
         )
 
     def form_valid(self, form):
+        """
+        Auto choosing the author of the note
+        """
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 
 class NoteDeleteView(LoginRequiredMixin, generic.DeleteView):
+    """
+    Note delete view
+    """
     model = Note
     success_url = reverse_lazy("notes:note-list")

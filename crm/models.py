@@ -5,6 +5,8 @@ from simple_history.models import HistoricalRecords
 class Client(models.Model):
     """
     The customer model is related to vehicles one-to-many
+    Implemented History records feature to track who
+    did CRUD operations with object
     """
     first_name = models.CharField(max_length=55)
     last_name = models.CharField(max_length=55)
@@ -23,6 +25,8 @@ class Client(models.Model):
 class Vehicle(models.Model):
     """
     The vehicle model is related to only one client
+    Implemented History records feature to track who
+    did CRUD operations with object
     """
     class Engine(models.TextChoices):
         HYBRID = "hy", "Hybrid"
