@@ -1,5 +1,5 @@
 from django import forms
-from django_select2.forms import ModelSelect2Widget
+from django_select2.forms import ModelSelect2Widget, ModelSelect2MultipleWidget
 
 from crm.models import Client, Vehicle
 from orders.models import Invoice, Order
@@ -12,26 +12,35 @@ class OrderForm(forms.ModelForm):
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2Widget(
+        widget=ModelSelect2MultipleWidget(
             model=Client,
             search_fields=[
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
         required=True,
+        label="Client"
     )
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(),
-        widget=ModelSelect2Widget(
+        widget=ModelSelect2MultipleWidget(
             model=Vehicle,
             search_fields=[
                 "number_registration__icontains",
+                "name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search name or license plate number",
+            }
         ),
         required=True,
+        label="Vehicle"
     )
 
     class Meta:
@@ -49,7 +58,7 @@ class InvoiceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["order"].label = "Select order without invoice"
+        self.fields["order"].label = "Select current order"
         self.fields["order"].queryset = Order.objects.filter(
             invoice__isnull=True
         )

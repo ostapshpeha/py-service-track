@@ -15,15 +15,19 @@ class VehicleForm(forms.ModelForm):
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2Widget(
+        widget=ModelSelect2MultipleWidget(
             model=Client,
             search_fields=[
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
-        required=True,
+        required=False,
+        label="Owner",
     )
 
     class Meta:
@@ -42,15 +46,19 @@ class VehicleUpdateForm(forms.ModelForm):
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2Widget(
+        widget=ModelSelect2MultipleWidget(
             model=Client,
             search_fields=[
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
         required=True,
+        label="Owner",
     )
 
     class Meta:
@@ -72,8 +80,13 @@ class ClientForm(forms.ModelForm):
                 "vin_code__icontains",
                 "name__icontains",
             ],
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Input name, vin or license plate number",
+            }
         ),
         required=False,
+        label="Vehicle",
     )
 
     class Meta:
@@ -90,7 +103,7 @@ class VehicleNumberSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={
             "class": "form-control float-right",
-            "placeholder": "Search by number",
+            "placeholder": "Search by license plate number",
         })
     )
 
@@ -104,7 +117,7 @@ class ClientLastNameSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={
             "class": "form-control float-right",
-            "placeholder": "Search by client last name",
+            "placeholder": "Search by last name",
         })
     )
 
