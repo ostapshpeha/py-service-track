@@ -15,7 +15,7 @@ class VehicleForm(forms.ModelForm):
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2MultipleWidget(
+        widget=ModelSelect2Widget(
             model=Client,
             search_fields=[
                 "last_name__icontains",
@@ -46,7 +46,7 @@ class VehicleUpdateForm(forms.ModelForm):
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2MultipleWidget(
+        widget=ModelSelect2Widget(
             model=Client,
             search_fields=[
                 "last_name__icontains",

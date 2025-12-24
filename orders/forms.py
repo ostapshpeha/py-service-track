@@ -1,5 +1,5 @@
 from django import forms
-from django_select2.forms import ModelSelect2Widget, ModelSelect2MultipleWidget
+from django_select2.forms import ModelSelect2Widget
 
 from crm.models import Client, Vehicle
 from orders.models import Invoice, Order
@@ -8,11 +8,10 @@ from orders.models import Invoice, Order
 class OrderForm(forms.ModelForm):
     """
     Order form class with Select2 widget to search by client name,
-    or vehicle license plate number
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2MultipleWidget(
+        widget=ModelSelect2Widget(
             model=Client,
             search_fields=[
                 "last_name__icontains",
@@ -27,16 +26,10 @@ class OrderForm(forms.ModelForm):
         label="Client"
     )
     vehicle = forms.ModelChoiceField(
-        queryset=Vehicle.objects.all(),
-        widget=ModelSelect2MultipleWidget(
-            model=Vehicle,
-            search_fields=[
-                "number_registration__icontains",
-                "name__icontains",
-            ],
+        queryset=Vehicle.objects.filter(client=client),
+        widget=forms.Select(
             attrs={
                 "class": "form-control",
-                "data-placeholder": "Search name or license plate number",
             }
         ),
         required=True,
