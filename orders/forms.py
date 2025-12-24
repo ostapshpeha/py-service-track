@@ -26,10 +26,15 @@ class OrderForm(forms.ModelForm):
         label="Client"
     )
     vehicle = forms.ModelChoiceField(
-        queryset=Vehicle.objects.filter(client=client),
-        widget=forms.Select(
+        queryset=Vehicle.objects.all(),
+        widget=ModelSelect2Widget(
+            model=Vehicle,
+            search_fields=[
+                "number_registration__icontains",
+            ],
             attrs={
                 "class": "form-control",
+                "data-placeholder": "Search vehicle license plate",
             }
         ),
         required=True,
