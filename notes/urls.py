@@ -8,11 +8,11 @@ from notes.views import (
 app_name = "notes"
 
 urlpatterns = [
-    path("notes/", NoteListView.as_view(), name="note-list"),
-    path("notes/<int:pk>/", NoteDetailView.as_view(), name="note-detail"),
-    path("notes/create/", NoteCreateView.as_view(), name="note-create"),
+    path("list/", NoteListView.as_view(), name="note-list"),
+    path("<int:pk>/", NoteDetailView.as_view(), name="note-detail"),
+    path("create/", NoteCreateView.as_view(), name="note-create"),
     path(
-        "notes/<int:pk>/delete/",
+        "<int:pk>/delete/",
         NoteDeleteView.as_view(),
         name="note-delete"
     ),
