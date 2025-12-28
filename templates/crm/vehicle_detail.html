@@ -58,8 +58,12 @@
                   {% endfor %}
                 </ul>
               {% else %}
-                <span class="text-muted">-</span>
+                <span class="text-muted"></span>
               {% endif %}
+              <a href="{% url 'notes:note-create' %}"
+               class="btn btn-sm btn-success mt-2">
+              New note
+              </a>
             </td>
         </tr>
         <tr>
@@ -78,8 +82,12 @@
                 {% endfor %}
               </ul>
             {% else %}
-              <span class="text-muted">No orders</span>
+              <span class="text-muted"></span>
             {% endif %}
+            <a href="{% url 'orders:order-create' %}"
+               class="btn btn-sm btn-success mt-2">
+              New order
+            </a>
           </td>
         </tr>
       </table>

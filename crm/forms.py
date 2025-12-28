@@ -122,13 +122,14 @@ class ClientLastNameSearchForm(forms.Form):
     )
 
 
-_VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
+
 
 
 def validate_vin_code(value: str):
     """
     Custom validator for vin code
     """
+    _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
     vin = (value or "").strip()
 
     if len(vin) != 17:

@@ -1,12 +1,10 @@
-import os
-
 from .base import *
 from dotenv import load_dotenv
 load_dotenv()
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["py-service-track.onrender.com", 'localhost', '127.0.0.1']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:

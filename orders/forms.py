@@ -30,11 +30,13 @@ class OrderForm(forms.ModelForm):
         widget=ModelSelect2Widget(
             model=Vehicle,
             search_fields=[
+                "client__first_name__icontains",
+                "client__last_name__icontains",
                 "number_registration__icontains",
             ],
             attrs={
                 "class": "form-control",
-                "data-placeholder": "Search vehicle license plate",
+                "data-placeholder": "Search by owner's name or license place",
             }
         ),
         required=True,
