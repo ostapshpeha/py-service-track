@@ -1,4 +1,4 @@
-import re
+import string
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -122,20 +122,17 @@ class ClientLastNameSearchForm(forms.Form):
     )
 
 
-
-
-
 def validate_vin_code(value: str):
     """
-    Custom validator for vin code
+    Custom validator for vin code without Regex
     """
-    _VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
     vin = (value or "").strip()
-
     if len(vin) != 17:
         raise ValidationError("VIN must be exactly 17 characters long")
 
-    if not _VIN_RE.fullmatch(vin):
+    allowed_chars = string.ascii_uppercase + string.digits
+
+    if not all(char in allowed_chars for char in vin):
         raise ValidationError(
             "VIN should have big letters A-Z and numbers (0-9), without spaces"
         )
