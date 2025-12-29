@@ -9,7 +9,7 @@ class VehicleInline(admin.TabularInline):
     Vehicle tabular in line
     """
     model = Vehicle
-    extra = 0
+    extra = 1
     fields = (
         "name", "number_registration", "vin_code",
         "engine_type", "last_service"

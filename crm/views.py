@@ -36,7 +36,7 @@ class VehicleListView(LoginRequiredMixin, generic.ListView):
                     number_registration__icontains=q
                 )
 
-        return queryset
+        return queryset.select_related("client").prefetch_related("orders")
 
 
 class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
@@ -46,7 +46,7 @@ class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
     model = Vehicle
 
     def get_queryset(self):
-        return super().get_queryset().select_related("client")
+        return super().get_queryset().select_related("client").prefetch_related("notes", "orders")
 
 
 class VehicleCreateView(LoginRequiredMixin, generic.CreateView):
@@ -113,7 +113,7 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
                     last_name__icontains=q
                 )
 
-        return queryset
+        return queryset.prefetch_related("orders", "vehicles")
 
 
 class ClientDetailView(LoginRequiredMixin, generic.DetailView):
@@ -123,7 +123,7 @@ class ClientDetailView(LoginRequiredMixin, generic.DetailView):
     model = Client
 
     def get_queryset(self):
-        return super().get_queryset().prefetch_related("vehicles")
+        return super().get_queryset().prefetch_related("orders", "vehicles")
 
 
 class ClientCreateView(LoginRequiredMixin, generic.CreateView):
