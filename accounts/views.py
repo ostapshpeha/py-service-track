@@ -20,7 +20,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     Orders without invoices
     Last orders
     """
-    template_name = "accounts/index.html"
+    template_name = "accounts/dashboard.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
