@@ -1,17 +1,18 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic import TemplateView
 
+from accounts.forms import CustomUserCreationForm, CustomUserChangeForm
 from accounts.models import CustomUser
 from crm.models import Client
 from orders.models import Order
 
 
-@login_required
-def index(request):
+class DashboardView(LoginRequiredMixin, TemplateView):
     """
     Calculations for dashboard view
     Counting open orders to service
@@ -19,23 +20,33 @@ def index(request):
     Orders without invoices
     Last orders
     """
-    open_statuses = [
-        Order.Status.IN_PROGRESS,
-        Order.Status.NEEDS_CLARIFICATION,
-    ]
-    count_open_orders = Order.objects.filter(status__in=open_statuses).count()
-    clients_without_vehicles = Client.objects.filter(
-        vehicles__isnull=True
-    ).count()
-    orders_without_invoices = Order.objects.filter(invoice__isnull=True)
-    last_orders = Order.objects.order_by("-created_at")[:3]
-    context = {
-        "count_open_orders": count_open_orders,
-        "clients_without_vehicles": clients_without_vehicles,
-        "orders_without_invoices": orders_without_invoices,
-        "last_orders": last_orders,
-    }
-    return render(request, "accounts/index.html", context)
+    template_name = "accounts/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        open_statuses = [
+            Order.Status.IN_PROGRESS,
+            Order.Status.NEEDS_CLARIFICATION,
+        ]
+
+        context.update({
+            "count_open_orders": Order.objects.filter(
+                status__in=open_statuses
+            ).count(),
+
+            "clients_without_vehicles": Client.objects.filter(
+                vehicles__isnull=True
+            ).count(),
+
+            "orders_without_invoices": Order.objects.filter(
+                invoice__isnull=True
+            ).select_related("client"),
+
+            "last_orders": Order.objects.order_by("-created_at")[:3],
+        })
+
+        return context
 
 
 class CustomUserListView(LoginRequiredMixin, generic.ListView):
@@ -43,4 +54,47 @@ class CustomUserListView(LoginRequiredMixin, generic.ListView):
     Custom user list view
     """
     model = CustomUser
+    template_name = "accounts/customuser_list.html"
+    success_url = reverse_lazy("accounts:staff-list")
+
+
+class ManagerRequiredMixin(UserPassesTestMixin):
+    """
+    Mixin to check if a user has required permissions
+    """
+    def test_func(self):
+        user = self.request.user
+        # Checking role for manager or superuser
+        return user.is_authenticated and (
+            user.role == CustomUser.Role.MANAGER or user.is_superuser
+        )
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.error(
+                self.request,
+                "Only admin or manager can perform this action."
+            )
+            return redirect("accounts:staff-list")
+
+        return super().handle_no_permission()
+
+
+class CustomUserCreateView(LoginRequiredMixin, ManagerRequiredMixin, generic.CreateView):
+    """
+    Creating new users, only by superadmin
+    """
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = "accounts/customuser_form.html"
+    success_url = reverse_lazy("accounts:staff-list")
+
+
+class CustomUserUpdateView(LoginRequiredMixin, ManagerRequiredMixin, generic.UpdateView):
+    """
+    Updating users, only by superadmin
+    """
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = "accounts/customuser_form.html"
     success_url = reverse_lazy("accounts:staff-list")

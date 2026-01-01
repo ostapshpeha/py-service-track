@@ -3,6 +3,7 @@ from pathlib import Path
 
 import environ
 from dotenv import load_dotenv
+from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -159,3 +160,7 @@ SELECT2_CACHE_BACKEND = "select2"
 LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}

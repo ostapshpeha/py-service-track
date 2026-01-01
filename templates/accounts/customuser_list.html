@@ -3,54 +3,61 @@
 {% block title %}Staff{% endblock %}
 
 {% block content %}
-<div class="card">
+  <div class="card">
 
 
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <h3 class="card-title mb-0">Staff</h3>
-  </div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title mb-0">Staff</h3>
+      <div class="card-tools">
+        <div class="input-group-append">
+          <a href="{% url 'accounts:staff-create' %}" class="btn btn-outline-danger btn-sm">
+            + New worker
+          </a>
+        </div>
+      </div>
+    </div>
 
 
-  <div class="card-body table-responsive p-0">
-    <table class="table table-hover table-striped text-nowrap">
-      <thead>
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover table-striped text-nowrap">
+        <thead>
         <tr>
           <th>Position</th>
           <th>Role</th>
           <th>First name</th>
           <th>Last name</th>
         </tr>
-      </thead>
+        </thead>
 
-      <tbody>
+        <tbody>
         {% for worker in object_list %}
-        <tr>
-          <td>
+          <tr>
+            <td>
             <span class="badge badge-info">
               {{ worker.get_mechanic_position_display }}
             </span>
-          </td>
+            </td>
 
-          <td>
+            <td>
             <span class="badge badge-secondary">
               {{ worker.get_role_display }}
             </span>
-          </td>
+            </td>
 
-          <td>{{ worker.first_name }}</td>
-          <td>{{ worker.last_name }}</td>
+            <td>{{ worker.first_name }}</td>
+            <td>{{ worker.last_name }}</td>
 
-        </tr>
+          </tr>
         {% empty %}
-        <tr>
-          <td colspan="6" class="text-center text-muted">
-            No staff members yet
-          </td>
-        </tr>
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              No staff members yet
+            </td>
+          </tr>
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
+        </tbody>
+      </table>
+    </div>
 
-</div>
+  </div>
 {% endblock %}
