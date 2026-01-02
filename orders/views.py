@@ -39,7 +39,7 @@ class OrderListView(LoginRequiredMixin, FilterView):
                     client__last_name__icontains=q
                 )
 
-        return queryset
+        return queryset.select_related("client", "vehicle", "invoice")
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):

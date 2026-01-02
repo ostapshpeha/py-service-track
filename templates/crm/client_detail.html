@@ -48,7 +48,7 @@
                 {% endfor %}
               </ul>
             {% else %}
-              <span class="text-muted">No vehicles</span>
+              <span class="text-muted"></span>
             {% endif %}
 
             <a href="{% url 'crm:vehicle-create' %}"
@@ -64,7 +64,7 @@
             {% if object.orders.exists %}
               <ul class="list-unstyled mb-0">
                 {% for order in object.orders.all %}
-                  <li>
+                  <li class="m-1">
                     Order #{{ order.id }} — {{ order.get_status_display }}
                     <a href="{% url 'orders:order-detail' order.pk %}"
                        class="btn btn-xs btn-info ml-2">
@@ -74,7 +74,7 @@
                 {% endfor %}
               </ul>
             {% else %}
-              <span class="text-muted">No orders</span>
+              <span class="text-muted"></span>
             {% endif %}
             <a href="{% url 'orders:order-create' %}"
                class="btn btn-sm btn-success mt-2">

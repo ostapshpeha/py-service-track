@@ -1,4 +1,4 @@
-import re
+import string
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -21,9 +21,13 @@ class VehicleForm(forms.ModelForm):
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
-        required=True,
+        required=False,
+        label="Owner",
     )
 
     class Meta:
@@ -48,9 +52,13 @@ class VehicleUpdateForm(forms.ModelForm):
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
         required=True,
+        label="Owner",
     )
 
     class Meta:
@@ -72,8 +80,13 @@ class ClientForm(forms.ModelForm):
                 "vin_code__icontains",
                 "name__icontains",
             ],
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Input name, vin or license plate number",
+            }
         ),
         required=False,
+        label="Vehicle",
     )
 
     class Meta:
@@ -90,7 +103,7 @@ class VehicleNumberSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={
             "class": "form-control float-right",
-            "placeholder": "Search by number",
+            "placeholder": "Search by license plate number",
         })
     )
 
@@ -104,24 +117,22 @@ class ClientLastNameSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={
             "class": "form-control float-right",
-            "placeholder": "Search by client last name",
+            "placeholder": "Search by last name",
         })
     )
 
 
-_VIN_RE = re.compile(r"^[A-Z0-9]{17}$")
-
-
 def validate_vin_code(value: str):
     """
-    Custom validator for vin code
+    Custom validator for vin code without Regex
     """
     vin = (value or "").strip()
-
     if len(vin) != 17:
         raise ValidationError("VIN must be exactly 17 characters long")
 
-    if not _VIN_RE.fullmatch(vin):
+    allowed_chars = string.ascii_uppercase + string.digits
+
+    if not all(char in allowed_chars for char in vin):
         raise ValidationError(
             "VIN should have big letters A-Z and numbers (0-9), without spaces"
         )
