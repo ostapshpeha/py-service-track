@@ -21,7 +21,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     Last orders
     """
     template_name = "accounts/dashboard.html"
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -54,7 +53,6 @@ class CustomUserListView(LoginRequiredMixin, generic.ListView):
     Custom user list view
     """
     model = CustomUser
-    template_name = "accounts/customuser_list.html"
     success_url = reverse_lazy("accounts:staff-list")
 
 
@@ -86,7 +84,6 @@ class CustomUserCreateView(LoginRequiredMixin, ManagerRequiredMixin, generic.Cre
     """
     model = CustomUser
     form_class = CustomUserCreationForm
-    template_name = "accounts/customuser_form.html"
     success_url = reverse_lazy("accounts:staff-list")
 
 
@@ -96,5 +93,4 @@ class CustomUserUpdateView(LoginRequiredMixin, ManagerRequiredMixin, generic.Upd
     """
     model = CustomUser
     form_class = CustomUserChangeForm
-    template_name = "accounts/customuser_form.html"
     success_url = reverse_lazy("accounts:staff-list")
