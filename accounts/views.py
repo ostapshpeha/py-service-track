@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -53,7 +52,6 @@ class CustomUserListView(LoginRequiredMixin, generic.ListView):
     Custom user list view
     """
     model = CustomUser
-    success_url = reverse_lazy("accounts:staff-list")
 
 
 class ManagerRequiredMixin(UserPassesTestMixin):
