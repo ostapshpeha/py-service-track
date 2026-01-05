@@ -1,6 +1,30 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
 
+{% block extra_css %}
+    {{ block.super }}
+    <style>
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: 26px !important;
+            padding-left: 0 !important;
+            color: #495057;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__arrow {
+            height: 36px !important;
+            top: 1px !important;
+            right: 6px !important;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 <div class="card card-primary">
     <div class="card-header">

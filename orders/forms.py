@@ -8,7 +8,6 @@ from orders.models import Invoice, Order
 class OrderForm(forms.ModelForm):
     """
     Order form class with Select2 widget to search by client name,
-    or vehicle license plate number
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
@@ -18,20 +17,30 @@ class OrderForm(forms.ModelForm):
                 "last_name__icontains",
                 "first_name__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by client's name",
+            }
         ),
         required=True,
+        label="Client"
     )
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(),
         widget=ModelSelect2Widget(
             model=Vehicle,
             search_fields=[
+                "client__first_name__icontains",
+                "client__last_name__icontains",
                 "number_registration__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Search by owner's name or license place",
+            }
         ),
         required=True,
+        label="Vehicle"
     )
 
     class Meta:
@@ -49,7 +58,7 @@ class InvoiceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["order"].label = "Select order without invoice"
+        self.fields["order"].label = "Select current order"
         self.fields["order"].queryset = Order.objects.filter(
             invoice__isnull=True
         )

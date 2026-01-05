@@ -17,7 +17,10 @@ class NoteForm(forms.ModelForm):
             search_fields=[
                 "number_registration__icontains",
             ],
-            attrs={"class": "form-control"}
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Input license plate number",
+            }
         ),
         required=True,
     )
