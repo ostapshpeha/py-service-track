@@ -12,5 +12,5 @@ urlpatterns = [
     path("", DashboardView.as_view(), name="index"),
     path("staff/", CustomUserListView.as_view(), name="staff-list"),
     path("staff/create/", CustomUserCreateView.as_view(), name="staff-create"),
-    path("staff/update/", CustomUserUpdateView.as_view(), name="staff-update"),
-    ]
+    path("staff/<int:pk>/update/", CustomUserUpdateView.as_view(), name="staff-update"),
+]

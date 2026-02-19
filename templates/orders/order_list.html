@@ -1,136 +1,192 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title %}Orders{% endblock %}
+{% block title %}Orders | Service Track{% endblock %}
 
 {% block content %}
-  <div class="card-header">
+<div class="space-y-6">
 
-
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0">Orders</h3>
-      <div class="card-tools">
-        <form method="get" class="input-group input-group-sm" style="width: 600px;">
-
-          {{ search_form.q }}
-
-          <div class="input-group-append">
-            <button class="btn btn-default">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-          <div class="input-group-append">
-            <a href="{% url 'orders:order-create' %}" class="btn btn-primary btn-sm">
-          + Create order
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Orders</h1>
+            <p class="text-sm text-gray-500">Track service orders and invoices</p>
+        </div>
+        
+        <div>
+            <a href="{% url 'orders:order-create' %}" class="inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-plus mr-2"></i> New Order
             </a>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-    <div class="card-header-actions">
 
-      <div class="card card-outline">
-        <div class="card-header py-2">
-          <h3 class="card-title mb-0">Filters</h3>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
+    <!-- Filters & Search -->
+    <div x-data="{ filtersOpen: false }" class="bg-white rounded-xl shadow-sm border border-gray-100">
+        <!-- Search Bar -->
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+            <form method="get" class="relative flex-1 max-w-lg">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" 
+                       name="q" 
+                       value="{{ request.GET.q }}"
+                       class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out" 
+                       placeholder="Search orders..."
+                       hx-get="{{ request.path }}"
+                       hx-trigger="keyup changed delay:500ms, search"
+                       hx-target="#order-table-body"
+                       hx-select="#order-table-body"
+                       hx-push-url="true">
+            </form>
+            
+            <button @click="filtersOpen = !filtersOpen" class="ml-4 flex items-center text-gray-500 hover:text-blue-600 focus:outline-none">
+                <i class="fas fa-filter mr-2"></i> Filters
+                <i class="fas fa-chevron-down ml-1 text-xs transition-transform" :class="filtersOpen ? 'rotate-180' : ''"></i>
             </button>
-          </div>
         </div>
 
-        <div class="card-body py-2">
-          <form method="get" class="form-inline filter-form">
-
-            {{ filter.form.status }}
-            {{ filter.form.client }}
-            {{ filter.form.date_from }}
-            {{ filter.form.date_to }}
-
-            <button class="btn btn-sm btn-outline-primary ml-2">
-              Apply
-            </button>
-
-            <a href="{% url 'orders:order-list' %}"
-               class="btn btn-sm btn-outline-secondary ml-1">
-              Reset
-            </a>
-
-          </form>
+        <!-- Advanced Filters -->
+        <div x-show="filtersOpen" x-collapse class="bg-gray-50 p-4 border-t border-gray-100">
+            <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- We render form fields manually to control grid or use crispy -->
+                <!-- Assuming filter.form has these fields -->
+                <div>
+                    {{ filter.form.status|as_crispy_field }}
+                </div>
+                <div>
+                    {{ filter.form.client|as_crispy_field }}
+                </div>
+                <div>
+                    {{ filter.form.date_from|as_crispy_field }}
+                </div>
+                <div>
+                    {{ filter.form.date_to|as_crispy_field }}
+                </div>
+                
+                <div class="md:col-span-4 flex justify-end space-x-2 mt-2">
+                    <a href="{% url 'orders:order-list' %}" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        Reset
+                    </a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
+                        Apply Filters
+                    </button>
+                </div>
+            </form>
         </div>
-      </div>
-
     </div>
 
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Order ID
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Client & Vehicle
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Invoice
+                        </th>
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="order-table-body" class="bg-white divide-y divide-gray-200">
+                    {% for order in object_list %}
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        
+                        <!-- ID -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                            <a href="{% url 'orders:order-detail' order.id %}">#{{ order.id }}</a>
+                        </td>
 
+                        <!-- Client -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">
+                                {{ order.client }}
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ order.vehicle.name }}
+                            </div>
+                        </td>
 
-    <div class="card-body table-responsive p-0">
-      <table class="table table-hover text-nowrap table-striped">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Client</th>
-          <th>Status</th>
-          <th>Date</th>
-          <th>Invoice</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
+                        <!-- Status -->
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {% if order.status == order.Status.DONE %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                {{ order.get_status_display }}
+                            </span>
+                            {% elif order.status == order.Status.IN_PROGRESS %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                {{ order.get_status_display }}
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                {{ order.get_status_display }}
+                            </span>
+                            {% endif %}
+                        </td>
 
-        <tbody>
-        {% for order in object_list %}
-          <tr>
+                        <!-- Date -->
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                            {{ order.created_at|date:"d M Y" }}
+                        </td>
 
+                        <!-- Invoice -->
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {% if order.invoice %}
+                            <i class="fas fa-check-circle text-green-500 text-lg" title="Invoiced"></i>
+                            {% else %}
+                            <span class="text-gray-300">—</span>
+                            {% endif %}
+                        </td>
 
-            <td>
-                #{{ order.id }}
-            </td>
+                        <!-- Actions -->
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end space-x-3">
+                                <a href="{% url 'orders:order-detail' order.id %}" class="text-blue-600 hover:text-blue-900" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'orders:order-update' order.id %}" class="text-amber-600 hover:text-amber-900" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
 
-            <td>
-                {{ order.client }}
-            </td>
-
-            <td>
-              <span class="badge
-                  {% if order.status == order.Status.DONE %}badge-success
-                  {% elif order.status == order.Status.IN_PROGRESS %}badge-warning
-                  {% else %}badge-danger{% endif %}
-              ">
-                  {{ order.get_status_display }}
-              </span>
-            </td>
-
-            <td>{{ order.created_at|date:"d.m.Y" }}</td>
-
-
-            <td>
-              {% if order.invoice %}
-                ✔️
-              {% else %}
-                <span class="text-muted">—</span>
-              {% endif %}
-            </td>
-
-            <td>
-              <a href="{% url 'orders:order-detail' order.id %}" class="btn btn-sm btn-info">
-                View
-              </a>
-              <a href="{% url 'orders:order-update' order.id %}" class="btn btn-sm btn-warning">
-                Edit
-              </a>
-            </td>
-
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="6" class="text-center text-muted">
-              No orders yet
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-10 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-3"></i>
+                                <p>No orders found.</p>
+                                <a href="{% url 'orders:order-create' %}" class="mt-2 text-blue-600 hover:underline">Create your first order</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="px-6 py-3 border-t border-gray-200 bg-gray-50">
+             {% include "includes/pagination.html" %}
+        </div>
+        {% endif %}
     </div>
 
-  </div>
+</div>
 {% endblock %}
-

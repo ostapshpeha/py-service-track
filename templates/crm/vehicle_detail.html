@@ -1,97 +1,184 @@
 {% extends "base.html" %}
 
-{% block title %} {{ object.name }} {% endblock %}
+{% block title %}Vehicle: {{ object.name }} | Service Track{% endblock %}
+
 {% block content %}
-  <div class="card">
+<div class="space-y-6">
 
-    <div class="card-header">
-      <h3 class="card-title">{{ object.name }}</h3>
-      <div class="card-tools">
-        <a href="{% url 'crm:vehicle-update' object.id %}" class="btn btn-sm btn-primary">
-          Edit
-        </a>
-        <a href="{% url 'crm:vehicle-delete' object.id %}" class="btn btn-sm btn-danger">
-          Delete
-        </a>
-      </div>
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <div class="flex items-center space-x-3">
+                <div class="h-12 w-12 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xl font-bold">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ object.name }}</h1>
+                    <p class="text-sm font-mono text-gray-500 tracking-wider uppercase">{{ object.number_registration }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex space-x-3">
+            <a href="{% url 'crm:vehicle-update' object.id %}" class="inline-flex justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <i class="fas fa-edit mr-2"></i> Edit Specs
+            </a>
+            <a href="{% url 'crm:vehicle-delete' object.id %}" class="inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-trash mr-2"></i> Delete
+            </a>
+        </div>
     </div>
 
-    <div class="card-body">
-      <table class="table table-hover text-nowrap table-striped">
-        <tr>
-          <th>License plate</th>
-          <td>{{ object.number_registration }}</td>
-        </tr>
-        <tr>
-          <th>VIN</th>
-          <td>{{ object.vin_code }}</td>
-        </tr>
-        <tr>
-          <th>Engine</th>
-          <td>{{ object.get_engine_type_display }}</td>
-        </tr>
-        <tr>
-          <th>Owner</th>
-          <td>
-            <a href="{% url 'crm:client-detail' object.client.pk %}">
-              {{ object.client }}
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <th>Last service</th>
-          <td>{{ object.last_service }}</td>
-        </tr>
-        <tr>
-          <th>Notes</th>
-            <td>
-              {% if object.notes.exists %}
-                <ul class="list-unstyled mb-0">
-                  {% for note in object.notes.all %}
-                    <li>
-                      Note #{{ note.id }} — {{ note.description }} - {{ note.date }}
-                      <a href="{% url 'notes:note-detail' note.pk %}"
-                         class="btn btn-xs btn-info ml-2">
-                        View
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% else %}
-                <span class="text-muted"></span>
-              {% endif %}
-              <a href="{% url 'notes:note-create' %}"
-               class="btn btn-sm btn-success mt-2">
-              New note
-              </a>
-            </td>
-        </tr>
-        <tr>
-          <th>Orders</th>
-          <td>
-            {% if object.orders.exists %}
-              <ul class="list-unstyled mb-0">
-                {% for order in object.orders.all %}
-                  <li>
-                    Order #{{ order.id }} — {{ order.get_status_display }}
-                    <a href="{% url 'orders:order-detail' order.pk %}"
-                       class="btn btn-xs btn-info ml-2">
-                      View
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <span class="text-muted"></span>
-            {% endif %}
-            <a href="{% url 'orders:order-create' %}"
-               class="btn btn-sm btn-success mt-2">
-              New order
-            </a>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left Column: Specs & Owner -->
+        <div class="space-y-6">
+            
+            <!-- Specs Card -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h3 class="text-lg font-medium text-gray-900">Vehicle Specifications</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">VIN Code</label>
+                        <p class="mt-1 text-sm font-mono text-gray-900 bg-gray-50 p-2 rounded border border-gray-200 block w-full break-all">
+                            {{ object.vin_code|default:"-" }}
+                        </p>
+                    </div>
 
-  </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Engine Type</label>
+                            <p class="mt-1 text-sm font-semibold text-gray-900">{{ object.get_engine_type_display }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Last Service</label>
+                            <p class="mt-1 text-sm font-semibold text-gray-900">{{ object.last_service|default:"Never" }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Owner Card -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h3 class="text-lg font-medium text-gray-900">Owner</h3>
+                </div>
+                <div class="p-6">
+                    {% if object.client %}
+                    <div class="flex items-center">
+                        <div class="h-12 w-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mr-4">
+                            {{ object.client.first_name|slice:":1" }}{{ object.client.last_name|slice:":1" }}
+                        </div>
+                        <div>
+                            <a href="{% url 'crm:client-detail' object.client.pk %}" class="text-lg font-bold text-gray-900 hover:text-blue-600 block">
+                                {{ object.client }}
+                            </a>
+                            <p class="text-sm text-gray-500">{{ object.client.mobile_number }}</p>
+                        </div>
+                        <a href="{% url 'crm:client-detail' object.client.pk %}" class="ml-auto p-2 text-gray-400 hover:text-blue-600">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-gray-500">
+                        <p class="mb-3">No owner assigned.</p>
+                        <a href="{% url 'crm:vehicle-update' object.pk %}" class="text-sm text-blue-600 hover:underline">Assign Owner</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: History (Tabs) -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100" x-data="{ activeTab: 'orders' }">
+            
+            <!-- Tabs Header -->
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
+                    <button @click="activeTab = 'orders'"
+                            :class="activeTab === 'orders' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                        <i class="fas fa-tools mr-2"></i> Service History ({{ object.orders.count }})
+                    </button>
+                    <button @click="activeTab = 'notes'"
+                            :class="activeTab === 'notes' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                        <i class="fas fa-sticky-note mr-2"></i> Mechanic Notes ({{ object.notes.count }})
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                
+                <!-- Orders Tab -->
+                <div x-show="activeTab === 'orders'" x-transition.opacity>
+                    <div class="flex justify-end mb-4">
+                        <a href="{% url 'orders:order-create' %}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ New Service Order</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        {% for order in object.orders.all %}
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow flex justify-between items-center group">
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h4 class="text-sm font-bold text-gray-900">Order #{{ order.id }}</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium 
+                                        {% if order.status == order.Status.DONE %}bg-green-100 text-green-800
+                                        {% elif order.status == order.Status.IN_PROGRESS %}bg-yellow-100 text-yellow-800
+                                        {% else %}bg-gray-200 text-gray-800{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">{{ order.created_at|date:"d M Y, H:i" }}</p>
+                            </div>
+                            <a href="{% url 'orders:order-detail' order.pk %}" class="text-gray-400 hover:text-blue-600 p-2">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p class="text-center text-gray-500 py-8">No service history found.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Notes Tab -->
+                <div x-show="activeTab === 'notes'" x-transition.opacity style="display: none;">
+                    <div class="flex justify-end mb-4">
+                        <a href="{% url 'notes:note-create' %}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ Add Note</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        {% for note in object.notes.all %}
+                        <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <div class="h-6 w-6 rounded-full bg-yellow-200 text-yellow-700 flex items-center justify-center text-xs font-bold">
+                                        {{ note.author.username|slice:":1" }}
+                                    </div>
+                                    <span class="text-xs font-bold text-gray-700">{{ note.author.username }}</span>
+                                    <span class="text-xs text-gray-400">• {{ note.date|date:"d M Y" }}</span>
+                                </div>
+                                <a href="{% url 'notes:note-detail' note.pk %}" class="text-gray-400 hover:text-blue-600 text-xs">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                            <p class="text-sm text-gray-800">{{ note.description|truncatechars:100 }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="text-center text-gray-500 py-8">No notes attached.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

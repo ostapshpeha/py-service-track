@@ -1,48 +1,77 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="{% url 'accounts:index' %}" class="brand-link">
-        <span class="brand-text font-weight-light">Service Track</span>
-    </a>
-
-    <div class="sidebar">
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column">
-
-                <li class="nav-item">
-                    <a href="{% url 'accounts:index' %}" class="nav-link">
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{% url 'orders:order-list' %}" class="nav-link">
-                        <p>Orders</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{% url 'crm:client-list' %}" class="nav-link">
-                        <p>Clients</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{% url 'crm:vehicle-list' %}" class="nav-link">
-                        <p>Vehicles</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{% url 'notes:note-list' %}" class="nav-link">
-                        <p>Notes</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'accounts:staff-list' %}" class="nav-link">
-                        <p>Staff</p>
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
+{% load static %}
+<aside class="fixed inset-y-0 left-0 z-40 w-64 h-screen transition-transform transform bg-gray-900 text-white border-r border-gray-800"
+       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:w-20 md:translate-x-0'">
+    
+    <!-- Logo -->
+    <div class="flex items-center justify-center h-16 border-b border-gray-800 bg-gray-900">
+        <a href="{% url 'accounts:index' %}" class="flex items-center space-x-2">
+            <img src="{% static 'img/car.png' %}" alt="Logo" class="w-8 h-8 rounded-full bg-white p-1">
+            <span class="text-xl font-bold tracking-wider" x-show="sidebarOpen">ServiceTrack</span>
+        </a>
     </div>
+
+    <!-- User Info (Mini Profile) -->
+    <div class="p-4 border-b border-gray-800 flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+            {{ request.user.username|slice:":1"|upper }}
+        </div>
+        <div x-show="sidebarOpen">
+            <p class="text-sm font-semibold text-white">{{ request.user.username }}</p>
+            <p class="text-xs text-gray-400 capitalize">{{ request.user.role }}</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="mt-4 px-2 space-y-1">
+        
+        <!-- Dashboard -->
+        <a href="{% url 'accounts:index' %}" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors
+                  {% if request.resolver_match.view_name == 'accounts:index' %}bg-gray-800 text-white border-l-4 border-blue-500{% endif %}">
+            <i class="fas fa-tachometer-alt w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Dashboard</span>
+        </a>
+
+        <!-- Clients -->
+        <a href="{% url 'crm:client-list' %}" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors
+                  {% if 'client' in request.resolver_match.view_name %}bg-gray-800 text-white border-l-4 border-blue-500{% endif %}">
+            <i class="fas fa-users w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Clients</span>
+        </a>
+
+        <!-- Vehicles -->
+        <a href="{% url 'crm:vehicle-list' %}" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors
+                  {% if 'vehicle' in request.resolver_match.view_name %}bg-gray-800 text-white border-l-4 border-blue-500{% endif %}">
+            <i class="fas fa-car w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Vehicles</span>
+        </a>
+
+        <!-- Orders -->
+        <a href="{% url 'orders:order-list' %}" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors
+                  {% if 'orders' in request.resolver_match.app_names %}bg-gray-800 text-white border-l-4 border-blue-500{% endif %}">
+            <i class="fas fa-tools w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Orders</span>
+        </a>
+
+        <!-- Notes -->
+        <a href="{% url 'notes:note-list' %}" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors
+                  {% if 'notes' in request.resolver_match.app_names %}bg-gray-800 text-white border-l-4 border-blue-500{% endif %}">
+            <i class="fas fa-sticky-note w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Notes</span>
+        </a>
+
+        {% if request.user.is_superuser %}
+        <!-- Admin Panel -->
+        <a href="/admin/" 
+           class="flex items-center px-4 py-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors mt-8">
+            <i class="fas fa-cogs w-6 text-center"></i>
+            <span class="ml-3" x-show="sidebarOpen">Admin Panel</span>
+        </a>
+        {% endif %}
+
+    </nav>
 </aside>

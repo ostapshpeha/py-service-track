@@ -1,0 +1,1080 @@
+[
+{
+    "model": "accounts.customuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$3vMDHQSE2JUB1TwOSWypAr$+DRzMJLDj7uu5/Dq96Y6XTakkF+X6VZr69PGg85hjS0=",
+        "last_login": "2025-12-19T19:06:17.851Z",
+        "is_superuser": false,
+        "username": "Misha",
+        "first_name": "Mykhailo",
+        "last_name": "Bereza",
+        "email": "mykh3452@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-14T17:05:50Z",
+        "role": "mechanic",
+        "mechanic_position": "TRS",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$DzeJUpdk3bzNYK7849Sfmh$pm1DuD6/Ji8LrFx4zo1ugebftXR+fI/LElxkUY/hAUA=",
+        "last_login": "2025-12-19T19:22:30.042Z",
+        "is_superuser": false,
+        "username": "admin.user",
+        "first_name": "Serhiy",
+        "last_name": "Shevchenko",
+        "email": "sheva4259@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-14T17:15:42Z",
+        "role": "manager",
+        "mechanic_position": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$xtNAclEB2Wldg65AR6ebSO$XuGotn6Rv9eeLVZgpIRbM8ZMQLQFvztOvqstuSawbwE=",
+        "last_login": "2025-12-20T16:39:32Z",
+        "is_superuser": true,
+        "username": "ostap17",
+        "first_name": "Ostap",
+        "last_name": "Shpeha",
+        "email": "admin@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-12-18T13:51:28Z",
+        "role": "manager",
+        "mechanic_position": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$mqq7LKKbdL4vRvTMM80Qf4$bU1FhqR+NV7J/GSUxSgHn1CCj7VTjUUagp1x1TEMqyc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "msanta28",
+        "first_name": "Michael",
+        "last_name": "DeSanta",
+        "email": "admin255@admin.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-18T13:55:56Z",
+        "role": "mechanic",
+        "mechanic_position": "ALI",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 9,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$cgP4nYxi1vIjgEV1YhrofF$UNhYIJPgGP2BOCD6Iqc8CtAJ0fCFlwpE+W5/vQEkZy0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "borys_ivanov",
+        "first_name": "Borys",
+        "last_name": "Ivanov",
+        "email": "botysivanov@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-20T16:40:56Z",
+        "role": "mechanic",
+        "mechanic_position": "AE",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 10,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$D0fqP1cYDAhRY6dOabvZO8$rSbZWUAOEtbgArcY2OFBGIak08UnjPeVK0Ar8yRA4bo=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "oleksandr_melnyk",
+        "first_name": "Oleksandr",
+        "last_name": "Melnyk",
+        "email": "sasha228228@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-20T16:42:39Z",
+        "role": "mechanic",
+        "mechanic_position": "SNR",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 11,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$7ZC10xnRkpE68NEcZtCdeg$QEnCoxYxydAY8/8UVztuafBm+8QRPm5ykqJiHx1D9I0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "pavlo_lenskiy",
+        "first_name": "Pavlo",
+        "last_name": "Lenskiy",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-20T16:44:13Z",
+        "role": "mechanic",
+        "mechanic_position": "TRS",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 12,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$7JP78N2qbJvlEf4qspfAJ8$OVgvsWoAI8vnKMsbGkA+EG0cVcBCK4fKULRtEcGeh9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "ivan_borysov",
+        "first_name": "Ivan",
+        "last_name": "Borysov",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-20T16:45:11Z",
+        "role": "mechanic",
+        "mechanic_position": "JUN",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "crm.historicalclient",
+    "pk": 1,
+    "fields": {
+        "id": 4,
+        "first_name": "Genadiy",
+        "last_name": "Karp",
+        "mobile_number": "0996853423",
+        "history_date": "2025-12-20T16:47:28.498Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalclient",
+    "pk": 2,
+    "fields": {
+        "id": 5,
+        "first_name": "Yuriy",
+        "last_name": "Malno",
+        "mobile_number": "0665352254",
+        "history_date": "2025-12-20T16:49:41.074Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalclient",
+    "pk": 3,
+    "fields": {
+        "id": 6,
+        "first_name": "Denys",
+        "last_name": "Pervak",
+        "mobile_number": "0673453425",
+        "history_date": "2025-12-21T14:13:28.323Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 1,
+    "fields": {
+        "first_name": "Bob",
+        "last_name": "Bobovich",
+        "mobile_number": "0993514256"
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 2,
+    "fields": {
+        "first_name": "Serhiy",
+        "last_name": "Semeniyk",
+        "mobile_number": "0993514555"
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 3,
+    "fields": {
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "mobile_number": "0664672464"
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 4,
+    "fields": {
+        "first_name": "Genadiy",
+        "last_name": "Karp",
+        "mobile_number": "0996853423"
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 5,
+    "fields": {
+        "first_name": "Yuriy",
+        "last_name": "Malno",
+        "mobile_number": "0665352254"
+    }
+},
+{
+    "model": "crm.client",
+    "pk": 6,
+    "fields": {
+        "first_name": "Denys",
+        "last_name": "Pervak",
+        "mobile_number": "0673453425"
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 1,
+    "fields": {
+        "id": 2,
+        "name": "BMW 428i 2015",
+        "vin_code": "3FAHP0JA2CR272775",
+        "number_registration": "AA5555AK",
+        "engine_type": "pe",
+        "last_service": "2025-09-10",
+        "client": 2,
+        "history_date": "2025-12-19T19:15:21.129Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 6
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 2,
+    "fields": {
+        "id": 4,
+        "name": "Honda Civic 2015 Hy",
+        "vin_code": "3A4GY5F90AT243736",
+        "number_registration": "BC6474PA",
+        "engine_type": "hy",
+        "last_service": null,
+        "client": 4,
+        "history_date": "2025-12-20T16:48:19.985Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 3,
+    "fields": {
+        "id": 5,
+        "name": "Honda CR-V 2016",
+        "vin_code": "3GCPCREC2EG519695",
+        "number_registration": "BC4744OO",
+        "engine_type": "pe",
+        "last_service": null,
+        "client": 5,
+        "history_date": "2025-12-20T16:50:39.167Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 4,
+    "fields": {
+        "id": 6,
+        "name": "Honda Accord 2016 2.4",
+        "vin_code": "1FTEX1C8XAFA59211",
+        "number_registration": "BC5633MA",
+        "engine_type": "pe",
+        "last_service": null,
+        "client": 3,
+        "history_date": "2025-12-21T14:03:36.652Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 5,
+    "fields": {
+        "id": 1,
+        "name": "Mercedes S-class W222",
+        "vin_code": "5FNRL38719B015042",
+        "number_registration": "BC5555PO",
+        "engine_type": "pe",
+        "last_service": "2025-11-11",
+        "client": 1,
+        "history_date": "2025-12-21T14:07:40.941Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 6,
+    "fields": {
+        "id": 7,
+        "name": "Honda Accord 2020 Hybrid 1.6",
+        "vin_code": "4T1BF32K82U026201",
+        "number_registration": "BC5377BA",
+        "engine_type": "hy",
+        "last_service": null,
+        "client": 6,
+        "history_date": "2025-12-21T14:14:11.997Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 7,
+    "fields": {
+        "id": 7,
+        "name": "Honda Accord 2020 Hybrid 1.6",
+        "vin_code": "4T1BF32K82U026201",
+        "number_registration": "BC5377BA",
+        "engine_type": "hy",
+        "last_service": "2025-12-21",
+        "client": 6,
+        "history_date": "2025-12-21T14:15:13.958Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 8,
+    "fields": {
+        "id": 1,
+        "name": "Mercedes S-class W222",
+        "vin_code": "5FNRL38719B015042",
+        "number_registration": "BC5555PO",
+        "engine_type": "pe",
+        "last_service": "2025-12-21",
+        "client": 1,
+        "history_date": "2025-12-21T17:21:42.497Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 9,
+    "fields": {
+        "id": 3,
+        "name": "Infiniti Q50 Hybrid 2017",
+        "vin_code": "1C3CDZAB6DN648929",
+        "number_registration": "KA3575AB",
+        "engine_type": "hy",
+        "last_service": "2025-12-21",
+        "client": 3,
+        "history_date": "2025-12-21T17:22:08.598Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 10,
+    "fields": {
+        "id": 7,
+        "name": "Honda Accord 2020 Hybrid 1.6",
+        "vin_code": "4T1BF32K82U026201",
+        "number_registration": "BC5377BA",
+        "engine_type": "hy",
+        "last_service": "2025-12-21",
+        "client": 6,
+        "history_date": "2025-12-22T15:06:28.552Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 11,
+    "fields": {
+        "id": 8,
+        "name": "Honda Prelude 1999",
+        "vin_code": "3FAHP0JGBCR272775",
+        "number_registration": "BC5633CA",
+        "engine_type": "pe",
+        "last_service": null,
+        "client": 1,
+        "history_date": "2025-12-22T15:07:25.954Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.historicalvehicle",
+    "pk": 12,
+    "fields": {
+        "id": 8,
+        "name": "Honda Prelude 1999",
+        "vin_code": "3FAHP0JGBCR272775",
+        "number_registration": "BC5633CA",
+        "engine_type": "pe",
+        "last_service": "2025-12-22",
+        "client": 1,
+        "history_date": "2025-12-22T15:09:37.773Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 1,
+    "fields": {
+        "name": "Mercedes S-class W222",
+        "vin_code": "5FNRL38719B015042",
+        "number_registration": "BC5555PO",
+        "engine_type": "pe",
+        "last_service": "2025-12-21",
+        "client": 1
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 2,
+    "fields": {
+        "name": "BMW 428i 2015",
+        "vin_code": "3FAHP0JA2CR272775",
+        "number_registration": "AA5555AK",
+        "engine_type": "pe",
+        "last_service": "2025-09-10",
+        "client": 2
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 3,
+    "fields": {
+        "name": "Infiniti Q50 Hybrid 2017",
+        "vin_code": "1C3CDZAB6DN648929",
+        "number_registration": "KA3575AB",
+        "engine_type": "hy",
+        "last_service": "2025-12-21",
+        "client": 3
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 4,
+    "fields": {
+        "name": "Honda Civic 2015 Hy",
+        "vin_code": "3A4GY5F90AT243736",
+        "number_registration": "BC6474PA",
+        "engine_type": "hy",
+        "last_service": null,
+        "client": 4
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 5,
+    "fields": {
+        "name": "Honda CR-V 2016",
+        "vin_code": "3GCPCREC2EG519695",
+        "number_registration": "BC4744OO",
+        "engine_type": "pe",
+        "last_service": null,
+        "client": 5
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 6,
+    "fields": {
+        "name": "Honda Accord 2016 2.4",
+        "vin_code": "1FTEX1C8XAFA59211",
+        "number_registration": "BC5633MA",
+        "engine_type": "pe",
+        "last_service": null,
+        "client": 3
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 7,
+    "fields": {
+        "name": "Honda Accord 2020 Hybrid 1.6",
+        "vin_code": "4T1BF32K82U026201",
+        "number_registration": "BC5377BA",
+        "engine_type": "hy",
+        "last_service": "2025-12-21",
+        "client": 6
+    }
+},
+{
+    "model": "crm.vehicle",
+    "pk": 8,
+    "fields": {
+        "name": "Honda Prelude 1999",
+        "vin_code": "3FAHP0JGBCR272775",
+        "number_registration": "BC5633CA",
+        "engine_type": "pe",
+        "last_service": "2025-12-22",
+        "client": 1
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 2,
+    "fields": {
+        "description": "good",
+        "vehicle": 1,
+        "author": 3,
+        "date": "2025-12-18T14:38:55.597Z",
+        "picture": "image/upload/notes/pics/чртрэЄрцхээ .jfif"
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 5,
+    "fields": {
+        "description": "oil leak",
+        "vehicle": 2,
+        "author": 7,
+        "date": "2025-12-19T16:04:06.260Z",
+        "picture": "image/upload/notes/pics/чюсЁрцхээ _2025-12-19_180404926.png"
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 6,
+    "fields": {
+        "description": "Hybrid system broken",
+        "vehicle": 3,
+        "author": 7,
+        "date": "2025-12-19T16:12:07.327Z",
+        "picture": "image/upload/notes/pics/чюсЁрцхээ _2025-12-19_181203837.png"
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 7,
+    "fields": {
+        "description": "Broken suspension",
+        "vehicle": 1,
+        "author": 3,
+        "date": "2025-12-19T19:06:58.473Z",
+        "picture": null
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 8,
+    "fields": {
+        "description": "sss",
+        "vehicle": 6,
+        "author": 7,
+        "date": "2025-12-22T12:31:47.759Z",
+        "picture": "image/upload/v1766406707/fe3am5nnete1vyermnli.png"
+    }
+},
+{
+    "model": "notes.note",
+    "pk": 9,
+    "fields": {
+        "description": "Need full engine repair",
+        "vehicle": 8,
+        "author": 7,
+        "date": "2025-12-22T15:09:12.858Z",
+        "picture": "image/upload/v1766416152/aeuzbdtq3n1i1ofcx9zy.png"
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 1,
+    "fields": {
+        "id": 4,
+        "created_at": "2025-12-19T19:11:18.416Z",
+        "requirements": "oil change",
+        "status": "in_progress",
+        "client": 2,
+        "vehicle": 2,
+        "history_date": "2025-12-19T19:11:18.420Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 2,
+    "fields": {
+        "id": 4,
+        "created_at": "2025-12-19T19:11:18.416Z",
+        "requirements": "oil change",
+        "status": "done",
+        "client": 2,
+        "vehicle": 2,
+        "history_date": "2025-12-19T19:13:03.070Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 3,
+    "fields": {
+        "id": 3,
+        "created_at": "2025-12-19T16:10:49.860Z",
+        "requirements": "- Hybrid system check\r\n- Brakes change\r\n- Pads change",
+        "status": "done",
+        "client": 3,
+        "vehicle": 3,
+        "history_date": "2025-12-19T19:16:06.082Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 4,
+    "fields": {
+        "id": 3,
+        "created_at": "2025-12-19T16:10:49.860Z",
+        "requirements": "- Hybrid system check\r\n- Brakes change\r\n- Pads change",
+        "status": "done",
+        "client": 3,
+        "vehicle": 3,
+        "history_date": "2025-12-19T19:16:14.228Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 5,
+    "fields": {
+        "id": 5,
+        "created_at": "2025-12-20T16:08:50.705Z",
+        "requirements": "Transmission oil change",
+        "status": "in_progress",
+        "client": 1,
+        "vehicle": 1,
+        "history_date": "2025-12-20T16:08:50.709Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 6,
+    "fields": {
+        "id": 6,
+        "created_at": "2025-12-21T14:00:15.870Z",
+        "requirements": "Transmission",
+        "status": "in_progress",
+        "client": 3,
+        "vehicle": 3,
+        "history_date": "2025-12-21T14:00:15.874Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 7,
+    "fields": {
+        "id": 7,
+        "created_at": "2025-12-21T14:15:00.928Z",
+        "requirements": "Change candles",
+        "status": "in_progress",
+        "client": 6,
+        "vehicle": 7,
+        "history_date": "2025-12-21T14:15:00.932Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 8,
+    "fields": {
+        "id": 5,
+        "created_at": "2025-12-20T16:08:50.705Z",
+        "requirements": "Transmission oil change",
+        "status": "done",
+        "client": 1,
+        "vehicle": 1,
+        "history_date": "2025-12-21T17:21:26.954Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 9,
+    "fields": {
+        "id": 5,
+        "created_at": "2025-12-20T16:08:50.705Z",
+        "requirements": "Transmission oil change",
+        "status": "done",
+        "client": 1,
+        "vehicle": 1,
+        "history_date": "2025-12-21T17:21:30.191Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 10,
+    "fields": {
+        "id": 6,
+        "created_at": "2025-12-21T14:00:15.870Z",
+        "requirements": "Transmission",
+        "status": "done",
+        "client": 3,
+        "vehicle": 3,
+        "history_date": "2025-12-21T17:21:55.949Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 11,
+    "fields": {
+        "id": 6,
+        "created_at": "2025-12-21T14:00:15.870Z",
+        "requirements": "Transmission",
+        "status": "done",
+        "client": 3,
+        "vehicle": 3,
+        "history_date": "2025-12-21T17:23:36.009Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 12,
+    "fields": {
+        "id": 7,
+        "created_at": "2025-12-21T14:15:00.928Z",
+        "requirements": "Change candles",
+        "status": "done",
+        "client": 6,
+        "vehicle": 7,
+        "history_date": "2025-12-21T17:23:43.851Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalorder",
+    "pk": 13,
+    "fields": {
+        "id": 8,
+        "created_at": "2025-12-22T15:07:58.621Z",
+        "requirements": "Full service",
+        "status": "in_progress",
+        "client": 1,
+        "vehicle": 8,
+        "history_date": "2025-12-22T15:07:58.628Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 1,
+    "fields": {
+        "client": 1,
+        "vehicle": 1,
+        "created_at": "2025-12-18T13:57:40.945Z",
+        "requirements": "Oil change\r\nCheck engine",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 2,
+    "fields": {
+        "client": 1,
+        "vehicle": 1,
+        "created_at": "2025-12-19T12:45:24.880Z",
+        "requirements": "Check engine",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 3,
+    "fields": {
+        "client": 3,
+        "vehicle": 3,
+        "created_at": "2025-12-19T16:10:49.860Z",
+        "requirements": "- Hybrid system check\r\n- Brakes change\r\n- Pads change",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 4,
+    "fields": {
+        "client": 2,
+        "vehicle": 2,
+        "created_at": "2025-12-19T19:11:18.416Z",
+        "requirements": "oil change",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 5,
+    "fields": {
+        "client": 1,
+        "vehicle": 1,
+        "created_at": "2025-12-20T16:08:50.705Z",
+        "requirements": "Transmission oil change",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 6,
+    "fields": {
+        "client": 3,
+        "vehicle": 3,
+        "created_at": "2025-12-21T14:00:15.870Z",
+        "requirements": "Transmission",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 7,
+    "fields": {
+        "client": 6,
+        "vehicle": 7,
+        "created_at": "2025-12-21T14:15:00.928Z",
+        "requirements": "Change candles",
+        "status": "done"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 8,
+    "fields": {
+        "client": 1,
+        "vehicle": 8,
+        "created_at": "2025-12-22T15:07:58.621Z",
+        "requirements": "Full service",
+        "status": "in_progress"
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 1,
+    "fields": {
+        "id": 3,
+        "parts_total": "5500.00",
+        "order": 4,
+        "history_date": "2025-12-19T19:12:27.294Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 2,
+    "fields": {
+        "id": 4,
+        "parts_total": "15000.00",
+        "order": 3,
+        "history_date": "2025-12-19T19:16:23.248Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 6
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 3,
+    "fields": {
+        "id": 5,
+        "parts_total": "4000.00",
+        "order": 5,
+        "history_date": "2025-12-21T13:56:02.971Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 4,
+    "fields": {
+        "id": 6,
+        "parts_total": "3560.00",
+        "order": 7,
+        "history_date": "2025-12-21T14:15:43.850Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 5,
+    "fields": {
+        "id": 7,
+        "parts_total": "11808.00",
+        "order": 6,
+        "history_date": "2025-12-21T14:16:58.604Z",
+        "history_change_reason": null,
+        "history_type": "+",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 6,
+    "fields": {
+        "id": 6,
+        "parts_total": "3560.00",
+        "order": 7,
+        "history_date": "2025-12-21T17:22:21.488Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 7,
+    "fields": {
+        "id": 6,
+        "parts_total": "3560.00",
+        "order": 7,
+        "history_date": "2025-12-21T17:22:31.175Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.historicalinvoice",
+    "pk": 8,
+    "fields": {
+        "id": 6,
+        "parts_total": "3560.00",
+        "order": 7,
+        "history_date": "2025-12-21T17:23:20.368Z",
+        "history_change_reason": null,
+        "history_type": "~",
+        "history_user": 7
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 1,
+    "fields": {
+        "order": 1,
+        "parts_total": "5000.02"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 2,
+    "fields": {
+        "order": 2,
+        "parts_total": "1000.00"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 3,
+    "fields": {
+        "order": 4,
+        "parts_total": "5500.00"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 4,
+    "fields": {
+        "order": 3,
+        "parts_total": "15000.00"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 5,
+    "fields": {
+        "order": 5,
+        "parts_total": "4000.00"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 6,
+    "fields": {
+        "order": 7,
+        "parts_total": "3560.00"
+    }
+},
+{
+    "model": "orders.invoice",
+    "pk": 7,
+    "fields": {
+        "order": 6,
+        "parts_total": "11808.00"
+    }
+}
+]
