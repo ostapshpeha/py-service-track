@@ -11,6 +11,7 @@ from .views import (
     ClientCreateView,
     ClientDeleteView,
     ClientUpdateView,
+    ClientVehicleCreateView,
 )
 
 app_name = "crm"
@@ -51,5 +52,10 @@ urlpatterns = [
         "clients/<int:pk>/update/",
         ClientUpdateView.as_view(),
         name="client-update"
+    ),
+    path(
+        "check-in/",
+        ClientVehicleCreateView.as_view(),
+        name="client-vehicle-create"
     ),
 ]

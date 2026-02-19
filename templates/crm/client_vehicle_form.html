@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}New Customer Check-in | Service Track{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <style>
+        /* Select2 Tailwind Fixes - consistent with other forms */
+        .select2-container .select2-selection--single {
+            height: 42px !important;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+        }
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: 24px !important;
+            padding-left: 0 !important;
+            color: #374151;
+        }
+        .select2-container .select2-selection--single .select2-selection__arrow {
+            height: 40px !important;
+            top: 1px !important;
+            right: 8px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-10">
+    
+    <div class="mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">New Customer Check-in</h1>
+            <p class="text-gray-500">Register a new client and their vehicle in one step.</p>
+        </div>
+        <a href="{% url 'crm:client-list' %}" class="text-sm text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Client Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-fit">
+                <div class="px-6 py-4 border-b border-gray-100 bg-blue-50 flex items-center">
+                    <div class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">Client Details</h2>
+                </div>
+                <div class="p-6">
+                    {% crispy client_form %}
+                </div>
+            </div>
+
+            <!-- Vehicle Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-fit">
+                <div class="px-6 py-4 border-b border-gray-100 bg-indigo-50 flex items-center">
+                    <div class="h-8 w-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">Vehicle Details</h2>
+                </div>
+                <div class="p-6">
+                    {# Use standard django rendering for vehicle form since crispy might inject its own form tags/submit buttons #}
+                    {# But we want one submit button at the end. #}
+                    {# Assuming helper.form_tag = False in view? No, I defined helper in forms.py with form tags #}
+                    
+                    {# To render without form tags using crispy, we'd need to modify the helper dynamically in the view #}
+                    {# or just render fields manually or use a different helper. #}
+                    
+                    {# Simpler approach: Create a wrapper div and let crispy render, but we need to remove the <form> tag from crispy output #}
+                    {# This is hard with 'crispy' tag if helper.form_tag is True. #}
+                    
+                    {# Since I can't easily change the helper instance from the template, I will rely on the fact that #}
+                    {# nesting forms is illegal HTML but browsers might handle it or it breaks. #}
+                    
+                    {# CORRECT APPROACH: I should update the VIEW to set helper.form_tag = False for these instances. #}
+                    
+                    {% crispy vehicle_form %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Global Actions -->
+        <div class="mt-8 flex justify-end">
+            <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <i class="fas fa-check-circle mr-2"></i> Register Customer & Vehicle
+            </button>
+        </div>
+
+    </form>
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ client_form.media }}
+    {{ vehicle_form.media }}
+{% endblock %}

@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.db.models.aggregates import Max
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -55,6 +57,17 @@ class VehicleCreateView(LoginRequiredMixin, generic.CreateView):
     """
     model = Vehicle
     form_class = VehicleForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        client_id = self.request.GET.get("client_id")
+        if client_id:
+            try:
+                client = Client.objects.get(pk=client_id)
+                initial["client"] = client
+            except Client.DoesNotExist:
+                pass
+        return initial
 
     def get_success_url(self):
         return reverse(
@@ -160,3 +173,40 @@ class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
             "crm:client-detail",
             kwargs={"pk": self.object.pk}
         )
+
+
+class ClientVehicleCreateView(LoginRequiredMixin, generic.View):
+    """
+    Simultaneous creation of Client and Vehicle.
+    """
+    template_name = "crm/client_vehicle_form.html"
+
+    def get(self, request, *args, **kwargs):
+        client_form = ClientForm(prefix="client")
+        client_form.helper.form_tag = False
+        vehicle_form = VehicleForm(prefix="vehicle")
+        vehicle_form.helper.form_tag = False
+        
+        return render(request, self.template_name, {
+            "client_form": client_form,
+            "vehicle_form": vehicle_form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        client_form = ClientForm(request.POST, prefix="client")
+        client_form.helper.form_tag = False
+        vehicle_form = VehicleForm(request.POST, prefix="vehicle")
+        vehicle_form.helper.form_tag = False
+
+        if client_form.is_valid() and vehicle_form.is_valid():
+            with transaction.atomic():
+                client = client_form.save()
+                vehicle = vehicle_form.save(commit=False)
+                vehicle.client = client
+                vehicle.save()
+            return redirect("crm:vehicle-detail", pk=vehicle.pk)
+
+        return render(request, self.template_name, {
+            "client_form": client_form,
+            "vehicle_form": vehicle_form,
+        })
