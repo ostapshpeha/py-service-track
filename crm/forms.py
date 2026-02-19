@@ -14,7 +14,7 @@ class VehicleForm(forms.ModelForm):
     Vehicle creating form with vin code validation
     """
     client = forms.ModelChoiceField(
-        queryset=Client.objects.all(),
+        queryset=Client.objects.all().order_by("first_name", "last_name"),
         # Use standard Select widget with tom-select class
         widget=forms.Select(
             attrs={
@@ -62,7 +62,7 @@ class VehicleUpdateForm(forms.ModelForm):
     Vehicle update form
     """
     client = forms.ModelChoiceField(
-        queryset=Client.objects.all(),
+        queryset=Client.objects.all().order_by("first_name", "last_name"),
         widget=forms.Select(
             attrs={
                 "class": "tom-select",
@@ -96,7 +96,7 @@ class ClientForm(forms.ModelForm):
     Client creating form
     """
     vehicles = forms.ModelMultipleChoiceField(
-        queryset=Vehicle.objects.filter(client__isnull=True),
+        queryset=Vehicle.objects.filter(client__isnull=True).order_by("name"),
         # Use SelectMultiple with tom-select class
         widget=forms.SelectMultiple(
             attrs={

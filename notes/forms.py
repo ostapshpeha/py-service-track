@@ -12,7 +12,7 @@ class NoteForm(forms.ModelForm):
     Note form with searching car
     """
     vehicle = forms.ModelChoiceField(
-        queryset=Vehicle.objects.all(),
+        queryset=Vehicle.objects.all().order_by("name"),
         # Use standard Select widget with tom-select class
         widget=forms.Select(
             attrs={

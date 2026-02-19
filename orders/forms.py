@@ -12,7 +12,7 @@ class OrderForm(forms.ModelForm):
     Order form class
     """
     client = forms.ModelChoiceField(
-        queryset=Client.objects.all(),
+        queryset=Client.objects.all().order_by("first_name", "last_name"),
         # Use standard Select widget with tom-select class
         widget=forms.Select(
             attrs={
@@ -24,7 +24,7 @@ class OrderForm(forms.ModelForm):
         label="Client"
     )
     vehicle = forms.ModelChoiceField(
-        queryset=Vehicle.objects.all(),
+        queryset=Vehicle.objects.all().order_by("name"),
         widget=forms.Select(
             attrs={
                 "class": "tom-select",
