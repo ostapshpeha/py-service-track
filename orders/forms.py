@@ -1,5 +1,7 @@
 from django import forms
-from django_select2.forms import ModelSelect2Widget
+# Removed django_select2 imports
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column, Submit, Div
 
 from crm.models import Client, Vehicle
 from orders.models import Invoice, Order
@@ -7,19 +9,15 @@ from orders.models import Invoice, Order
 
 class OrderForm(forms.ModelForm):
     """
-    Order form class with Select2 widget to search by client name,
+    Order form class
     """
     client = forms.ModelChoiceField(
         queryset=Client.objects.all(),
-        widget=ModelSelect2Widget(
-            model=Client,
-            search_fields=[
-                "last_name__icontains",
-                "first_name__icontains",
-            ],
+        # Use standard Select widget with tom-select class
+        widget=forms.Select(
             attrs={
-                "class": "form-control",
-                "data-placeholder": "Search by client's name",
+                "class": "tom-select",
+                "placeholder": "Search by client's name",
             }
         ),
         required=True,
@@ -27,16 +25,10 @@ class OrderForm(forms.ModelForm):
     )
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(),
-        widget=ModelSelect2Widget(
-            model=Vehicle,
-            search_fields=[
-                "client__first_name__icontains",
-                "client__last_name__icontains",
-                "number_registration__icontains",
-            ],
+        widget=forms.Select(
             attrs={
-                "class": "form-control",
-                "data-placeholder": "Search by owner's name or license place",
+                "class": "tom-select",
+                "placeholder": "Search by owner's name or license place",
             }
         ),
         required=True,
@@ -46,6 +38,36 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('client', css_class='w-full md:w-1/2 px-2 mb-4'),
+                Column('vehicle', css_class='w-full md:w-1/2 px-2 mb-4'),
+                css_class='flex flex-wrap -mx-2'
+            ),
+            Row(
+                Column('status', css_class='w-full md:w-1/2 px-2 mb-4'),
+                css_class='flex flex-wrap -mx-2'
+            ),
+            'requirements',
+            Submit('submit', 'Save Order', css_class='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        client = cleaned_data.get("client")
+        vehicle = cleaned_data.get("vehicle")
+
+        if client and vehicle:
+            if vehicle.client != client:
+                self.add_error(
+                    "vehicle",
+                    f"This vehicle belongs to {vehicle.client}, not {client}."
+                )
+        return cleaned_data
 
 
 class InvoiceForm(forms.ModelForm):
@@ -62,6 +84,12 @@ class InvoiceForm(forms.ModelForm):
         self.fields["order"].queryset = Order.objects.filter(
             invoice__isnull=True
         )
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'order',
+            'parts_total',
+            Submit('submit', 'Create Invoice', css_class='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+        )
 
 
 class InvoiceUpdateForm(forms.ModelForm):
@@ -72,6 +100,14 @@ class InvoiceUpdateForm(forms.ModelForm):
         model = Invoice
         fields = ("parts_total",)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'parts_total',
+            Submit('submit', 'Update Invoice', css_class='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+        )
+
 
 class OrderUpdateForm(forms.ModelForm):
     """
@@ -80,6 +116,15 @@ class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ("requirements", "status")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'status',
+            'requirements',
+            Submit('submit', 'Update Order', css_class='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+        )
 
 
 class OrderClientLastNameSearchForm(forms.Form):

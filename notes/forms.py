@@ -1,5 +1,7 @@
 from django import forms
-from django_select2.forms import ModelSelect2Widget
+# Removed django_select2 imports
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column, Submit, Div
 
 from crm.models import Vehicle
 from notes.models import Note
@@ -7,19 +9,15 @@ from notes.models import Note
 
 class NoteForm(forms.ModelForm):
     """
-    Note form with searching car through Select2 widget
-    Searching only by number of registration
+    Note form with searching car
     """
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(),
-        widget=ModelSelect2Widget(
-            model=Vehicle,
-            search_fields=[
-                "number_registration__icontains",
-            ],
+        # Use standard Select widget with tom-select class
+        widget=forms.Select(
             attrs={
-                "class": "form-control",
-                "data-placeholder": "Input license plate number",
+                "class": "tom-select",
+                "placeholder": "Input license plate number",
             }
         ),
         required=True,
@@ -28,6 +26,16 @@ class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = ("vehicle", "description", "picture")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'vehicle',
+            'description',
+            'picture',
+            Submit('submit', 'Save Note', css_class='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+        )
 
 
 class NoteAuthorSearchForm(forms.Form):
