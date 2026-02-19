@@ -1,63 +1,109 @@
 {% extends "base.html" %}
 
-{% block title %}Staff{% endblock %}
+{% block title %}Staff Directory | Service Track{% endblock %}
 
 {% block content %}
-  <div class="card">
+<div class="space-y-6">
 
-
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0">Staff</h3>
-      <div class="card-tools">
-        <div class="input-group-append">
-          <a href="{% url 'accounts:staff-create' %}" class="btn btn-outline-danger btn-sm">
-            + New worker
-          </a>
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Staff Directory</h1>
+            <p class="text-sm text-gray-500">Manage your team and roles</p>
         </div>
-      </div>
+        
+        {% if user.role == 'manager' or user.is_superuser %}
+        <div>
+            <a href="{% url 'accounts:staff-create' %}" class="inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-user-plus mr-2"></i> Add Staff Member
+            </a>
+        </div>
+        {% endif %}
     </div>
 
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Staff Member
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Role
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Position
+                        </th>
+                        {% if user.role == 'manager' or user.is_superuser %}
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for worker in object_list %}
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        
+                        <!-- Name & Avatar -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
+                                    {{ worker.first_name|slice:":1" }}{{ worker.last_name|slice:":1" }}
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ worker.first_name }} {{ worker.last_name }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ worker.username }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
 
-    <div class="card-body table-responsive p-0">
-      <table class="table table-hover table-striped text-nowrap">
-        <thead>
-        <tr>
-          <th>Position</th>
-          <th>Role</th>
-          <th>First name</th>
-          <th>Last name</th>
-        </tr>
-        </thead>
+                        <!-- Role -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                {% if worker.role == 'manager' %}bg-purple-100 text-purple-800
+                                {% else %}bg-blue-100 text-blue-800{% endif %}">
+                                {{ worker.get_role_display }}
+                            </span>
+                        </td>
 
-        <tbody>
-        {% for worker in object_list %}
-          <tr>
-            <td>
-            <span class="badge badge-info">
-              {{ worker.get_mechanic_position_display }}
-            </span>
-            </td>
+                        <!-- Position -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ worker.get_mechanic_position_display|default:"-" }}
+                        </td>
 
-            <td>
-            <span class="badge badge-secondary">
-              {{ worker.get_role_display }}
-            </span>
-            </td>
+                        <!-- Actions -->
+                        {% if user.role == 'manager' or user.is_superuser %}
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end space-x-3">
+                                <a href="{% url 'accounts:staff-update' worker.pk %}" class="text-blue-600 hover:text-blue-900" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                        {% endif %}
 
-            <td>{{ worker.first_name }}</td>
-            <td>{{ worker.last_name }}</td>
-
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="6" class="text-center text-muted">
-              No staff members yet
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-users-slash text-4xl text-gray-300 mb-3"></i>
+                                <p>No staff members found.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
-  </div>
+</div>
 {% endblock %}

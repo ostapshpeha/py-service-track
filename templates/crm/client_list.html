@@ -1,88 +1,149 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Clients | Service Track{% endblock %}
 
 {% block content %}
-  <div class="card">
+<div class="space-y-6">
 
-
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0">Clients</h3>
-      <div class="card-tools">
-        <form method="get" class="input-group input-group-sm" style="width: 600px;">
-
-          {{ search_form.q }}
-
-          <div class="input-group-append">
-            <button class="btn btn-default">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-          <div class="input-group-append">
-            <a href="{% url 'crm:client-create' %}" class="btn btn-primary btn-sm">
-          + New client
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Clients</h1>
+            <p class="text-sm text-gray-500">Manage your customer database</p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+            <a href="{% url 'crm:client-vehicle-create' %}" class="inline-flex justify-center items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-bolt mr-2"></i> Fast Check-in
             </a>
-          </div>
+            <a href="{% url 'crm:client-create' %}" class="inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-plus mr-2"></i> New Client
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <form method="get" class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <!-- htmx-powered search -->
+            <input type="text" 
+                   name="q" 
+                   value="{{ request.GET.q }}"
+                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out" 
+                   placeholder="Search clients by name, phone..."
+                   hx-get="{{ request.path }}"
+                   hx-trigger="keyup changed delay:500ms, search"
+                   hx-target="#client-table-body"
+                   hx-select="#client-table-body"
+                   hx-push-url="true">
         </form>
-      </div>
     </div>
 
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Client Info
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Contact
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Vehicles
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Orders
+                        </th>
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="client-table-body" class="bg-white divide-y divide-gray-200">
+                    {% for client in object_list %}
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        <!-- Client Name & ID -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                                    {{ client.first_name|slice:":1" }}{{ client.last_name|slice:":1" }}
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        <a href="{% url 'crm:client-detail' client.id %}" class="hover:text-blue-600">
+                                            {{ client.first_name }} {{ client.last_name }}
+                                        </a>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        ID: #{{ client.id }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
 
-    <div class="card-body table-responsive p-0">
-      <table class="table table-hover text-nowrap table-striped">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Client</th>
-          <th>Mobile number</th>
-          <th>Number of vehicles</th>
-          <th>Number of orders</th>
-          <th>Delete</th>
-        </tr>
-        </thead>
+                        <!-- Contact -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                                <i class="fas fa-phone-alt text-gray-400 mr-2"></i>
+                                {{ client.mobile_number }}
+                            </div>
+                        </td>
 
-        <tbody>
-        {% for client in object_list %}
-          <tr>
-            <td>
-              #{{ client.id }}
-            </td>
+                        <!-- Vehicles Count -->
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {{ client.vehicles.count }}
+                            </span>
+                        </td>
 
-            <td>
-              <a href="{% url 'crm:client-detail' client.id %}">
-                {{ client.first_name }} {{ client.last_name }}
-              </a>
-            </td>
+                        <!-- Orders Count -->
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                {{ client.orders.count }}
+                            </span>
+                        </td>
 
-            <td>
-              {{ client.mobile_number }}
-            </td>
-
-            <td>
-              {{ client.vehicles.count }}
-            </td>
-
-            <td>
-              {{ client.orders.count }}
-            </td>
-
-            <td>
-              <a style="color: red"
-                href="{% url 'crm:client-delete' pk=client.id %}">
-                Delete
-              </a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="6" class="text-center text-muted">
-              No clients yet
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                        <!-- Actions -->
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end space-x-3">
+                                <a href="{% url 'crm:client-detail' client.id %}" class="text-blue-600 hover:text-blue-900" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'crm:client-delete' pk=client.id %}" class="text-red-600 hover:text-red-900" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-users-slash text-4xl text-gray-300 mb-3"></i>
+                                <p>No clients found.</p>
+                                <a href="{% url 'crm:client-create' %}" class="mt-2 text-blue-600 hover:underline">Create your first client</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="px-6 py-3 border-t border-gray-200 bg-gray-50">
+             {% include "includes/pagination.html" %}
+        </div>
+        {% endif %}
     </div>
 
-  </div>
+</div>
 {% endblock %}

@@ -1,83 +1,130 @@
 {% extends "base.html" %}
 
-{% block title %}Mechanic's notes{% endblock %}
+{% block title %}Notes | Service Track{% endblock %}
 
 {% block content %}
-  <div class="card">
+<div class="space-y-6">
 
-
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0">Mechanic's notes</h3>
-      <div class="card-tools">
-        <form method="get" class="input-group input-group-sm" style="width: 600px;">
-          {{ search_form.q }}
-
-          <div class="input-group-append">
-            <button class="btn btn-default">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-          <div class="input-group-append">
-            <a href="{% url 'notes:note-create' %}" class="btn btn-primary btn-sm">
-          + Create note
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Mechanic's Notes</h1>
+            <p class="text-sm text-gray-500">Internal communication and reminders</p>
+        </div>
+        
+        <div>
+            <a href="{% url 'notes:note-create' %}" class="inline-flex justify-center items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-plus mr-2"></i> New Note
             </a>
-          </div>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <form method="get" class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" 
+                   name="q" 
+                   value="{{ request.GET.q }}"
+                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out" 
+                   placeholder="Search notes..."
+                   hx-get="{{ request.path }}"
+                   hx-trigger="keyup changed delay:500ms, search"
+                   hx-target="#note-table-body"
+                   hx-select="#note-table-body"
+                   hx-push-url="true">
         </form>
-      </div>
     </div>
 
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Author
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Vehicle
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="note-table-body" class="bg-white divide-y divide-gray-200">
+                    {% for note in object_list %}
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        <!-- ID -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                            <a href="{% url 'notes:note-detail' note.id %}">#{{ note.id }}</a>
+                        </td>
 
-    <div class="card-body table-responsive p-0">
-      <table class="table table-hover text-nowrap table-striped">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Author</th>
-          <th>Vehicle</th>
-          <th>Date</th>
-          <th>Delete</th>
-        </tr>
-        </thead>
+                        <!-- Author -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">
+                                    {{ note.author.username|slice:":2"|upper }}
+                                </div>
+                                <div class="ml-3 text-sm text-gray-900">
+                                    {{ note.author }}
+                                </div>
+                            </div>
+                        </td>
 
-        <tbody>
-        {% for note in object_list %}
-          <tr>
-            <td>
-              <a href="{% url 'notes:note-detail' note.id %}">
-              #{{ note.id }}
-              </a>
-            </td>
+                        <!-- Vehicle -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <i class="fas fa-car text-gray-400 mr-1"></i> {{ note.vehicle }}
+                        </td>
 
-            <td>
-                {{ note.author }}
-            </td>
+                        <!-- Date -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ note.date|date:"d M Y, H:i" }}
+                        </td>
 
-            <td>
-              {{ note.vehicle }}
-            </td>
-
-            <td>
-              {{ note.date }}
-            </td>
-
-
-            <td>
-              <a style="color: red"
-                href="{% url 'notes:note-delete' pk=note.id %}">
-                Delete
-              </a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="6" class="text-center text-muted">
-              Create new notes
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                        <!-- Actions -->
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end space-x-3">
+                                <a href="{% url 'notes:note-detail' note.id %}" class="text-blue-600 hover:text-blue-900" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'notes:note-delete' pk=note.id %}" class="text-red-600 hover:text-red-900" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-sticky-note text-4xl text-gray-300 mb-3"></i>
+                                <p>No notes found.</p>
+                                <a href="{% url 'notes:note-create' %}" class="mt-2 text-blue-600 hover:underline">Create your first note</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="px-6 py-3 border-t border-gray-200 bg-gray-50">
+             {% include "includes/pagination.html" %}
+        </div>
+        {% endif %}
     </div>
 
-  </div>
+</div>
 {% endblock %}

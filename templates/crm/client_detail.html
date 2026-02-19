@@ -1,90 +1,169 @@
 {% extends "base.html" %}
 
-{% block title %}Client {{ object.last_name }}{% endblock %}
+{% block title %}Client: {{ object.first_name }} {{ object.last_name }} | Service Track{% endblock %}
 
 {% block content %}
-  <div class="card">
+<div class="space-y-6">
 
-    <div class="card-header">
-      <h3 class="card-title">
-        Client {{ object.first_name }} {{ object.last_name }}
-      </h3>
-
-      <div class="card-tools">
-        <a href="{% url 'crm:client-update' object.id %}" class="btn btn-sm btn-primary">
-          Edit
-        </a>
-        <a href="{% url 'crm:client-delete' object.id %}" class="btn btn-sm btn-danger">
-          Delete
-        </a>
-      </div>
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <div class="flex items-center space-x-3">
+                <div class="h-12 w-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold uppercase">
+                    {{ object.first_name|slice:":1" }}{{ object.last_name|slice:":1" }}
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ object.first_name }} {{ object.last_name }}</h1>
+                    <p class="text-sm text-gray-500">Client ID: #{{ object.id }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex space-x-3">
+            <a href="{% url 'crm:client-update' object.id %}" class="inline-flex justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <i class="fas fa-edit mr-2"></i> Edit Profile
+            </a>
+            <a href="{% url 'crm:client-delete' object.id %}" class="inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 transition ease-in-out duration-150 shadow-sm">
+                <i class="fas fa-trash mr-2"></i> Delete
+            </a>
+        </div>
     </div>
 
-    <div class="card-body">
-      <table class="table table-hover text-nowrap table-striped">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left Column: Contact Info -->
+        <div class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h3 class="text-lg font-medium text-gray-900">Contact Information</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mr-3">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Mobile Number</p>
+                            <p class="text-lg font-bold text-gray-900">{{ object.mobile_number }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center mr-3">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Email</p>
+                            <p class="text-lg font-bold text-gray-900">
+                                <span class="text-gray-400 italic">No email provided</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <p class="text-3xl font-bold text-blue-600">{{ object.vehicles.count }}</p>
+                    <p class="text-xs text-gray-500 uppercase font-bold">Vehicles</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <p class="text-3xl font-bold text-green-600">{{ object.orders.count }}</p>
+                    <p class="text-xs text-gray-500 uppercase font-bold">Orders</p>
+                </div>
+            </div>
 
-        <tr>
-          <th>Mobile number</th>
-          <td>{{ object.mobile_number }}</td>
-        </tr>
+        </div>
 
-        <tr>
-          <th>Vehicles</th>
-          <td>
-            {% if object.vehicles.exists %}
-              <ul class="list-unstyled mb-2">
-                {% for vehicle in object.vehicles.all %}
-                  <li class="mb-1">
-                    {{ vehicle }}
-                    <a href="{% url 'crm:vehicle-detail' vehicle.pk %}"
-                       class="btn btn-xs btn-info ml-2">
-                      View
-                    </a>
-                    <a href="{% url 'crm:vehicle-update' vehicle.pk %}"
-                       class="btn btn-xs btn-warning">
-                      Edit
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <span class="text-muted"></span>
-            {% endif %}
+        <!-- Right Column: Vehicles & Orders -->
+        <div class="lg:col-span-2 space-y-6">
+            
+            <!-- Vehicles -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                    <h3 class="text-lg font-medium text-gray-900">Vehicles</h3>
+                    <a href="{% url 'crm:vehicle-create' %}?client_id={{ object.pk }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ Add Vehicle</a>
+                </div>
+                
+                <div class="divide-y divide-gray-100">
+                    {% for vehicle in object.vehicles.all %}
+                    <div class="p-4 hover:bg-gray-50 transition flex items-center justify-between group">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div>
+                                <a href="{% url 'crm:vehicle-detail' vehicle.pk %}" class="font-bold text-gray-900 hover:text-blue-600">
+                                    {{ vehicle }}
+                                </a>
+                                <p class="text-sm text-gray-500 font-mono">{{ vehicle.number_registration }}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="{% url 'crm:vehicle-detail' vehicle.pk %}" class="p-2 text-gray-400 hover:text-blue-600">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'crm:vehicle-update' vehicle.pk %}" class="p-2 text-gray-400 hover:text-amber-600">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-8 text-center text-gray-500">
+                        No vehicles registered yet.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-            <a href="{% url 'crm:vehicle-create' %}"
-               class="btn btn-sm btn-success mt-2">
-              Add vehicle
-            </a>
-          </td>
-        </tr>
+            <!-- Recent Orders -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                    <h3 class="text-lg font-medium text-gray-900">Recent Orders</h3>
+                    <a href="{% url 'orders:order-create' %}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ New Order</a>
+                </div>
+                
+                <div class="divide-y divide-gray-100">
+                    {% for order in object.orders.all %}
+                    <div class="p-4 hover:bg-gray-50 transition flex items-center justify-between group">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 rounded-full 
+                                {% if order.status == order.Status.DONE %}bg-green-100 text-green-600
+                                {% elif order.status == order.Status.IN_PROGRESS %}bg-yellow-100 text-yellow-600
+                                {% else %}bg-gray-100 text-gray-600{% endif %} 
+                                flex items-center justify-center mr-3">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div>
+                                <a href="{% url 'orders:order-detail' order.pk %}" class="font-bold text-gray-900 hover:text-blue-600">
+                                    Order #{{ order.id }}
+                                </a>
+                                <p class="text-sm text-gray-500">{{ order.created_at|date:"d M Y" }} — {{ order.vehicle }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                {% if order.status == order.Status.DONE %}bg-green-100 text-green-800
+                                {% elif order.status == order.Status.IN_PROGRESS %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                            <a href="{% url 'orders:order-detail' order.pk %}" class="p-2 text-gray-400 hover:text-blue-600">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-8 text-center text-gray-500">
+                        No orders found.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-        <tr>
-          <th>Orders</th>
-          <td>
-            {% if object.orders.exists %}
-              <ul class="list-unstyled mb-0">
-                {% for order in object.orders.all %}
-                  <li class="m-1">
-                    Order #{{ order.id }} — {{ order.get_status_display }}
-                    <a href="{% url 'orders:order-detail' order.pk %}"
-                       class="btn btn-xs btn-info ml-2">
-                      View
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <span class="text-muted"></span>
-            {% endif %}
-            <a href="{% url 'orders:order-create' %}"
-               class="btn btn-sm btn-success mt-2">
-              New order
-            </a>
-          </td>
-        </tr>
+        </div>
 
-      </table>
     </div>
-
-  </div>
+</div>
 {% endblock %}

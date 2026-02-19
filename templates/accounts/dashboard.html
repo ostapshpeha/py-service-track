@@ -1,100 +1,169 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+{% load static %}
+
+{% block title %}Dashboard | Service Track{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="space-y-6">
 
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{ count_open_orders }}</h3>
-                <p>Open orders</p>
-                <a href="{% url 'orders:order-list' %}" class="btn btn-light link-to-page">
-                  Check
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p class="text-sm text-gray-500">Welcome back, {{ request.user.first_name|default:request.user.username }}</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                <i class="fas fa-calendar-alt mr-2"></i> {% now "l, d F Y" %}
+            </span>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Open Orders -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Open Orders</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">{{ count_open_orders }}</p>
+                </div>
+                <div class="p-3 bg-blue-50 rounded-full text-blue-600">
+                    <i class="fas fa-clipboard-list text-2xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'orders:order-list' %}" class="text-sm font-medium text-blue-600 hover:text-blue-500 inline-flex items-center group">
+                    View all orders 
+                    <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Orders without Invoices -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Invoices</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">{{ orders_without_invoices.count }}</p>
+                </div>
+                <div class="p-3 bg-yellow-50 rounded-full text-yellow-600">
+                    <i class="fas fa-file-invoice-dollar text-2xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'orders:order-list' %}" class="text-sm font-medium text-yellow-600 hover:text-yellow-500 inline-flex items-center group">
+                    Process invoices
+                    <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Clients without Vehicles -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-red-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Missing Vehicles</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">{{ clients_without_vehicles }}</p>
+                </div>
+                <div class="p-3 bg-red-50 rounded-full text-red-600">
+                    <i class="fas fa-user-slash text-2xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'crm:client-list' %}" class="text-sm font-medium text-red-600 hover:text-red-500 inline-flex items-center group">
+                    Update clients
+                    <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>{{ orders_without_invoices.count }}</h3>
-                <p>Orders without invoices</p>
-                <a href="{% url 'orders:order-list' %}" class="btn btn-danger link-to-page">
-                  Check
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-1 h-fit">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-bolt text-yellow-500 mr-2"></i> Quick Actions
+            </h3>
+            <div class="space-y-3">
+                <a href="{% url 'orders:order-create' %}" class="flex items-center p-3 rounded-lg border border-gray-100 hover:bg-blue-50 hover:border-blue-200 transition-all group">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div>
+                        <span class="block font-medium text-gray-900">Create Order</span>
+                        <span class="text-xs text-gray-500">Start a new service order</span>
+                    </div>
+                </a>
+
+                <a href="{% url 'crm:client-create' %}" class="flex items-center p-3 rounded-lg border border-gray-100 hover:bg-green-50 hover:border-green-200 transition-all group">
+                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <span class="block font-medium text-gray-900">Add Client</span>
+                        <span class="text-xs text-gray-500">Register a new customer</span>
+                    </div>
+                </a>
+
+                <a href="{% url 'notes:note-create' %}" class="flex items-center p-3 rounded-lg border border-gray-100 hover:bg-yellow-50 hover:border-yellow-200 transition-all group">
+                    <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-3 group-hover:bg-yellow-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <div>
+                        <span class="block font-medium text-gray-900">Add Note</span>
+                        <span class="text-xs text-gray-500">Create a reminder</span>
+                    </div>
                 </a>
             </div>
         </div>
-    </div>
 
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-blue">
-            <div class="inner">
-                <h3>{{ clients_without_vehicles }}</h3>
-                <p>Clients without vehicles</p>
-                <a href="{% url 'crm:client-list' %}" class="btn btn-danger link-to-page">
-                  Update clients
-                </a>
+        <!-- Recent Activity Feed -->
+        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-2">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-history text-gray-400 mr-2"></i> Recent Activity
+                </h3>
+                <a href="#" class="text-sm text-blue-600 hover:underline">View all</a>
+            </div>
+            
+            <div class="relative pl-4 border-l-2 border-gray-100 space-y-8">
+                {% for order in last_orders %}
+                <div class="relative">
+                    <!-- Dot -->
+                    <div class="absolute -left-[21px] bg-blue-500 h-4 w-4 rounded-full border-4 border-white"></div>
+                    
+                    <div class="mb-1 text-xs font-semibold text-gray-400 uppercase">
+                        {{ order.created_at|timesince }} ago
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 hover:bg-blue-50 transition-colors group">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-md font-bold text-gray-900 group-hover:text-blue-700">
+                                    New Order #{{ order.pk }}
+                                </h4>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    <span class="font-medium text-gray-800">{{ order.client }}</span> - {{ order.vehicle }}
+                                </p>
+                            </div>
+                            <a href="{% url 'orders:order-detail' order.pk %}" class="text-gray-400 hover:text-blue-600">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-8 text-gray-500">
+                    No recent activity.
+                </div>
+                {% endfor %}
             </div>
         </div>
+
     </div>
 
-
-  <div class="col-auto">
-    <div class="card-header">
-      <h3 class="card-title">Quick actions</h3>
-    </div>
-    <div class="card-body">
-      <a href="{% url 'orders:order-create' %}" class="btn btn-primary btn-block">
-        + Create order
-      </a>
-      <a href="{% url 'crm:client-create' %}" class="btn btn-success btn-block">
-        + Add client
-      </a>
-      <a href="{% url 'notes:note-create' %}" class="btn btn-warning btn-block">
-        + Add note
-      </a>
-    </div>
-  </div>
-
-  <div class="col">
-  <div class="card-header">
-    <h3 class="card-title">Recent activity</h3>
-  </div>
-
-
-  <div class="card-body">
-    <div class="timeline timeline-inverse">
-
-      {% for order in last_orders %}
-      <div>
-        <i class="fas fa-tools bg-primary"></i>
-        <div class="timeline-item">
-          <span class="time"><i class="far fa-clock"></i> {{ order.created_at }}</span>
-          <h3 class="timeline-header">
-            New order — {{ order.client }}
-          </h3>
-          <div class="timeline-body">
-            Vehicle: {{ order.vehicle }}
-          </div>
-          <div class="timeline-footer">
-            <a href="{% url 'orders:order-detail' order.pk %}" class="btn btn-sm btn-primary">
-              View
-            </a>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-
-      <div>
-        <i class="far fa-clock bg-gray"></i>
-      </div>
-    </div>
-  </div>
 </div>
-
-</div>
-{% endblock %}
-{% block extra_js %}
 {% endblock %}
