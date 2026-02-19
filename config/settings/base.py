@@ -33,10 +33,9 @@ INSTALLED_APPS = [
 
     # tools
     "crispy_forms",
-    "crispy_bootstrap4",
+    "crispy_tailwind",
     'django_filters',
     'simple_history',
-    "django_select2",
 
     # apps
     "accounts",
@@ -76,8 +75,9 @@ TEMPLATES = [
     },
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -150,12 +150,7 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "unique-snowflake",
     },
-    "select2": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "django_select2",
-    }
 }
-SELECT2_CACHE_BACKEND = "select2"
 
 LOGIN_REDIRECT_URL = "/"
 
