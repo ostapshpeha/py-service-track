@@ -32,7 +32,6 @@ urlpatterns = [
 
         # utils
         path("__debug__/", include("debug_toolbar.urls")),
-        path("select2/", include("django_select2.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
