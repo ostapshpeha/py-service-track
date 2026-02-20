@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.test
+      DJANGO_SECRET_KEY: 'test-secret-key-for-ci'
+      CLOUDINARY_CLOUD_NAME: 'test-cloud-name'
+      CLOUDINARY_API_KEY: 'test-api-key'
+      CLOUDINARY_API_SECRET: 'test-api-secret'
+      DEBUG: 'True'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Migrations
+      run: |
+        python manage.py migrate
+
+    - name: Run Tests
+      run: |
+        pytest
