@@ -1,8 +1,10 @@
 from django.urls import path
 
 from accounts.views import (
-    CustomUserListView, DashboardView,
-    CustomUserCreateView, CustomUserUpdateView
+    CustomUserListView,
+    DashboardView,
+    CustomUserCreateView,
+    CustomUserUpdateView,
 )
 
 app_name = "accounts"

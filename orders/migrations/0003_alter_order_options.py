@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orders', '0002_alter_order_options_historicalinvoice_and_more'),
+        ("orders", "0002_alter_order_options_historicalinvoice_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='order',
-            options={'ordering': ['-created_at'], 'verbose_name': 'order', 'verbose_name_plural': 'orders'},
+            name="order",
+            options={
+                "ordering": ["-created_at"],
+                "verbose_name": "order",
+                "verbose_name_plural": "orders",
+            },
         ),
     ]

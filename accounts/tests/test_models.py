@@ -14,7 +14,7 @@ class CustomUserModelTest(TestCase):
             username="mech_user",
             password="password123",
             role=CustomUser.Role.MECHANIC,
-            mechanic_position=CustomUser.MechanicPosition.AUTO_ELECTRICIAN
+            mechanic_position=CustomUser.MechanicPosition.AUTO_ELECTRICIAN,
         )
         try:
             user.full_clean()
@@ -33,7 +33,7 @@ class CustomUserModelTest(TestCase):
             username="manager_user",
             password="password123",
             role=CustomUser.Role.MANAGER,
-            mechanic_position=""
+            mechanic_position="",
         )
         try:
             user.full_clean()
@@ -52,7 +52,7 @@ class CustomUserModelTest(TestCase):
             username="bad_manager",
             password="password123",
             role=CustomUser.Role.MANAGER,
-            mechanic_position=CustomUser.MechanicPosition.SENIOR
+            mechanic_position=CustomUser.MechanicPosition.SENIOR,
         )
 
         with self.assertRaises(ValidationError) as context:
@@ -61,5 +61,5 @@ class CustomUserModelTest(TestCase):
         self.assertIn("mechanic_position", context.exception.message_dict)
         self.assertEqual(
             context.exception.message_dict["mechanic_position"][0],
-            "This position is only for mechanics"
+            "This position is only for mechanics",
         )

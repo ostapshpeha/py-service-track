@@ -5,7 +5,6 @@ from django.urls import reverse
 from crm.models import Client, Vehicle
 from orders.models import Order, Invoice
 
-
 User = get_user_model()
 
 
@@ -16,7 +15,7 @@ class InvoiceCreateViewTest(TestCase):
         self.client_ob = Client.objects.create(
             first_name="John",
             last_name="Doe",
-            mobile_number="+380000000010",
+            mobile_number="0990000010",
         )
         self.vehicle = Vehicle.objects.create(
             name="Test Vehicle",
@@ -34,7 +33,9 @@ class InvoiceCreateViewTest(TestCase):
         response = self.client.get(self.url, {"order": self.order.pk})
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(int(response.context["form"].initial["order"].pk), self.order.pk)
+        self.assertEqual(
+            int(response.context["form"].initial["order"].pk), self.order.pk
+        )
 
     def test_invoice_creation_redirect(self):
         form_data = {
@@ -43,7 +44,6 @@ class InvoiceCreateViewTest(TestCase):
         }
 
         response = self.client.post(self.url, data=form_data)
-
 
         self.assertEqual(Invoice.objects.count(), 1)
         new_invoice = Invoice.objects.first()

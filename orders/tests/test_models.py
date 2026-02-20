@@ -12,7 +12,7 @@ class OrderModelTest(TestCase):
         self.client_obj = Client.objects.create(
             first_name="John",
             last_name="Doe",
-            mobile_number="+380000000000",
+            mobile_number="0990000000",
         )
         self.vehicle = Vehicle.objects.create(
             name="Test Vehicle",

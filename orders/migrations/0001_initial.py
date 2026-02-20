@@ -10,27 +10,80 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('crm', '0001_initial'),
+        ("crm", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('requirements', models.TextField()),
-                ('status', models.CharField(choices=[('in_progress', 'In progress'), ('done', 'Done'), ('needs_clarification', 'Needs clarification')], default='in_progress', max_length=32)),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='orders', to='crm.client')),
-                ('vehicle', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='orders', to='crm.vehicle')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("requirements", models.TextField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("in_progress", "In progress"),
+                            ("done", "Done"),
+                            ("needs_clarification", "Needs clarification"),
+                        ],
+                        default="in_progress",
+                        max_length=32,
+                    ),
+                ),
+                (
+                    "client",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="orders",
+                        to="crm.client",
+                    ),
+                ),
+                (
+                    "vehicle",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="orders",
+                        to="crm.vehicle",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Invoice',
+            name="Invoice",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('parts_total', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10)),
-                ('order', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='invoice', to='orders.order')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "parts_total",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=10
+                    ),
+                ),
+                (
+                    "order",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="invoice",
+                        to="orders.order",
+                    ),
+                ),
             ],
         ),
     ]

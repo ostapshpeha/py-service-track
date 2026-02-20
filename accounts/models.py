@@ -8,10 +8,12 @@ class CustomUser(AbstractUser):
     Custom User model to inherit from AbstractUser
     This is our staff's accounts
     """
+
     class Role(models.TextChoices):
         """
         Roles for workers
         """
+
         MECHANIC = "mechanic", "Mechanic"
         MANAGER = "manager", "Manager"
 
@@ -19,6 +21,7 @@ class CustomUser(AbstractUser):
         """
         Mechanic positions only for mechanics
         """
+
         AUTO_ELECTRICIAN = "AE", "Auto Electrician"
         ENGINE = "ENG", "Engine specialist"
         JUNIOR = "JUN", "Junior mechanic"
@@ -26,11 +29,7 @@ class CustomUser(AbstractUser):
         TRANSMISSION = "TRS", "Transmission specialist"
         SENIOR = "SNR", "Senior mechanic"
 
-    role = models.CharField(
-        max_length=20,
-        choices=Role.choices,
-        default=Role.MECHANIC
-    )
+    role = models.CharField(max_length=20, choices=Role.choices, default=Role.MECHANIC)
 
     mechanic_position = models.CharField(
         max_length=32,

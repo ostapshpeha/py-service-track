@@ -8,12 +8,10 @@ class VehicleInline(admin.TabularInline):
     """
     Vehicle tabular in line
     """
+
     model = Vehicle
     extra = 1
-    fields = (
-        "name", "number_registration", "vin_code",
-        "engine_type", "last_service"
-    )
+    fields = ("name", "number_registration", "vin_code", "engine_type", "last_service")
     show_change_link = True
 
 
@@ -22,10 +20,8 @@ class ClientAdmin(SimpleHistoryAdmin):
     """
     Operating our clients with admin panel
     """
-    list_display = (
-        "id", "last_name", "first_name",
-        "mobile_number", "vehicles_count"
-    )
+
+    list_display = ("id", "last_name", "first_name", "mobile_number", "vehicles_count")
     search_fields = ("first_name", "last_name", "mobile_number")
     ordering = ("last_name", "first_name")
     inlines = (VehicleInline,)
@@ -40,6 +36,7 @@ class VehicleAdmin(SimpleHistoryAdmin):
     """
     Operating vehicles with admin panel
     """
+
     list_display = (
         "id",
         "name",

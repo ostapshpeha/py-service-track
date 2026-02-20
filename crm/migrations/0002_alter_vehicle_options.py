@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0001_initial'),
+        ("crm", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='vehicle',
-            options={'ordering': ['last_service'], 'verbose_name': 'vehicle', 'verbose_name_plural': 'vehicles'},
+            name="vehicle",
+            options={
+                "ordering": ["last_service"],
+                "verbose_name": "vehicle",
+                "verbose_name_plural": "vehicles",
+            },
         ),
     ]
