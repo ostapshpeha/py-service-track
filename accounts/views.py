@@ -19,7 +19,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     Orders without invoices
     Last orders
     """
+
     template_name = "accounts/dashboard.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -28,21 +30,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             Order.Status.NEEDS_CLARIFICATION,
         ]
 
-        context.update({
-            "count_open_orders": Order.objects.filter(
-                status__in=open_statuses
-            ).count(),
-
-            "clients_without_vehicles": Client.objects.filter(
-                vehicles__isnull=True
-            ).count(),
-
-            "orders_without_invoices": Order.objects.filter(
-                invoice__isnull=True
-            ).select_related("client"),
-
-            "last_orders": Order.objects.order_by("-created_at")[:3],
-        })
+        context.update(
+            {
+                "count_open_orders": Order.objects.filter(
+                    status__in=open_statuses
+                ).count(),
+                "clients_without_vehicles": Client.objects.filter(
+                    vehicles__isnull=True
+                ).count(),
+                "orders_without_invoices": Order.objects.filter(
+                    invoice__isnull=True
+                ).select_related("client"),
+                "last_orders": Order.objects.order_by("-created_at")[:3],
+            }
+        )
 
         return context
 
@@ -51,6 +52,7 @@ class CustomUserListView(LoginRequiredMixin, generic.ListView):
     """
     Custom user list view
     """
+
     model = CustomUser
 
 
@@ -58,6 +60,7 @@ class ManagerRequiredMixin(UserPassesTestMixin):
     """
     Mixin to check if a user has required permissions
     """
+
     def test_func(self):
         user = self.request.user
         # Checking role for manager or superuser
@@ -68,27 +71,32 @@ class ManagerRequiredMixin(UserPassesTestMixin):
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
             messages.error(
-                self.request,
-                "Only admin or manager can perform this action."
+                self.request, "Only admin or manager can perform this action."
             )
             return redirect("accounts:staff-list")
 
         return super().handle_no_permission()
 
 
-class CustomUserCreateView(LoginRequiredMixin, ManagerRequiredMixin, generic.CreateView):
+class CustomUserCreateView(
+    LoginRequiredMixin, ManagerRequiredMixin, generic.CreateView
+):
     """
     Creating new users, only by superadmin
     """
+
     model = CustomUser
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("accounts:staff-list")
 
 
-class CustomUserUpdateView(LoginRequiredMixin, ManagerRequiredMixin, generic.UpdateView):
+class CustomUserUpdateView(
+    LoginRequiredMixin, ManagerRequiredMixin, generic.UpdateView
+):
     """
     Updating users, only by superadmin
     """
+
     model = CustomUser
     form_class = CustomUserChangeForm
     success_url = reverse_lazy("accounts:staff-list")

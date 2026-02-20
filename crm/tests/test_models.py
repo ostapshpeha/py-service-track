@@ -8,7 +8,7 @@ class ClientModelTest(TestCase):
         self.client_data = {
             "first_name": "Ivan",
             "last_name": "Ivanov",
-            "mobile_number": "0671234567"
+            "mobile_number": "0671234567",
         }
 
     def test_create_valid_client(self):
@@ -23,25 +23,21 @@ class ClientModelTest(TestCase):
         Client.objects.create(**self.client_data)
         with self.assertRaises(IntegrityError):
             Client.objects.create(
-                first_name="Petro",
-                last_name="Sidorov",
-                mobile_number="0671234567"
+                first_name="Petro", last_name="Sidorov", mobile_number="0671234567"
             )
 
 
 class VehicleModelTest(TestCase):
     def setUp(self):
         self.client = Client.objects.create(
-            first_name="Oleg",
-            last_name="Petrov",
-            mobile_number="0990001122"
+            first_name="Oleg", last_name="Petrov", mobile_number="0990001122"
         )
         self.vehicle_data = {
             "name": "Toyota Camry",
             "vin_code": "1234567890ABCDEFG",
             "number_registration": "AA1234BB",
             "engine_type": Vehicle.Engine.HYBRID,
-            "client": self.client
+            "client": self.client,
         }
 
     def test_create_valid_vehicle(self):
@@ -56,9 +52,8 @@ class VehicleModelTest(TestCase):
                 name="Honda Civic",
                 vin_code="1234567890ABCDEFG",
                 number_registration="BC9999AI",
-                engine_type=Vehicle.Engine.PETROL
+                engine_type=Vehicle.Engine.PETROL,
             )
-
 
     def test_on_delete_set_null(self):
         """

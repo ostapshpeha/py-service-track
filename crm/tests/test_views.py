@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from crm.models import Client, Vehicle
 
-
 User = get_user_model()
 
 
@@ -14,20 +13,24 @@ class SearchViewsTest(TestCase):
         self.user = User.objects.create_user(username="teststaff", password="password")
         self.client.force_login(self.user)
 
-        self.c1 = Client.objects.create(first_name="Ivan", last_name="Bondarenko", mobile_number="0671112233")
-        self.c2 = Client.objects.create(first_name="Petro", last_name="Shevchenko", mobile_number="0674445566")
+        self.c1 = Client.objects.create(
+            first_name="Ivan", last_name="Bondarenko", mobile_number="0671112233"
+        )
+        self.c2 = Client.objects.create(
+            first_name="Petro", last_name="Shevchenko", mobile_number="0674445566"
+        )
 
         self.v1 = Vehicle.objects.create(
             name="BMW X5",
             vin_code="VIN11111111111111",
             number_registration="AA0001BB",
-            engine_type=Vehicle.Engine.DIESEL
+            engine_type=Vehicle.Engine.DIESEL,
         )
         self.v2 = Vehicle.objects.create(
             name="Tesla Model 3",
             vin_code="VIN22222222222222",
             number_registration="BC7777CB",
-            engine_type=Vehicle.Engine.ELECTRO
+            engine_type=Vehicle.Engine.ELECTRO,
         )
 
     # ---  ClientListView ---

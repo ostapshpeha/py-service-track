@@ -25,5 +25,5 @@ class VinValidatorTest(SimpleTestCase):
             validate_vin_code("gh123hg5hj5g5hhhh")
         self.assertEqual(
             cm.exception.message,
-            "VIN should have big letters A-Z and numbers (0-9), without spaces"
+            "VIN should have big letters A-Z and numbers (0-9), without spaces",
         )

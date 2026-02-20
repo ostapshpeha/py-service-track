@@ -11,15 +11,14 @@ class NoteListView(LoginRequiredMixin, generic.ListView):
     """
     Note list view with searching through author's first and last name
     """
+
     model = Note
     paginate_by = 30
     context_object_name = "notes"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = NoteAuthorSearchForm(
-            self.request.GET or None
-        )
+        context["search_form"] = NoteAuthorSearchForm(self.request.GET or None)
         return context
 
     def get_queryset(self):
@@ -30,8 +29,8 @@ class NoteListView(LoginRequiredMixin, generic.ListView):
             q = form.cleaned_data["q"]
             if q:
                 queryset = queryset.filter(
-                  Q(author__last_name__icontains=q) |
-                  Q(author__first_name__icontains=q)
+                    Q(author__last_name__icontains=q)
+                    | Q(author__first_name__icontains=q)
                 )
 
         return queryset.select_related("vehicle", "author")
@@ -41,6 +40,7 @@ class NoteDetailView(LoginRequiredMixin, generic.DetailView):
     """
     Note detail view
     """
+
     model = Note
 
 
@@ -49,15 +49,13 @@ class NoteCreateView(LoginRequiredMixin, generic.CreateView):
     Note create view with form validation
     Redirect to note detail view
     """
+
     model = Note
     form_class = NoteForm
     success_url = reverse_lazy("notes:note-list")
 
     def get_success_url(self):
-        return reverse(
-            "notes:note-detail",
-            kwargs={"pk": self.object.pk}
-        )
+        return reverse("notes:note-detail", kwargs={"pk": self.object.pk})
 
     def form_valid(self, form):
         """
@@ -71,5 +69,6 @@ class NoteDeleteView(LoginRequiredMixin, generic.DeleteView):
     """
     Note delete view
     """
+
     model = Note
     success_url = reverse_lazy("notes:note-list")

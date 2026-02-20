@@ -1,4 +1,5 @@
 from django import forms
+
 # Removed django_select2 imports
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, Div
@@ -11,6 +12,7 @@ class OrderForm(forms.ModelForm):
     """
     Order form class
     """
+
     client = forms.ModelChoiceField(
         queryset=Client.objects.all().order_by("first_name", "last_name"),
         # Use standard Select widget with tom-select class
@@ -21,7 +23,7 @@ class OrderForm(forms.ModelForm):
             }
         ),
         required=True,
-        label="Client"
+        label="Client",
     )
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all().order_by("name"),
@@ -32,7 +34,7 @@ class OrderForm(forms.ModelForm):
             }
         ),
         required=True,
-        label="Vehicle"
+        label="Vehicle",
     )
 
     class Meta:
@@ -44,16 +46,20 @@ class OrderForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column('client', css_class='w-full md:w-1/2 px-2 mb-4'),
-                Column('vehicle', css_class='w-full md:w-1/2 px-2 mb-4'),
-                css_class='flex flex-wrap -mx-2'
+                Column("client", css_class="w-full md:w-1/2 px-2 mb-4"),
+                Column("vehicle", css_class="w-full md:w-1/2 px-2 mb-4"),
+                css_class="flex flex-wrap -mx-2",
             ),
             Row(
-                Column('status', css_class='w-full md:w-1/2 px-2 mb-4'),
-                css_class='flex flex-wrap -mx-2'
+                Column("status", css_class="w-full md:w-1/2 px-2 mb-4"),
+                css_class="flex flex-wrap -mx-2",
             ),
-            'requirements',
-            Submit('submit', 'Save Order', css_class='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+            "requirements",
+            Submit(
+                "submit",
+                "Save Order",
+                css_class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150",
+            ),
         )
 
     def clean(self):
@@ -65,7 +71,7 @@ class OrderForm(forms.ModelForm):
             if vehicle.client != client:
                 self.add_error(
                     "vehicle",
-                    f"This vehicle belongs to {vehicle.client}, not {client}."
+                    f"This vehicle belongs to {vehicle.client}, not {client}.",
                 )
         return cleaned_data
 
@@ -74,6 +80,7 @@ class InvoiceForm(forms.ModelForm):
     """
     Invoice creating form class to choose orders only without invoices
     """
+
     class Meta:
         model = Invoice
         fields = "__all__"
@@ -81,14 +88,16 @@ class InvoiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["order"].label = "Select current order"
-        self.fields["order"].queryset = Order.objects.filter(
-            invoice__isnull=True
-        )
+        self.fields["order"].queryset = Order.objects.filter(invoice__isnull=True)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            'order',
-            'parts_total',
-            Submit('submit', 'Create Invoice', css_class='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+            "order",
+            "parts_total",
+            Submit(
+                "submit",
+                "Create Invoice",
+                css_class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150",
+            ),
         )
 
 
@@ -96,6 +105,7 @@ class InvoiceUpdateForm(forms.ModelForm):
     """
     Invoice update form class to update only price of the parts
     """
+
     class Meta:
         model = Invoice
         fields = ("parts_total",)
@@ -104,8 +114,12 @@ class InvoiceUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            'parts_total',
-            Submit('submit', 'Update Invoice', css_class='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+            "parts_total",
+            Submit(
+                "submit",
+                "Update Invoice",
+                css_class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150",
+            ),
         )
 
 
@@ -113,6 +127,7 @@ class OrderUpdateForm(forms.ModelForm):
     """
     Order update form class to update only requirements and status
     """
+
     class Meta:
         model = Order
         fields = ("requirements", "status")
@@ -121,9 +136,13 @@ class OrderUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            'status',
-            'requirements',
-            Submit('submit', 'Update Order', css_class='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150')
+            "status",
+            "requirements",
+            Submit(
+                "submit",
+                "Update Order",
+                css_class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-150",
+            ),
         )
 
 
@@ -131,11 +150,14 @@ class OrderClientLastNameSearchForm(forms.Form):
     """
     Searching orders by client last name
     """
+
     q = forms.CharField(
         required=False,
         label="",
-        widget=forms.TextInput(attrs={
-            "class": "form-control float-right",
-            "placeholder": "Search by client last name",
-        })
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control float-right",
+                "placeholder": "Search by client last name",
+            }
+        ),
     )

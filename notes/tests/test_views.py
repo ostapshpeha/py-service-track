@@ -5,7 +5,6 @@ from django.urls import reverse
 from crm.models import Client, Vehicle
 from notes.models import Note
 
-
 User = get_user_model()
 
 
@@ -18,20 +17,22 @@ class NoteListViewTest(TestCase):
             username="mech2", first_name="Ivan", last_name="Mazepa", password="123"
         )
         self.client_obj = Client.objects.create(
-            first_name="Taras",
-            last_name="Sheva",
-            mobile_number="0501112233"
+            first_name="Taras", last_name="Sheva", mobile_number="0501112233"
         )
         self.vehicle = Vehicle.objects.create(
             name="Audi A6",
             vin_code="ABC12345678901234",
             number_registration="AA7777BB",
             engine_type=Vehicle.Engine.DIESEL,
-            client=self.client_obj
+            client=self.client_obj,
         )
 
-        Note.objects.create(description="Note 1", author=self.user1, vehicle=self.vehicle)
-        Note.objects.create(description="Note 2", author=self.user2, vehicle=self.vehicle)
+        Note.objects.create(
+            description="Note 1", author=self.user1, vehicle=self.vehicle
+        )
+        Note.objects.create(
+            description="Note 2", author=self.user2, vehicle=self.vehicle
+        )
 
         self.client.force_login(self.user1)
         self.url = reverse("notes:note-list")

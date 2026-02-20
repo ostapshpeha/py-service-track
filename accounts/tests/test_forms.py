@@ -17,10 +17,12 @@ class CustomUserCreationFormTests(TestCase):
 
     def test_mechanic_creation_success(self):
         form_data = self.base_data.copy()
-        form_data.update({
-            "role": CustomUser.Role.MECHANIC,
-            "mechanic_position": CustomUser.MechanicPosition.ENGINE
-        })
+        form_data.update(
+            {
+                "role": CustomUser.Role.MECHANIC,
+                "mechanic_position": CustomUser.MechanicPosition.ENGINE,
+            }
+        )
 
         form = CustomUserCreationForm(data=form_data)
 
@@ -31,25 +33,23 @@ class CustomUserCreationFormTests(TestCase):
 
     def test_mechanic_missing_position_error(self):
         form_data = self.base_data.copy()
-        form_data.update({
-            "role": CustomUser.Role.MECHANIC,
-            "mechanic_position": ""
-        })
+        form_data.update({"role": CustomUser.Role.MECHANIC, "mechanic_position": ""})
 
         form = CustomUserCreationForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("mechanic_position", form.errors)
         self.assertEqual(
-            form.errors["mechanic_position"][0],
-            "You must specify mechanic position"
+            form.errors["mechanic_position"][0], "You must specify mechanic position"
         )
 
     def test_manager_auto_clears_position(self):
         form_data = self.base_data.copy()
-        form_data.update({
-            "role": CustomUser.Role.MANAGER,
-            "mechanic_position": CustomUser.MechanicPosition.AUTO_ELECTRICIAN
-        })
+        form_data.update(
+            {
+                "role": CustomUser.Role.MANAGER,
+                "mechanic_position": CustomUser.MechanicPosition.AUTO_ELECTRICIAN,
+            }
+        )
 
         form = CustomUserCreationForm(data=form_data)
 
@@ -63,10 +63,7 @@ class CustomUserCreationFormTests(TestCase):
 
     def test_manager_creation_normal(self):
         form_data = self.base_data.copy()
-        form_data.update({
-            "role": CustomUser.Role.MANAGER,
-            "mechanic_position": ""
-        })
+        form_data.update({"role": CustomUser.Role.MANAGER, "mechanic_position": ""})
 
         form = CustomUserCreationForm(data=form_data)
         self.assertTrue(form.is_valid())
