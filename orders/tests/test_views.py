@@ -15,7 +15,7 @@ class InvoiceCreateViewTest(TestCase):
         self.client_ob = Client.objects.create(
             first_name="John",
             last_name="Doe",
-            mobile_number="+380000000010",
+            mobile_number="0990000010",
         )
         self.vehicle = Vehicle.objects.create(
             name="Test Vehicle",
