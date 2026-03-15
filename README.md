@@ -1,127 +1,134 @@
 # Service Track (CRM)
 
-Service track - is basic CRM system for businesses like Auto repair shop. 
-Everything is done exclusively for the convenience of auto service employees.
-The CRM system cannot be used or modified for other purposes.
+Service Track is a professional CRM system tailored for auto repair shops. It streamlines the entire service lifecycle—from client intake and vehicle tracking to inventory management and final invoicing. Designed specifically for auto service employees, it prioritizes operational efficiency and clear internal communication.
 
+## 🚀 Key Features
 
-## Installing / Getting started
+### 🛠 Service & Order Management
+*   **Flexible Invoicing:** Move beyond fixed coefficients. Calculate costs based on actual `labor_hours`, `hourly_rates`, and total parts used.
+*   **Order Assignments:** Assign mechanics to specific orders to track workload and accountability.
+*   **Mileage Tracking:** Record vehicle mileage at each service visit for accurate maintenance history.
+*   **Contextual Notes:** Mechanics can attach notes and images directly to **Orders**, providing a historical record of every repair.
 
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
+### 📦 Inventory & Parts (Car-Parts)
+*   **Full Parts Catalog:** Track parts by SKU, category, purchase price, and retail price.
+*   **Automated Stock Deduction:** Parts are automatically deducted from inventory when an order is marked as **Done**.
+*   **Low Stock Alerts:** Get real-time dashboard notifications when critical parts fall below threshold levels.
 
-```shell
-git clone https://github.com/ostapshpeha/py-service-track.git
-cd service-track
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+### 📊 Advanced Dashboard
+*   **Action Banners:** Immediate visibility into orders requiring clarification to prevent workshop bottlenecks.
+*   **Mechanic Workload:** Monitor the number of active orders per staff member to balance tasks effectively.
+*   **Recent Activity Feed:** Stay updated with a live stream of new orders and the latest mechanic notes.
 
-python manage.py migrate
-python manage.py createsuperuser # creating admin
-python manage.py runserver # open test django server
-```
+---
 
-## Project architecture:
+## 🛠 Tech Stack
 
-![ Diagram ](service-track.drawio.png)
+*   **Backend:** Python 3, Django 6.0
+*   **Frontend:** HTMX, Tailwind CSS, AdminLTE 3 (Bootstrap 4)
+*   **Database:** SQLite (Development), PostgreSQL (Production)
+*   **Tools & Utilities:**
+    *   `ruff`: High-performance Python linting and formatting.
+    *   `django-simple-history`: Comprehensive audit logs for every model change.
+    *   `django-filter` & `django-crispy-forms`: Enhanced search and professional form layouts.
+    *   `cloudinary`: Cloud-based media management for technical photos.
 
-### Tech stack
+---
 
-Main tools for developing this project:
+## 💻 Getting Started
 
-- **Backend:** Python 3, Django 6.0
-- **Frontend:** HTMX, Tailwind CSS, AdminLTE 3
-- **Database:** SQLite (Dev), PostgreSQL (Prod)
-- **Utilities:** 
-    - django-filter
-    - django-simple-history
-    - django-crispy-forms
-    - cloudinary
+### Installation
 
-```
-Mechanic (Permissions: CRUD for everything, can't create accounts):
-Username: borys_ivanov
-Password: Qwerty2002
+1.  **Clone the repository:**
+    ```shell
+    git clone https://github.com/ostapshpeha/py-service-track.git
+    cd py-service-track
+    ```
 
-Manager (Permissions: CRUD for everything and creating accounts for workers):
-Username: kyrylo_budanov
-Password: Qwerty2002
-```
+2.  **Set up environment:**
+    ```shell
+    python3 -m venv .venv
+    source .venv/bin/activate  # Windows: .venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
 
-## Features
+3.  **Initialize database:**
+    ```shell
+    python manage.py migrate
+    python manage.py createsuperuser  # Create your administrative account
+    ```
 
-*  Easy orders management system
-*  Clients and vehicles tracking
-*  Notes from mechanics with image attachments
-*  Search and filtering
-*  Employee activity tracker from admin panel (Django history)
-*  Registration only via admin panel
-*  Easy admin dashboard (From template - AdminLTE 3)
-*  User friendly interface
+4.  **Run development server:**
+    ```shell
+    python manage.py runserver
+    ```
 
-##  Configuration
+### Default Demo Roles
+| Role | Username | Password | Permissions |
+|------|----------|----------|-------------|
+| **Manager** | `kyrylo_budanov` | `Qwerty2002` | Full CRUD + Account Management |
+| **Mechanic** | `borys_ivanov` | `Qwerty2002` | Full CRUD |
 
-The project uses standard Django configuration via settings and environment variables.
+---
 
-### Environment Variables
+## 📸 Interface Preview
 
-| Variable      | Type    | Default | Description |
-|---------------|---------|---------|-------------|
-| `DEBUG`       | Boolean | `True`  | Enables debug mode |
-| `SECRET_KEY`  | String  | —       | Django secret key |
-| `DATABASE_URL`| String  | —       | Database connection string |
-| `ALLOWED_HOSTS` | String | `*` | Allowed hosts list |
+<details>
+<summary><b>Click to expand Screenshot Gallery</b></summary>
 
-Example `.env` file:
+### Dashboard & Analytics
+![Dashboard](screenshots/img.png)
+*Real-time alerts, workload tracking, and inventory status.*
 
-```env
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+### Orders & Invoicing
+![Orders](screenshots/Screenshot_8.png)
+![Order Details](screenshots/img_3.png)
+*Detailed service tracking and professional cost breakdowns.*
 
-# django settings
-DJANGO_SECRET_KEY=<secret_key>
-DJANGO_SETTINGS_MODULE=<path_to_settings_file>
-RENDER_EXTERNAL_HOSTNAME=<domain>
+### Inventory Management
+![Inventory](screenshots/img_1.png)
+*Car-parts catalog and stock level monitoring.*
 
-# database
-POSTGRES_DB=<db_name>
-POSTGRES_DB_PORT=<db_port>
-POSTGRES_USER=<db_user>
-POSTGRES_PASSWORD=<db_password>
-POSTGRES_HOST=<db_host>
-```
+### Client & Vehicle Management
+![Clients](screenshots/Screenshot_7.png)
+![Vehicles](screenshots/img_2.png)
+*Centralized database for customers and their service history.*
 
-## Contributing
+### Technical Notes
+![Notes](screenshots/img_4.png)
+*Mechanic findings with image attachments linked to service orders.*
 
-Contributions are welcome and appreciated.
+</details>
 
-If you want to contribute:
+---
 
-- Fork the repository
-- Create a feature branch (git checkout -b feature/my-feature)
-- Commit your changes
-- Push to your fork
-- Open a Pull Request
-- Please follow the existing code style and make sure tests pass before submitting.
+## ⚙️ Configuration
 
-## Links
+The project uses environment variables for secure configuration. Copy `.env.sample` to `.env` and fill in your details.
 
-- Project homepage: https://github.com/ostapshpeha/py-service-track
-- Repository: https://github.com/ostapshpeha/py-service-track.git
-- Issue tracker: https://github.com/ostapshpeha/py-service-track/issues
-  - In case of sensitive bugs like security vulnerabilities, please contact
-    stark.ost17@gmail.com directly instead of using issue tracker.
+| Variable | Description |
+|----------|-------------|
+| `DEBUG` | Set to `False` in production. |
+| `SECRET_KEY` | Your unique Django secret key. |
+| `CLOUDINARY_URL` | API credentials for image hosting. |
+| `DATABASE_URL` | Connection string for PostgreSQL (Production). |
 
-Beta version of CRM:
-![ Home page ](screenshots/Screenshot_6.png)
-![ Clients ](screenshots/Screenshot_7.png)
-![ Orders ](screenshots/Screenshot_8.png)
-![ Dashboard ](screenshots/img.png)
-![ Django Admin Car parts ](screenshots/img_1.png)
-![ Vehicles ](screenshots/img_2.png)
-![ Vehicles details ](screenshots/img_3.png)
-![ Note details ](screenshots/img_4.png)
-![ Client ](screenshots/img_5.png)
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 🔗 Links
+
+- **Repository:** [https://github.com/ostapshpeha/py-service-track](https://github.com/ostapshpeha/py-service-track)
+- **Issue Tracker:** [Report a bug](https://github.com/ostapshpeha/py-service-track/issues)
+- **Security:** Contact `stark.ost17@gmail.com` for sensitive vulnerabilities.
