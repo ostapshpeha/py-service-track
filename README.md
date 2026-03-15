@@ -115,7 +115,13 @@ If you want to contribute:
   - In case of sensitive bugs like security vulnerabilities, please contact
     stark.ost17@gmail.com directly instead of using issue tracker.
 
-Demo version of CRM:
+Beta version of CRM:
 ![ Home page ](screenshots/Screenshot_6.png)
 ![ Clients ](screenshots/Screenshot_7.png)
 ![ Orders ](screenshots/Screenshot_8.png)
+![ Dashboard ](screenshots/img.png)
+![ Django Admin Car parts ](screenshots/img_1.png)
+![ Vehicles ](screenshots/img_2.png)
+![ Vehicles details ](screenshots/img_3.png)
+![ Note details ](screenshots/img_4.png)
+![ Client ](screenshots/img_5.png)
