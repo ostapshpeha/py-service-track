@@ -2,7 +2,7 @@ from django import forms
 
 # Removed django_select2 imports
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Div
+from crispy_forms.layout import Layout, Row, Column, Submit
 
 from crm.models import Client, Vehicle
 from orders.models import Invoice, Order
@@ -51,7 +51,9 @@ class OrderForm(forms.ModelForm):
                 css_class="flex flex-wrap -mx-2",
             ),
             Row(
-                Column("status", css_class="w-full md:w-1/2 px-2 mb-4"),
+                Column("status", css_class="w-full md:w-1/3 px-2 mb-4"),
+                Column("mileage", css_class="w-full md:w-1/3 px-2 mb-4"),
+                Column("assigned_to", css_class="w-full md:w-1/3 px-2 mb-4"),
                 css_class="flex flex-wrap -mx-2",
             ),
             "requirements",
@@ -93,6 +95,8 @@ class InvoiceForm(forms.ModelForm):
         self.helper.layout = Layout(
             "order",
             "parts_total",
+            "labor_hours",
+            "hourly_rate",
             Submit(
                 "submit",
                 "Create Invoice",
@@ -108,13 +112,15 @@ class InvoiceUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Invoice
-        fields = ("parts_total",)
+        fields = ("parts_total", "labor_hours", "hourly_rate")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             "parts_total",
+            "labor_hours",
+            "hourly_rate",
             Submit(
                 "submit",
                 "Update Invoice",
@@ -130,13 +136,15 @@ class OrderUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ("requirements", "status")
+        fields = ("requirements", "status", "mileage", "assigned_to")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             "status",
+            "assigned_to",
+            "mileage",
             "requirements",
             Submit(
                 "submit",

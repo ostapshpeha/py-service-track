@@ -108,27 +108,27 @@
                     <button @click="activeTab = 'notes'"
                             :class="activeTab === 'notes' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                             class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
-                        <i class="fas fa-sticky-note mr-2"></i> Mechanic Notes ({{ object.notes.count }})
+                        <i class="fas fa-sticky-note mr-2"></i> Mechanic Notes ({{ vehicle_notes.count }})
                     </button>
-                </nav>
-            </div>
+                    </nav>
+                    </div>
 
-            <!-- Tab Content -->
-            <div class="p-6">
-                
-                <!-- Orders Tab -->
-                <div x-show="activeTab === 'orders'" x-transition.opacity>
+                    <!-- Tab Content -->
+                    <div class="p-6">
+
+                    <!-- Orders Tab -->
+                    <div x-show="activeTab === 'orders'" x-transition.opacity>
                     <div class="flex justify-end mb-4">
                         <a href="{% url 'orders:order-create' %}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ New Service Order</a>
                     </div>
-                    
+
                     <div class="space-y-4">
                         {% for order in object.orders.all %}
                         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow flex justify-between items-center group">
                             <div>
                                 <div class="flex items-center space-x-2">
                                     <h4 class="text-sm font-bold text-gray-900">Order #{{ order.id }}</h4>
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium 
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
                                         {% if order.status == order.Status.DONE %}bg-green-100 text-green-800
                                         {% elif order.status == order.Status.IN_PROGRESS %}bg-yellow-100 text-yellow-800
                                         {% else %}bg-gray-200 text-gray-800{% endif %}">
@@ -145,17 +145,16 @@
                         <p class="text-center text-gray-500 py-8">No service history found.</p>
                         {% endfor %}
                     </div>
-                </div>
+                    </div>
 
-                <!-- Notes Tab -->
-                <div x-show="activeTab === 'notes'" x-transition.opacity style="display: none;">
+                    <!-- Notes Tab -->
+                    <div x-show="activeTab === 'notes'" x-transition.opacity style="display: none;">
                     <div class="flex justify-end mb-4">
                         <a href="{% url 'notes:note-create' %}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ Add Note</a>
                     </div>
-                    
+
                     <div class="space-y-4">
-                        {% for note in object.notes.all %}
-                        <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100 hover:shadow-md transition-shadow">
+                        {% for note in vehicle_notes %}                        <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100 hover:shadow-md transition-shadow">
                             <div class="flex justify-between items-start">
                                 <div class="flex items-center space-x-2 mb-2">
                                     <div class="h-6 w-6 rounded-full bg-yellow-200 text-yellow-700 flex items-center justify-center text-xs font-bold">

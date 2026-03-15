@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from crm.models import Client, Vehicle
+from orders.models import Order
 from notes.models import Note
 
 User = get_user_model()
@@ -22,26 +23,31 @@ class NoteModelTest(TestCase):
             engine_type=Vehicle.Engine.DIESEL,
             client=self.client_obj,
         )
+        self.order = Order.objects.create(
+            client=self.client_obj,
+            vehicle=self.vehicle,
+            requirements="Test requirements",
+        )
 
     def test_note_creation(self):
         """
         Testing successful creation of a note
         """
         note = Note.objects.create(
-            description="Oil change", vehicle=self.vehicle, author=self.user
+            description="Oil change", order=self.order, author=self.user
         )
         self.assertEqual(Note.objects.count(), 1)
         self.assertIn("Note #", str(note))
         self.assertIn("mechanic_1", str(note))
 
-    def test_cascade_delete_vehicle(self):
+    def test_cascade_delete_order(self):
         """
-        Testing deletion of a Vehicle, notes should be deleted too
+        Testing deletion of an Order, notes should be deleted too
         """
         Note.objects.create(
-            description="Check engine", vehicle=self.vehicle, author=self.user
+            description="Check engine", order=self.order, author=self.user
         )
-        self.vehicle.delete()
+        self.order.delete()
         self.assertEqual(Note.objects.count(), 0)
 
     def test_set_null_author_delete(self):
@@ -49,7 +55,7 @@ class NoteModelTest(TestCase):
         Testing deletion of a  mechanic , notes should be saved
         """
         note = Note.objects.create(
-            description="Important", vehicle=self.vehicle, author=self.user
+            description="Important", order=self.order, author=self.user
         )
         self.user.delete()
 

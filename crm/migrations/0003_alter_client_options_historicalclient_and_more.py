@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("crm", "0002_alter_vehicle_options"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),

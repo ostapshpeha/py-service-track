@@ -19,8 +19,33 @@
         </div>
     </div>
 
+    <!-- Needs Clarification Alert -->
+    {% if needs_clarification_orders %}
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl shadow-sm mb-6">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                    Action Required: {{ needs_clarification_orders.count }} Order(s) Need Clarification
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                    <ul class="list-disc pl-5 space-y-1">
+                        {% for order in needs_clarification_orders %}
+                        <li>
+                            <a href="{% url 'orders:order-detail' order.pk %}" class="font-bold hover:underline">Order #{{ order.id }}</a> - {{ order.client }} ({{ order.vehicle }})
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Open Orders -->
         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-blue-500">
@@ -78,6 +103,39 @@
                 </a>
             </div>
         </div>
+
+        <!-- Low Stock Alerts -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border-l-4 border-orange-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Low Stock Parts</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">{{ low_stock_parts.count }}</p>
+                </div>
+                <div class="p-3 bg-orange-50 rounded-full text-orange-600">
+                    <i class="fas fa-exclamation-triangle text-2xl"></i>
+                </div>
+            </div>
+            
+            {% if low_stock_parts %}
+            <div class="mt-3 space-y-2">
+                {% for part in low_stock_parts %}
+                <div class="flex justify-between items-center text-xs border-t border-gray-100 pt-2">
+                    <span class="text-gray-700 truncate" title="{{ part.name }}">{{ part.name }}</span>
+                    <span class="font-bold {% if part.stock_level == 0 %}text-red-600{% else %}text-orange-600{% endif %}">
+                        {{ part.stock_level }} left
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="mt-4 border-t border-gray-100 pt-3">
+                <a href="{% url 'admin:orders_part_changelist' %}" class="text-sm font-medium text-orange-600 hover:text-orange-500 inline-flex items-center group">
+                    Manage Inventory
+                    <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -121,12 +179,12 @@
         </div>
 
         <!-- Recent Activity Feed -->
-        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-2 h-fit">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-lg font-bold text-gray-900 flex items-center">
                     <i class="fas fa-history text-gray-400 mr-2"></i> Recent Activity
                 </h3>
-                <a href="#" class="text-sm text-blue-600 hover:underline">View all</a>
+                <a href="{% url 'orders:order-list' %}" class="text-sm text-blue-600 hover:underline">View all</a>
             </div>
             
             <div class="relative pl-4 border-l-2 border-gray-100 space-y-8">
@@ -164,6 +222,79 @@
         </div>
 
     </div>
+
+    <!-- Second Row Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Mechanic Workload -->
+        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-1 h-fit">
+            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-users-cog text-blue-500 mr-2"></i> Mechanic Workload
+            </h3>
+            <div class="space-y-4">
+                {% for mechanic in mechanic_workload %}
+                <div class="flex items-center justify-between border-b border-gray-100 pb-2 last:border-0 last:pb-0">
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm mr-3">
+                            {{ mechanic.username|slice:":1"|upper }}
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">{{ mechanic.first_name|default:mechanic.username }}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if mechanic.active_orders_count > 3 %}bg-red-100 text-red-800{% elif mechanic.active_orders_count > 0 %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                            {{ mechanic.active_orders_count }} active
+                        </span>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-4 text-sm text-gray-500">
+                    No mechanics found.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Notes Feed -->
+        <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-2 h-fit">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-sticky-note text-yellow-500 mr-2"></i> Recent Notes
+                </h3>
+                <a href="{% url 'notes:note-list' %}" class="text-sm text-blue-600 hover:underline">View all</a>
+            </div>
+
+            <div class="space-y-4">
+                {% for note in recent_notes %}
+                <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <div class="h-6 w-6 rounded-full bg-yellow-200 text-yellow-700 flex items-center justify-center text-xs font-bold">
+                                {{ note.author.username|slice:":1"|upper }}
+                            </div>
+                            <span class="text-xs font-bold text-gray-700">{{ note.author.username }}</span>
+                            <span class="text-xs text-gray-400">• {{ note.date|timesince }} ago</span>
+                            {% if note.order %}
+                            <span class="text-xs text-blue-600 font-medium ml-2">on Order #{{ note.order.id }}</span>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'notes:note-detail' note.pk %}" class="text-gray-400 hover:text-blue-600 text-xs flex items-center">
+                            {% if note.picture %}
+                            <i class="fas fa-paperclip mr-2 text-gray-400" title="Has attachment"></i>
+                            {% endif %}
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-800">{{ note.description|truncatechars:150 }}</p>
+                </div>
+                {% empty %}
+                <div class="text-center py-8 text-gray-500">
+                    No recent notes.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
 
 </div>
 {% endblock %}

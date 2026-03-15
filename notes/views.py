@@ -33,7 +33,7 @@ class NoteListView(LoginRequiredMixin, generic.ListView):
                     | Q(author__first_name__icontains=q)
                 )
 
-        return queryset.select_related("vehicle", "author")
+        return queryset.select_related("order", "author")
 
 
 class NoteDetailView(LoginRequiredMixin, generic.DetailView):

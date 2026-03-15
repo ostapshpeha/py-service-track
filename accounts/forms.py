@@ -4,7 +4,7 @@ from django.contrib.auth.forms import (
     AdminUserCreationForm,
 )
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Div
+from crispy_forms.layout import Layout, Row, Column, Submit
 from accounts.models import CustomUser
 
 

@@ -41,6 +41,8 @@ class InvoiceCreateViewTest(TestCase):
         form_data = {
             "order": self.order.pk,
             "parts_total": 1500.00,
+            "labor_hours": 5.0,
+            "hourly_rate": 60.0,
         }
 
         response = self.client.post(self.url, data=form_data)

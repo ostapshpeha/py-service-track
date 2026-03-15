@@ -5,7 +5,6 @@ from crm.forms import validate_vin_code
 
 
 class VinValidatorTest(SimpleTestCase):
-
     def test_valid_vin(self):
         """
         Testing valid vin code

@@ -2,7 +2,7 @@ from cloudinary.models import CloudinaryField
 from django.db import models
 
 from accounts.models import CustomUser
-from crm.models import Vehicle
+from orders.models import Order
 
 
 class Note(models.Model):
@@ -11,7 +11,9 @@ class Note(models.Model):
     """
 
     description = models.TextField()
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="notes")
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="notes", null=True
+    )
     author = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True, related_name="notes"
     )
@@ -22,4 +24,4 @@ class Note(models.Model):
         ordering = ["-date"]
 
     def __str__(self):
-        return f"Note #{self.id} by {self.author} for {self.vehicle}"
+        return f"Note #{self.id} by {self.author} for {self.order}"

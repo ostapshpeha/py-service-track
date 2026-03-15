@@ -7,7 +7,6 @@ User = get_user_model()
 
 
 class DashboardViewTest(TestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(username="staff", password="password123")
         self.client.force_login(self.user)
