@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 
 
 class CustomUserModelTest(TestCase):
-
     def test_create_valid_mechanic(self):
         """
         Test: Mechanic with a position should be valid.

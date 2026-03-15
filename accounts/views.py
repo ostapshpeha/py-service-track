@@ -1,6 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
+from django.db.models import Count, Q
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
@@ -8,7 +10,8 @@ from django.views.generic import TemplateView
 from accounts.forms import CustomUserCreationForm, CustomUserChangeForm
 from accounts.models import CustomUser
 from crm.models import Client
-from orders.models import Order
+from notes.models import Note
+from orders.models import Order, Part
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -18,13 +21,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     Clients with 0 related vehicles
     Orders without invoices
     Last orders
+    Low stock parts
+    Recent notes
+    Needs clarification orders
+    Mechanic workload
     """
 
     template_name = "accounts/dashboard.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         open_statuses = [
             Order.Status.IN_PROGRESS,
             Order.Status.NEEDS_CLARIFICATION,
@@ -42,9 +48,27 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                     invoice__isnull=True
                 ).select_related("client"),
                 "last_orders": Order.objects.order_by("-created_at")[:3],
+                "low_stock_parts": Part.objects.filter(stock_level__lt=5).order_by(
+                    "stock_level"
+                )[:5],
+                "recent_notes": Note.objects.select_related(
+                    "author", "order__vehicle"
+                ).order_by("-date")[:5],
+                "needs_clarification_orders": Order.objects.filter(
+                    status=Order.Status.NEEDS_CLARIFICATION
+                ).select_related("client", "vehicle"),
+                "mechanic_workload": CustomUser.objects.filter(
+                    role=CustomUser.Role.MECHANIC
+                )
+                .annotate(
+                    active_orders_count=Count(
+                        "assigned_orders",
+                        filter=Q(assigned_orders__status__in=open_statuses),
+                    )
+                )
+                .order_by("-active_orders_count"),
             }
         )
-
         return context
 
 

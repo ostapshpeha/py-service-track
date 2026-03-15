@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("crm", "0003_alter_client_options_historicalclient_and_more"),
         ("orders", "0001_initial"),

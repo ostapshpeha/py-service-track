@@ -31,13 +31,17 @@
         <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="h-10 w-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <i class="fas fa-car"></i>
+                    <i class="fas fa-clipboard-list"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-500 uppercase font-bold">Vehicle</p>
-                    <a href="{% url 'crm:vehicle-detail' object.vehicle.pk %}" class="text-sm font-semibold text-blue-600 hover:text-blue-800">
-                        {{ object.vehicle }}
+                    <p class="text-xs text-gray-500 uppercase font-bold">Order</p>
+                    {% if object.order %}
+                    <a href="{% url 'orders:order-detail' object.order.pk %}" class="text-sm font-semibold text-blue-600 hover:text-blue-800">
+                        {{ object.order }}
                     </a>
+                    {% else %}
+                    <span class="text-sm font-semibold text-gray-500">Unassigned</span>
+                    {% endif %}
                 </div>
             </div>
             

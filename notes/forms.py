@@ -2,24 +2,24 @@ from django import forms
 
 # Removed django_select2 imports
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Div
+from crispy_forms.layout import Layout, Submit
 
-from crm.models import Vehicle
+from orders.models import Order
 from notes.models import Note
 
 
 class NoteForm(forms.ModelForm):
     """
-    Note form with searching car
+    Note form with searching order
     """
 
-    vehicle = forms.ModelChoiceField(
-        queryset=Vehicle.objects.all().order_by("name"),
+    order = forms.ModelChoiceField(
+        queryset=Order.objects.all().order_by("-created_at"),
         # Use standard Select widget with tom-select class
         widget=forms.Select(
             attrs={
                 "class": "tom-select",
-                "placeholder": "Input license plate number",
+                "placeholder": "Select order",
             }
         ),
         required=True,
@@ -27,13 +27,13 @@ class NoteForm(forms.ModelForm):
 
     class Meta:
         model = Note
-        fields = ("vehicle", "description", "picture")
+        fields = ("order", "description", "picture")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            "vehicle",
+            "order",
             "description",
             "picture",
             Submit(

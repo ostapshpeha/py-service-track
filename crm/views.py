@@ -50,11 +50,19 @@ class VehicleDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
-            .select_related("client")
-            .prefetch_related("notes", "orders")
+            super().get_queryset().select_related("client").prefetch_related("orders")
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from notes.models import Note
+
+        context["vehicle_notes"] = (
+            Note.objects.filter(order__vehicle=self.object)
+            .select_related("author")
+            .order_by("-date")
+        )
+        return context
 
 
 class VehicleCreateView(LoginRequiredMixin, generic.CreateView):

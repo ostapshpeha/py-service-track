@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from crm.models import Client, Vehicle
+from orders.models import Order
 from notes.models import Note
 
 User = get_user_model()
@@ -26,12 +27,17 @@ class NoteListViewTest(TestCase):
             engine_type=Vehicle.Engine.DIESEL,
             client=self.client_obj,
         )
+        self.order = Order.objects.create(
+            client=self.client_obj,
+            vehicle=self.vehicle,
+            requirements="Test requirements",
+        )
 
         Note.objects.create(
-            description="Note 1", author=self.user1, vehicle=self.vehicle
+            description="Note 1", author=self.user1, order=self.order
         )
         Note.objects.create(
-            description="Note 2", author=self.user2, vehicle=self.vehicle
+            description="Note 2", author=self.user2, order=self.order
         )
 
         self.client.force_login(self.user1)

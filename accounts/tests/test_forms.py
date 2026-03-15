@@ -4,7 +4,6 @@ from accounts.models import CustomUser
 
 
 class CustomUserCreationFormTests(TestCase):
-
     def setUp(self):
         self.base_data = {
             "username": "test_employee",

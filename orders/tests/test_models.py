@@ -7,7 +7,6 @@ from orders.models import Order, Invoice
 
 
 class OrderModelTest(TestCase):
-
     def setUp(self):
         self.client_obj = Client.objects.create(
             first_name="John",
@@ -44,6 +43,8 @@ class OrderModelTest(TestCase):
         invoice = Invoice.objects.create(
             order=self.order,
             parts_total=Decimal("100.00"),
+            labor_hours=Decimal("1.5"),
+            hourly_rate=Decimal("50.00"),
         )
 
         self.assertEqual(
@@ -55,6 +56,8 @@ class OrderModelTest(TestCase):
         invoice = Invoice.objects.create(
             order=self.order,
             parts_total=Decimal("100.00"),
+            labor_hours=Decimal("1.5"),
+            hourly_rate=Decimal("50.00"),
         )
 
         self.assertEqual(
